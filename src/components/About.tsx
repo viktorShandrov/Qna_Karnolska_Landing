@@ -17,7 +17,7 @@ export const About: React.FC<AboutProps> = ({ onOpenBooking: _onOpenBooking }) =
           
           {/* Left Column: Arched Interior Photo (Quarter arch top-right) */}
           <div className="lg:col-span-5 flex justify-center lg:justify-end">
-            <div className="relative w-full max-w-[340px] sm:max-w-[380px] aspect-[4/4.5] overflow-hidden rounded-tr-[180px] sm:rounded-tr-[240px] lg:rounded-tr-[280px] rounded-tl-lg rounded-b-lg shadow-xl bg-[#444D3F]">
+            <div className="relative w-full max-w-[340px] sm:max-w-[380px] aspect-[4/4.5] overflow-hidden rounded-tr-[180px] sm:rounded-tr-[240px] lg:rounded-tr-[280px] rounded-tl-lg rounded-b-lg">
               <img
                 src={ABOUT_DATA.image}
                 alt="Терапевтичен кабинет Яна Кирилова"

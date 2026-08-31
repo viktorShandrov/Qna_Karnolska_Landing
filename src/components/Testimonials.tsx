@@ -13,7 +13,7 @@ export const Testimonials: React.FC = () => {
             КАКВО СПОДЕЛЯТ МОИТЕ КЛИЕНТИ
           </h2>
           <div className="flex justify-center -mt-1">
-            <LeafOrnament withLines={false} className="w-5 h-5 text-[#FBF9F5]/90" />
+            <LeafOrnament withLines={false} className="w-8 h-8 md:w-10 md:h-10 text-[#FBF9F5]/90" />
           </div>
         </div>
 
@@ -24,8 +24,8 @@ export const Testimonials: React.FC = () => {
               key={testimonial.id}
               className="relative border border-white/35 rounded-2xl p-7 sm:p-8 flex flex-col justify-between items-center text-center transition-all duration-300 hover:border-white/60 group min-h-[220px]"
             >
-              {/* Quote Mark Notch in Top Left */}
-              <div className="absolute -top-3.5 left-7 bg-[#707764] px-2 font-serif text-2xl text-white/90 leading-none select-none">
+              {/* Quote Mark Notch in Top Left (Enlarged) */}
+              <div className="absolute -top-5 sm:-top-6 left-7 bg-[#707764] px-2.5 font-serif text-4xl sm:text-7xl text-white/95 leading-none select-none">
                 “
               </div>
 
