@@ -18,7 +18,7 @@ export const Services: React.FC<ServicesProps> = ({ onSelectService }) => {
             УСЛУГИ
           </h2>
           <div className="flex justify-center -mt-1">
-            <LeafOrnament withLines={false} className="w-5 h-5 text-[#676F5C]" />
+            <LeafOrnament withLines={false} className="w-10 h-10 text-[#676F5C]" />
           </div>
         </div>
 

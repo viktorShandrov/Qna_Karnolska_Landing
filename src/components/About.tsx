@@ -37,7 +37,7 @@ export const About: React.FC<AboutProps> = ({ onOpenBooking: _onOpenBooking }) =
 
             {/* Botanical Leaf Ornament */}
             <div className="my-1.5">
-              <LeafOrnament withLines={false} className="w-5 h-5 text-[#FBF9F5]/80" />
+              <LeafOrnament withLines={false} className="w-10 h-10 text-[#FBF9F5]/80" />
             </div>
 
             {/* Paragraphs in pure classical Serif upright matching reference */}
