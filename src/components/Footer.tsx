@@ -1,65 +1,63 @@
 import React from 'react';
 import { MonogramLogo } from './MonogramLogo';
-import { Phone, Mail, MapPin } from 'lucide-react';
 import { CONTACT_DATA } from '../data/content';
 
 export const Footer: React.FC = () => {
   return (
-    <footer id="contact" className="bg-[#F2EEE6] text-[#2C2A29] pt-16 pb-8 border-t border-[#E2DDD5]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <footer id="contact" className="bg-[#FBF9F5] text-[#2C2A29] pt-20 pb-8">
+      <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Main Footer 3 Columns */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-12 pb-14 border-b border-[#E2DDD5]/80 items-start">
+        {/* Main 3-Column Area */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16 items-center pb-16">
           
-          {/* Left Column: Monogram Logo */}
-          <div className="md:col-span-4 flex flex-col items-center md:items-start text-center md:text-left">
-            <MonogramLogo size="md" />
-            <p className="text-xs text-[#706D69] mt-4 max-w-xs font-light leading-relaxed">
-              Индивидуална терапия и семейно консултиране в защитено и приемащо пространство.
-            </p>
+          {/* Column 1: Monogram Logo */}
+          <div className="flex flex-col items-center md:items-start text-center md:text-left">
+            <MonogramLogo size="lg" />
           </div>
 
-          {/* Center Column: Direct Contacts */}
-          <div className="md:col-span-5 flex flex-col items-center md:items-start text-center md:text-left space-y-3.5">
-            <h4 className="text-xs uppercase tracking-[0.25em] text-[#747D68] font-semibold mb-1">
-              КОНТАКТИ
-            </h4>
+          {/* Column 2: Direct Contact Details */}
+          <div className="flex flex-col items-center md:items-start space-y-3.5 text-xs sm:text-[13.5px] text-[#363330]">
             
+            {/* Phone */}
             <a 
               href={`tel:${CONTACT_DATA.phone.replace(/\s+/g, '')}`}
-              className="flex items-center gap-3 text-sm text-[#2C2A29] hover:text-[#4E5848] transition-colors group"
+              className="flex items-center gap-3.5 hover:text-[#747D68] transition-colors group"
             >
-              <div className="w-8 h-8 rounded-full bg-white/60 border border-[#E2DDD5] flex items-center justify-center text-[#747D68] group-hover:bg-[#676F5C] group-hover:text-white transition-all">
-                <Phone className="w-3.5 h-3.5" />
-              </div>
-              <span className="font-medium">{CONTACT_DATA.phone}</span>
+              <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5 stroke-current stroke-[1.4] text-[#363330]">
+                <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              <span className="font-light tracking-wide">{CONTACT_DATA.phone}</span>
             </a>
 
+            {/* Email */}
             <a 
               href={`mailto:${CONTACT_DATA.email}`}
-              className="flex items-center gap-3 text-sm text-[#2C2A29] hover:text-[#4E5848] transition-colors group"
+              className="flex items-center gap-3.5 hover:text-[#747D68] transition-colors group"
             >
-              <div className="w-8 h-8 rounded-full bg-white/60 border border-[#E2DDD5] flex items-center justify-center text-[#747D68] group-hover:bg-[#676F5C] group-hover:text-white transition-all">
-                <Mail className="w-3.5 h-3.5" />
-              </div>
-              <span>{CONTACT_DATA.email}</span>
+              <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5 stroke-current stroke-[1.4] text-[#363330]">
+                <rect x="3" y="5" width="18" height="14" rx="2" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="m3 7 9 6 9-6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              <span className="font-light tracking-wide">{CONTACT_DATA.email}</span>
             </a>
 
-            <div className="flex items-center gap-3 text-sm text-[#4A4846]">
-              <div className="w-8 h-8 rounded-full bg-white/60 border border-[#E2DDD5] flex items-center justify-center text-[#747D68]">
-                <MapPin className="w-3.5 h-3.5" />
-              </div>
-              <span>{CONTACT_DATA.location}</span>
+            {/* Location */}
+            <div className="flex items-center gap-3.5 text-[#363330]">
+              <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5 stroke-current stroke-[1.4] text-[#363330]">
+                <path d="M12 21s-6-5.333-6-10a6 6 0 0 1 12 0c0 4.667-6 10-6 10z" strokeLinecap="round" strokeLinejoin="round" />
+                <circle cx="12" cy="11" r="2.5" />
+              </svg>
+              <span className="font-light tracking-wide">{CONTACT_DATA.location}</span>
             </div>
+
           </div>
 
-          {/* Right Column: Social Links */}
-          <div className="md:col-span-3 flex flex-col items-center md:items-start text-center md:text-left">
-            <h4 className="text-xs uppercase tracking-[0.25em] text-[#747D68] font-semibold mb-4">
+          {/* Column 3: Follow Me & Social Circles */}
+          <div className="flex flex-col items-center md:items-end text-center md:text-right">
+            <h3 className="font-serif text-lg lg:text-[22.5px] font-normal tracking-[0.2em] text-[#363330] uppercase mb-4">
               ПОСЛЕДВАЙ МЕ
-            </h4>
-            
-            {/* Social Icons */}
+            </h3>
+
             <div className="flex items-center space-x-3">
               {/* Facebook */}
               <a
@@ -67,10 +65,10 @@ export const Footer: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Facebook"
-                className="w-10 h-10 rounded-full bg-white/80 border border-[#E2DDD5] flex items-center justify-center text-[#4A4846] hover:bg-[#676F5C] hover:text-white hover:border-[#676F5C] transition-all duration-300 transform hover:scale-110 shadow-sm"
+                className="w-10 h-10 rounded-full bg-[#525B4B] text-white flex items-center justify-center hover:bg-[#3D4537] transition-all duration-300 transform hover:scale-105"
               >
                 <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                  <path d="M9 8H6v4h3v12h5V12h3.642L18 8h-4V6.333C14 5.374 14.5 5 15.6 5H18V0h-3.808C10.595 0 9 1.582 9 4.615V8z" />
+                  <path d="M13.5 9H16V6.5h-2.5C11.5 6.5 10 7.8 10 10v2H8v3h2v7h3v-7h2.5l.5-3H13v-1.5c0-.8.4-1.5 1.5-1.5z" />
                 </svg>
               </a>
 
@@ -80,10 +78,12 @@ export const Footer: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
-                className="w-10 h-10 rounded-full bg-white/80 border border-[#E2DDD5] flex items-center justify-center text-[#4A4846] hover:bg-[#676F5C] hover:text-white hover:border-[#676F5C] transition-all duration-300 transform hover:scale-110 shadow-sm"
+                className="w-10 h-10 rounded-full bg-[#525B4B] text-white flex items-center justify-center hover:bg-[#3D4537] transition-all duration-300 transform hover:scale-105"
               >
-                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                <svg className="w-4 h-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" strokeLinecap="round" strokeWidth="2.5" />
                 </svg>
               </a>
 
@@ -93,7 +93,7 @@ export const Footer: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"
-                className="w-10 h-10 rounded-full bg-white/80 border border-[#E2DDD5] flex items-center justify-center text-[#4A4846] hover:bg-[#676F5C] hover:text-white hover:border-[#676F5C] transition-all duration-300 transform hover:scale-110 shadow-sm"
+                className="w-10 h-10 rounded-full bg-[#525B4B] text-white flex items-center justify-center hover:bg-[#3D4537] transition-all duration-300 transform hover:scale-105"
               >
                 <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
                   <path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z" />
@@ -101,26 +101,19 @@ export const Footer: React.FC = () => {
               </a>
             </div>
 
-            <p className="text-[11px] text-[#706D69] mt-4 font-light">
-              Понеделник – Петък: 09:00 – 19:00
-            </p>
           </div>
 
         </div>
 
-        {/* Sub-footer Bottom Bar */}
-        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-[11px] text-[#706D69] font-light gap-3">
+        {/* Sub-footer Separator Hairline */}
+        <div className="border-t border-[#D9D3C7] pt-5 flex flex-col sm:flex-row items-center justify-between text-[11px] text-[#706D69] font-light gap-2">
           <div>
-            © {new Date().getFullYear()} Яна Кирилова – Психолог. Всички права запазени.
+            © 2024 Яна Кирилова Психолог. Всички права запазени.
           </div>
 
-          <div className="flex items-center space-x-4">
-            <a href="#hero" className="hover:text-[#4E5848] transition-colors underline-offset-4 hover:underline">
+          <div>
+            <a href="#hero" className="hover:text-[#2C2A29] transition-colors underline-offset-4 hover:underline">
               Политика за поверителност
-            </a>
-            <span>|</span>
-            <a href="#hero" className="hover:text-[#4E5848] transition-colors underline-offset-4 hover:underline">
-              Общи условия
             </a>
           </div>
         </div>
