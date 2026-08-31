@@ -8,23 +8,23 @@ interface HeroProps {
 
 export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
   return (
-    <section id="hero" className="relative min-h-screen w-full flex items-center overflow-hidden bg-[#EFEBE3]">
+    <section id="hero" className="relative min-h-screen w-full flex items-center overflow-hidden bg-[#EAE6DE]">
       
-      {/* Background: Full Portrait on Right / Screen */}
-      <div className="absolute inset-0 w-full h-full">
+      {/* Right Side Container: Anchors portrait to the right half at 100% natural scale */}
+      <div className="absolute top-0 right-0 w-full lg:w-[58%] xl:w-[60%] h-full bg-[#EAE6DE] flex justify-end">
         <img
           src={HERO_DATA.image}
           alt="Яна Кирилова – Психолог"
-          className="w-full h-full object-cover object-[center_20%] lg:object-[65%_25%]"
-          priority-hint="high"
+          className="w-full h-full object-cover object-[center_15%] sm:object-[center_12%] lg:object-[60%_15%]"
+          loading="eager"
         />
-        {/* Subtle overall tone tint */}
-        <div className="absolute inset-0 bg-[#2C2A29]/5 pointer-events-none" />
+        {/* Soft edge blending gradient */}
+        <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#F4F0E8] to-transparent hidden lg:block pointer-events-none opacity-40" />
       </div>
 
-      {/* Large Curved Arch Backdrop Overlay on the Left */}
+      {/* Left Side: Large Curved Arch Dome Overlay with Hero Text */}
       <div className="relative z-10 w-full min-h-screen flex items-center">
-        <div className="w-full lg:w-[50%] xl:w-[46%] min-h-screen bg-[#F4F0E8]/95 lg:bg-[#F4F0E8] flex flex-col justify-center items-center px-6 sm:px-12 md:px-16 pt-28 pb-16 shadow-2xl lg:shadow-none relative lg:rounded-r-[450px] lg:border-r border-[#E5DFD4]/80">
+        <div className="w-full lg:w-[48%] xl:w-[45%] min-h-screen bg-[#F4F0E8]/98 lg:bg-[#F4F0E8] flex flex-col justify-center items-center px-6 sm:px-12 md:px-16 pt-28 pb-16 shadow-2xl lg:shadow-none relative lg:rounded-r-[420px] lg:border-r border-[#E5DFD4]/80">
           
           <div className="w-full max-w-md flex flex-col items-center text-center">
             
