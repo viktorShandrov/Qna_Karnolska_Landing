@@ -3,41 +3,53 @@ import React from 'react';
 interface LeafOrnamentProps {
   className?: string;
   color?: string;
+  withLines?: boolean;
 }
 
 export const LeafOrnament: React.FC<LeafOrnamentProps> = ({ 
-  className = "w-6 h-6", 
-  color = "currentColor" 
+  className = "w-7 h-7", 
+  color = "#747D68",
+  withLines = true
 }) => {
   return (
-    <div className="flex items-center justify-center my-3 gap-2 opacity-85">
-      <svg
-        viewBox="0 0 48 48"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className={className}
-        style={{ color }}
-      >
-        <path
-          d="M12 36C12 36 14 26 24 20C34 14 42 12 42 12C42 12 39 22 31 28C23 34 16 36 12 36Z"
-          stroke="currentColor"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M16 33C22 28 29 23 38 16"
-          stroke="currentColor"
-          strokeWidth="1.4"
-          strokeLinecap="round"
-        />
-        <path
-          d="M21 28C23 25 26 23 29 22"
-          stroke="currentColor"
-          strokeWidth="1.2"
-          strokeLinecap="round"
-        />
-      </svg>
+    <div className="flex items-center justify-center my-4 w-full max-w-xs mx-auto">
+      {withLines && (
+        <div className="flex-1 h-[1px] bg-[#C5BEB3]/70"></div>
+      )}
+      
+      <div className="px-3 flex items-center justify-center">
+        <svg
+          viewBox="0 0 40 40"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className={className}
+          style={{ color }}
+        >
+          {/* Stem & Leaves matching reference */}
+          <path
+            d="M8 30C14 26 21 21 32 10"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+          />
+          <path
+            d="M17 23C16 17 21 13 26 14C26 19 22 23 17 23Z"
+            stroke="currentColor"
+            strokeWidth="1.3"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M23 18C23 13 28 10 32 11C32 15 29 19 23 18Z"
+            stroke="currentColor"
+            strokeWidth="1.3"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </div>
+
+      {withLines && (
+        <div className="flex-1 h-[1px] bg-[#C5BEB3]/70"></div>
+      )}
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Phone, Calendar } from 'lucide-react';
+import { Menu, X, Phone } from 'lucide-react';
 import { MonogramLogo } from './MonogramLogo';
 
 interface NavbarProps {
@@ -23,19 +23,19 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
     { name: 'ЗА МЕН', href: '#about' },
     { name: 'УСЛУГИ', href: '#services' },
     { name: 'ПОДХОД', href: '#approach' },
-    { name: 'ОТЗИВИ', href: '#testimonials' },
+    { name: 'БЛОГ', href: '#testimonials' },
     { name: 'КОНТАКТИ', href: '#contact' },
   ];
 
   return (
     <header 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled 
           ? 'glass-nav py-3.5 shadow-sm border-b border-[#E2DDD5]/60' 
-          : 'bg-transparent py-5'
+          : 'bg-transparent py-5 lg:py-6'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-12">
         <div className="flex items-center justify-between">
           
           {/* Logo */}
@@ -44,12 +44,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
           </div>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center space-x-7 lg:space-x-9">
+          <nav className="hidden md:flex items-center space-x-7 lg:space-x-10">
             {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
-                className="text-xs uppercase tracking-[0.18em] text-[#4A4846] hover:text-[#4E5848] font-medium transition-colors duration-200 relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1.5px] after:bg-[#4E5848] hover:after:w-full after:transition-all after:duration-300"
+                className="text-[11px] lg:text-xs uppercase tracking-[0.22em] text-[#363330] hover:text-[#747D68] font-normal transition-colors duration-200"
               >
                 {link.name}
               </a>
@@ -60,10 +60,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
           <div className="hidden md:flex items-center">
             <button
               onClick={onOpenBooking}
-              className="bg-[#676F5C] hover:bg-[#4E5848] text-white px-6 py-2.5 rounded-full text-xs uppercase tracking-[0.16em] font-medium transition-all duration-300 shadow-sm hover:shadow-md transform hover:-translate-y-0.5 active:translate-y-0 flex items-center gap-2"
+              className="bg-[#78806A] hover:bg-[#636B56] text-white px-7 py-2.5 rounded-full text-[11px] uppercase tracking-[0.2em] font-normal transition-all duration-300 shadow-sm hover:shadow active:scale-95"
             >
-              <Calendar className="w-3.5 h-3.5" />
-              <span>ЗАПАЗИ ЧАС</span>
+              ЗАПАЗИ ЧАС
             </button>
           </div>
 
@@ -71,7 +70,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
           <div className="flex md:hidden items-center space-x-2">
             <button
               onClick={onOpenBooking}
-              className="bg-[#676F5C] text-white px-3.5 py-1.5 rounded-full text-[11px] uppercase tracking-wider font-medium mr-1"
+              className="bg-[#78806A] text-white px-3.5 py-1.5 rounded-full text-[11px] uppercase tracking-wider font-normal mr-1"
             >
               Запази час
             </button>
@@ -98,7 +97,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
               key={link.name}
               href={link.href}
               onClick={() => setIsMobileMenuOpen(false)}
-              className="text-sm uppercase tracking-[0.2em] text-[#2C2A29] hover:text-[#4E5848] font-medium py-2 border-b border-[#E2DDD5]/40 transition-colors"
+              className="text-xs uppercase tracking-[0.2em] text-[#2C2A29] hover:text-[#4E5848] font-medium py-2 border-b border-[#E2DDD5]/40 transition-colors"
             >
               {link.name}
             </a>
@@ -110,9 +109,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
                 setIsMobileMenuOpen(false);
                 onOpenBooking();
               }}
-              className="w-full bg-[#676F5C] hover:bg-[#4E5848] text-white py-3 rounded-full text-xs uppercase tracking-[0.18em] font-medium text-center shadow transition-all"
+              className="w-full bg-[#78806A] hover:bg-[#636B56] text-white py-3 rounded-full text-xs uppercase tracking-[0.18em] font-medium text-center shadow transition-all"
             >
-              ЗАПАЗИ ЧАС ЗА КОНСУЛТАЦИЯ
+              ЗАПАЗИ ЧАС
             </button>
             
             <a 

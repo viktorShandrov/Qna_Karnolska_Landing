@@ -11,13 +11,13 @@ export const MonogramLogo: React.FC<MonogramLogoProps> = ({
   className = "",
   size = 'md'
 }) => {
-  const textColor = lightMode ? 'text-white' : 'text-[#2C2A29]';
-  const subColor = lightMode ? 'text-cream-200' : 'text-[#747D68]';
+  const textColor = lightMode ? 'text-white' : 'text-[#363330]';
+  const subColor = lightMode ? 'text-cream-200' : 'text-[#676F5C]';
   
   const logoSizes = {
-    sm: { symbol: 'text-2xl', name: 'text-xs', sub: 'text-[9px]' },
-    md: { symbol: 'text-3xl md:text-4xl', name: 'text-sm md:text-base', sub: 'text-[10px] md:text-xs' },
-    lg: { symbol: 'text-5xl', name: 'text-lg', sub: 'text-xs' }
+    sm: { symbol: 'text-3xl', name: 'text-[11px]', sub: 'text-[9px]' },
+    md: { symbol: 'text-4xl md:text-5xl', name: 'text-xs md:text-sm', sub: 'text-[9px] md:text-[10px]' },
+    lg: { symbol: 'text-6xl', name: 'text-base', sub: 'text-xs' }
   };
 
   return (
@@ -25,15 +25,15 @@ export const MonogramLogo: React.FC<MonogramLogoProps> = ({
       href="#hero" 
       className={`inline-flex flex-col items-center select-none group transition-transform duration-300 hover:scale-[1.02] ${className}`}
     >
-      <div className={`font-serif leading-none tracking-tight font-medium ${textColor} ${logoSizes[size].symbol} flex items-center justify-center`}>
-        <span className="italic relative -mr-1">Я</span>
+      <div className={`font-serif leading-none tracking-tight font-normal ${textColor} ${logoSizes[size].symbol} flex items-center justify-center`}>
+        <span className="italic relative -mr-1.5 font-normal">Я</span>
         <span className="font-light">К</span>
       </div>
-      <div className="flex flex-col items-center mt-1">
+      <div className="flex flex-col items-center mt-1 text-center">
         <span className={`font-serif tracking-wider uppercase font-medium ${textColor} ${logoSizes[size].name}`}>
           Яна Кирилова
         </span>
-        <span className={`font-sans tracking-[0.25em] uppercase font-light ${subColor} ${logoSizes[size].sub}`}>
+        <span className={`font-sans tracking-[0.28em] uppercase font-medium ${subColor} ${logoSizes[size].sub}`}>
           Психолог
         </span>
       </div>

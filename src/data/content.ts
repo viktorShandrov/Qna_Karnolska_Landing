@@ -30,7 +30,7 @@ export const HERO_DATA = {
   slogan: "Подкрепа. Разбиране. Промяна.",
   description: "Тук ще намерите пространство, в което да бъдете чути, разбрани и приети такива, каквито сте.",
   ctaButton: "ЗАПАЗИ ЧАС",
-  image: "/hero-portrait.jpg"
+  image: "/owner.png"
 };
 
 export const SERVICES_DATA: ServiceItem[] = [
