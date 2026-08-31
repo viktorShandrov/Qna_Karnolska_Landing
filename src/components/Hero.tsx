@@ -49,7 +49,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
             </h3>
 
             {/* Description (3 neat lines with soft italics) */}
-            <p className="font-serif italic text-[#4A4846] text-sm sm:text-base leading-relaxed max-w-xs sm:max-w-sm mb-9 font-light">
+            <p className="font-serif italic text-[#4A4846] text-lg lg:text-[22.5px] leading-relaxed max-w-xs sm:max-w-md mb-9 font-light">
               Тук ще намерите пространство,<br />
               в което да бъдете чути, разбрани и<br />
               приети такива, каквито сте.

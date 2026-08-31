@@ -54,7 +54,7 @@ export const Footer: React.FC = () => {
 
           {/* Column 3: Follow Me & Social Circles */}
           <div className="flex flex-col items-center md:items-end text-center md:text-right">
-            <h3 className="font-serif text-lg lg:text-[22.5px] font-normal tracking-[0.2em] text-[#363330] uppercase mb-4">
+            <h3 className="font-serif text-base font-normal tracking-[0.2em] text-[#363330] uppercase mb-4">
               ПОСЛЕДВАЙ МЕ
             </h3>
 

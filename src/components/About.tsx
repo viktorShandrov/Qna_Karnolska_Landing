@@ -41,7 +41,7 @@ export const About: React.FC<AboutProps> = ({ onOpenBooking: _onOpenBooking }) =
             </div>
 
             {/* Paragraphs */}
-            <div className="space-y-4 text-[#FBF9F5]/90 font-serif italic text-xs sm:text-[14px] leading-relaxed font-light mt-4 mb-7 max-w-xl">
+            <div className="space-y-4 text-[#FBF9F5]/90 font-serif italic text-lg lg:text-[22.5px] leading-relaxed font-light mt-4 mb-7 max-w-2xl">
               <p>
                 Казвам се Яна Кирилова и съм психолог с мисията<br className="hidden sm:inline" />
                 да помагам на хората да опознаят себе си,<br className="hidden sm:inline" />
