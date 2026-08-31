@@ -15,7 +15,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
         <img
           src={HERO_DATA.image}
           alt="Яна Кърнолска – Психолог"
-          className="w-full h-full object-cover object-[center_15%] sm:object-[center_12%] lg:object-[60%_15%]"
+          className="w-full h-full object-cover object-[85%_15%] sm:object-[75%_12%] lg:object-[60%_15%]"
           loading="eager"
         />
         {/* Soft edge blending gradient */}

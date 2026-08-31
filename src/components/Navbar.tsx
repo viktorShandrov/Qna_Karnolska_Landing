@@ -87,8 +87,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
 
       {/* Mobile Drawer Menu */}
       <div 
-        className={`md:hidden fixed inset-x-0 top-[70px] bg-cream-100/98 backdrop-blur-xl border-b border-[#E2DDD5] shadow-xl transition-all duration-300 ease-in-out origin-top ${
-          isMobileMenuOpen ? 'opacity-100 max-h-[500px] py-6' : 'opacity-0 max-h-0 overflow-hidden pointer-events-none'
+        className={`md:hidden fixed inset-x-0 top-[70px] 	bg-[#FBF9F5]/95 backdrop-blur-lg border-b border-[#E2DDD5] shadow-2xl transition-all duration-300 ease-in-out origin-top z-50 ${
+          isMobileMenuOpen ? 'opacity-100 max-h-[520px] py-6' : 'opacity-0 max-h-0 overflow-hidden pointer-events-none'
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 flex flex-col space-y-4">
@@ -97,7 +97,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
               key={link.name}
               href={link.href}
               onClick={() => setIsMobileMenuOpen(false)}
-              className="text-xs uppercase tracking-[0.2em] text-[#2C2A29] hover:text-[#4E5848] font-medium py-2 border-b border-[#E2DDD5]/40 transition-colors"
+              className="text-xs uppercase tracking-[0.2em] text-[#2C2A29] hover:text-[#4E5848] font-medium py-2.5 border-b border-[#E2DDD5]/50 transition-colors"
             >
               {link.name}
             </a>
