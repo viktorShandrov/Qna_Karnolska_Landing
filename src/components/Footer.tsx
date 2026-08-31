@@ -108,7 +108,7 @@ export const Footer: React.FC = () => {
         {/* Sub-footer Separator Hairline */}
         <div className="border-t border-[#D9D3C7] pt-5 flex flex-col sm:flex-row items-center justify-between text-[11px] text-[#706D69] font-light gap-2">
           <div>
-            © 2024 Яна Кирилова Психолог. Всички права запазени.
+            © 2026 Яна Кърнолска Психолог. Всички права запазени.
           </div>
 
           <div>

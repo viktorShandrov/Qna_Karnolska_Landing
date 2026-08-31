@@ -31,7 +31,7 @@ export const MonogramLogo: React.FC<MonogramLogoProps> = ({
       </div>
       <div className="flex flex-col items-center mt-1 text-center">
         <span className={`font-serif tracking-wider uppercase font-medium ${textColor} ${logoSizes[size].name}`}>
-          Яна Кирилова
+          Яна Кърнолска
         </span>
         <span className={`font-sans tracking-[0.28em] uppercase font-medium ${subColor} ${logoSizes[size].sub}`}>
           Психолог

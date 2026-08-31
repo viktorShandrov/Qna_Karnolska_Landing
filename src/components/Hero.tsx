@@ -14,7 +14,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
       <div className="absolute top-0 right-0 w-full lg:w-[100%] xl:w-[100%] h-full bg-[#EAE6DE] flex justify-end">
         <img
           src={HERO_DATA.image}
-          alt="Яна Кирилова – Психолог"
+          alt="Яна Кърнолска – Психолог"
           className="w-full h-full object-cover object-[center_15%] sm:object-[center_12%] lg:object-[60%_15%]"
           loading="eager"
         />

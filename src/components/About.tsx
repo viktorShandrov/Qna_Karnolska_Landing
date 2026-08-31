@@ -20,7 +20,7 @@ export const About: React.FC<AboutProps> = ({ onOpenBooking: _onOpenBooking }) =
             <div className="relative w-full max-w-[340px] sm:max-w-[380px] aspect-[4/4.5] overflow-hidden rounded-tr-[180px] sm:rounded-tr-[240px] lg:rounded-tr-[280px] rounded-tl-lg rounded-b-lg">
               <img
                 src={ABOUT_DATA.image}
-                alt="Терапевтичен кабинет Яна Кирилова"
+                alt="Терапевтичен кабинет Яна Кърнолска"
                 className="w-full h-full object-cover"
                 loading="lazy"
               />
@@ -43,7 +43,7 @@ export const About: React.FC<AboutProps> = ({ onOpenBooking: _onOpenBooking }) =
             {/* Paragraphs in pure classical Serif upright matching reference */}
             <div className="space-y-4 text-[#FBF9F5]/95 font-serif text-lg lg:text-[22.5px] leading-relaxed font-normal mt-4 mb-7 max-w-2xl">
               <p>
-                Казвам се Яна Кирилова и съм психолог с мисията<br className="hidden sm:inline" />
+                Казвам се Яна Кърнолска и съм психолог с мисията<br className="hidden sm:inline" />
                 да помагам на хората да опознаят себе си,<br className="hidden sm:inline" />
                 да преодолеят вътрешните си бариери и да живеят<br className="hidden sm:inline" />
                 по-пълноценен и осъзнат живот.

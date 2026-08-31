@@ -115,11 +115,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
             </button>
             
             <a 
-              href="tel:+359888123456" 
+              href="tel:0877344424" 
               className="flex items-center justify-center gap-2 text-xs text-[#747D68] tracking-wider py-1"
             >
               <Phone className="w-3.5 h-3.5" />
-              +359 888 123 456
+              0877344424
             </a>
           </div>
         </div>
