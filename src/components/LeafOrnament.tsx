@@ -8,13 +8,13 @@ interface LeafOrnamentProps {
 
 export const LeafOrnament: React.FC<LeafOrnamentProps> = ({ 
   className = "w-7 h-7", 
-  color = "#747D68",
+  color,
   withLines = true
 }) => {
   return (
     <div className="flex items-center justify-center my-4 w-full max-w-xs mx-auto">
       {withLines && (
-        <div className="flex-1 h-[1px] bg-[#C5BEB3]/70"></div>
+        <div className="flex-1 h-[1px] bg-current opacity-40"></div>
       )}
       
       <div className="px-3 flex items-center justify-center">
@@ -23,7 +23,7 @@ export const LeafOrnament: React.FC<LeafOrnamentProps> = ({
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           className={className}
-          style={{ color }}
+          style={color ? { color } : undefined}
         >
           {/* Stem & Leaves matching reference */}
           <path
@@ -48,7 +48,7 @@ export const LeafOrnament: React.FC<LeafOrnamentProps> = ({
       </div>
 
       {withLines && (
-        <div className="flex-1 h-[1px] bg-[#C5BEB3]/70"></div>
+        <div className="flex-1 h-[1px] bg-current opacity-40"></div>
       )}
     </div>
   );

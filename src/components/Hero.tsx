@@ -26,31 +26,31 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
       <div className="relative z-10 w-full min-h-screen flex items-center">
         <div className="w-full lg:w-[48%] xl:w-[45%] min-h-screen bg-transparent lg:bg-[#F4F0E8] flex flex-col justify-center items-center px-4 sm:px-8 lg:px-14 pt-24 pb-12 shadow-none relative lg:rounded-r-[420px] lg:border-r lg:border-[#E5DFD4]/80">
           
-          {/* Solid container with 20% opacity on mobile within the padding */}
-          <div className="w-full max-w-md flex flex-col items-center text-center bg-white/20 lg:bg-transparent backdrop-blur-md lg:backdrop-blur-none p-6 sm:p-8 lg:p-0 rounded-3xl border border-white/30 lg:border-none shadow-lg lg:shadow-none">
+          {/* Solid container with 20% opacity on mobile within the padding - text color #ffffdd on mobile */}
+          <div className="w-full max-w-md flex flex-col items-center text-center bg-white/20 lg:bg-transparent backdrop-blur-md lg:backdrop-blur-none p-6 sm:p-8 lg:p-0 rounded-3xl border border-white/30 lg:border-none shadow-lg lg:shadow-none text-[#ffffdd] lg:text-[#2C2A29]">
             
             {/* Name Heading */}
-            <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-[76px] font-normal text-[#2C2A29] tracking-tight leading-[1.06] drop-shadow-sm lg:drop-shadow-none">
+            <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-[76px] font-normal text-[#ffffdd] lg:text-[#2C2A29] tracking-tight leading-[1.06] drop-shadow-sm lg:drop-shadow-none">
               {HERO_DATA.name}
             </h1>
 
             {/* Subtitle: Psychologist */}
-            <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl font-normal tracking-[0.22em] text-[#2C2A29] uppercase mt-2 mb-1 drop-shadow-sm lg:drop-shadow-none">
+            <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl font-normal tracking-[0.22em] text-[#ffffdd] lg:text-[#2C2A29] uppercase mt-2 mb-1 drop-shadow-sm lg:drop-shadow-none">
               {HERO_DATA.title}
             </h2>
 
             {/* Filigree Leaf Divider with Hairlines */}
-            <div className="w-full my-2">
-              <LeafOrnament withLines={true} className="w-6 h-6 text-[#747D68]" />
+            <div className="w-full my-2 text-[#ffffdd]/80 lg:text-[#747D68]">
+              <LeafOrnament withLines={true} className="w-6 h-6" />
             </div>
 
             {/* Slogan */}
-            <h3 className="font-serif text-lg sm:text-xl text-[#2C2A29] font-normal tracking-wide mt-2 mb-3 drop-shadow-sm lg:drop-shadow-none">
+            <h3 className="font-serif text-lg sm:text-xl text-[#ffffdd] lg:text-[#2C2A29] font-normal tracking-wide mt-2 mb-3 drop-shadow-sm lg:drop-shadow-none">
               {HERO_DATA.slogan}
             </h3>
 
             {/* Description (3 neat lines in classical serif) */}
-            <p className="font-serif text-[#2C2A29] lg:text-[#4A4846] text-base sm:text-lg lg:text-[22.5px] leading-relaxed max-w-xs sm:max-w-md mb-8 font-normal drop-shadow-sm lg:drop-shadow-none">
+            <p className="font-serif text-[#ffffdd] lg:text-[#4A4846] text-base sm:text-lg lg:text-[22.5px] leading-relaxed max-w-xs sm:max-w-md mb-8 font-normal drop-shadow-sm lg:drop-shadow-none">
               Тук ще намерите пространство,<br />
               в което да бъдете чути, разбрани и<br />
               приети такива, каквито сте.
