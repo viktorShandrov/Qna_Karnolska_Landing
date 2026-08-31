@@ -11,7 +11,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
     <section id="hero" className="relative min-h-screen w-full flex items-center overflow-hidden bg-[#EAE6DE]">
       
       {/* Right Side Container: Anchors portrait to the right half at 100% natural scale */}
-      <div className="absolute top-0 right-0 w-full lg:w-[58%] xl:w-[60%] h-full bg-[#EAE6DE] flex justify-end">
+      <div className="absolute top-0 right-0 w-full lg:w-[10%] xl:w-[10%] h-full bg-[#EAE6DE] flex justify-end">
         <img
           src={HERO_DATA.image}
           alt="Яна Кирилова – Психолог"
