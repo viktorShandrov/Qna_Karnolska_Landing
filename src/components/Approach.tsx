@@ -7,7 +7,7 @@ export const Approach: React.FC = () => {
       <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="text-center max-w-xl mx-auto mb-16 md:mb-20">
+        <div className="text-center max-w-xl mx-auto mb-3 md:mb-20">
           <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-[#2C2A29] uppercase tracking-[0.25em]">
             МОЯТ ПОДХОД
           </h2>
@@ -47,16 +47,32 @@ export const Approach: React.FC = () => {
           <div className="flex flex-col items-center text-center group">
             <div className="mb-6 text-[#3E3C3A] transition-transform duration-300 group-hover:scale-105">
               <svg viewBox="0 0 48 48" fill="none" className="w-12 h-12 stroke-current">
+                {/* Main Diagonal Stem */}
                 <path
-                  d="M10 38L18 30M18 30C13.5 21 20 10 35 8C37 23 27 30 18 30Z"
+                  d="M13 36L30 18"
+                  strokeWidth="1.3"
+                  strokeLinecap="round"
+                />
+                {/* Left Leaf */}
+                <path
+                  d="M20 28C16.5 24 14 17 17.5 12.5C21 11.5 25 15.5 26.5 21"
                   strokeWidth="1.2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
+                {/* Top-Right Leaf */}
                 <path
-                  d="M18 30C23.5 23.5 29 18 35 8"
-                  strokeWidth="1.1"
+                  d="M26.5 21C27.5 15 32 8.5 36 10C39.5 11.5 37.5 18 31 22.5"
+                  strokeWidth="1.2"
                   strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                {/* Bottom-Right Leaf */}
+                <path
+                  d="M23 25.5C27 25 36.5 22.5 39.5 26C40.5 29.5 36 32 20 28.5"
+                  strokeWidth="1.2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
               </svg>
             </div>

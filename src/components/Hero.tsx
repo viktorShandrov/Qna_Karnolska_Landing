@@ -41,7 +41,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
 
             {/* Filigree Leaf Divider with Hairlines */}
             <div className="w-full my-2 text-[#ffffdd]/80 lg:text-[#747D68]">
-              <LeafOrnament withLines={true} className="w-6 h-6" />
+              <LeafOrnament withLines={true} className="w-10 h-10" />
             </div>
 
             {/* Slogan */}
