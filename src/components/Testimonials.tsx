@@ -29,9 +29,9 @@ export const Testimonials: React.FC = () => {
                 “
               </div>
 
-              {/* Quote Content */}
+              {/* Quote Content in classical serif */}
               <div className="my-auto pt-2">
-                <p className="font-serif italic text-lg lg:text-[22.5px] leading-relaxed text-[#FBF9F5] font-light max-w-sm mx-auto">
+                <p className="font-serif text-lg lg:text-[22.5px] leading-relaxed text-[#FBF9F5] font-normal max-w-sm mx-auto">
                   {testimonial.quote}
                 </p>
               </div>

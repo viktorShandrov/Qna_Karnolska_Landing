@@ -40,8 +40,8 @@ export const About: React.FC<AboutProps> = ({ onOpenBooking: _onOpenBooking }) =
               <LeafOrnament withLines={false} className="w-5 h-5 text-[#FBF9F5]/80" />
             </div>
 
-            {/* Paragraphs */}
-            <div className="space-y-4 text-[#FBF9F5]/90 font-serif italic text-lg lg:text-[22.5px] leading-relaxed font-light mt-4 mb-7 max-w-2xl">
+            {/* Paragraphs in pure classical Serif upright matching reference */}
+            <div className="space-y-4 text-[#FBF9F5]/95 font-serif text-lg lg:text-[22.5px] leading-relaxed font-normal mt-4 mb-7 max-w-2xl">
               <p>
                 Казвам се Яна Кирилова и съм психолог с мисията<br className="hidden sm:inline" />
                 да помагам на хората да опознаят себе си,<br className="hidden sm:inline" />
@@ -56,18 +56,18 @@ export const About: React.FC<AboutProps> = ({ onOpenBooking: _onOpenBooking }) =
               </p>
 
               {showExtended && (
-                <div className="pt-4 space-y-3 font-sans not-italic text-xs text-[#FBF9F5]/90 border-t border-white/20 mt-4 animate-fadeIn">
-                  <p className="leading-relaxed">
+                <div className="pt-4 space-y-3 text-base text-[#FBF9F5]/90 border-t border-white/20 mt-4 animate-fadeIn">
+                  <p className="leading-relaxed font-serif">
                     {ABOUT_DATA.extendedBio}
                   </p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2">
                     <div className="flex items-center gap-2">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-cream-300 flex-shrink-0" />
-                      <span>Магистър по Психология</span>
+                      <CheckCircle2 className="w-4 h-4 text-cream-300 flex-shrink-0" />
+                      <span className="font-serif">Магистър по Психология</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-cream-300 flex-shrink-0" />
-                      <span>Сертифициран психотерапевт</span>
+                      <CheckCircle2 className="w-4 h-4 text-cream-300 flex-shrink-0" />
+                      <span className="font-serif">Сертифициран психотерапевт</span>
                     </div>
                   </div>
                 </div>

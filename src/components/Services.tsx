@@ -48,8 +48,8 @@ export const Services: React.FC<ServicesProps> = ({ onSelectService }) => {
                     {service.title}
                   </h3>
 
-                  {/* Short Description */}
-                  <p className="font-serif italic text-lg lg:text-[22.5px] text-[#4A4846] leading-relaxed font-light mb-8 max-w-sm mx-auto">
+                  {/* Short Description in classical serif */}
+                  <p className="font-serif text-lg lg:text-[22.5px] text-[#4A4846] leading-relaxed font-normal mb-8 max-w-sm mx-auto">
                     {service.shortDescription}
                   </p>
                 </div>
