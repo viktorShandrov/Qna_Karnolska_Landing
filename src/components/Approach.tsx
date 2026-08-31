@@ -47,32 +47,35 @@ export const Approach: React.FC = () => {
           <div className="flex flex-col items-center text-center group">
             <div className="mb-6 text-[#3E3C3A] transition-transform duration-300 group-hover:scale-105">
               <svg viewBox="0 0 48 48" fill="none" className="w-12 h-12 stroke-current">
-                {/* Main Diagonal Stem */}
+                {/* Stem & Outer Leaf Contour */}
                 <path
-                  d="M13 36L30 18"
-                  strokeWidth="1.3"
-                  strokeLinecap="round"
-                />
-                {/* Left Leaf */}
-                <path
-                  d="M20 28C16.5 24 14 17 17.5 12.5C21 11.5 25 15.5 26.5 21"
+                  d="M9 39C12 37 15 32 17 28M17 28C13 20 18 9 36 7C39 23 28 31 17 28Z"
                   strokeWidth="1.2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
-                {/* Top-Right Leaf */}
+                {/* Central Midrib Vein */}
                 <path
-                  d="M26.5 21C27.5 15 32 8.5 36 10C39.5 11.5 37.5 18 31 22.5"
-                  strokeWidth="1.2"
+                  d="M17 28C22 22 28 15 35 8"
+                  strokeWidth="1.1"
                   strokeLinecap="round"
-                  strokeLinejoin="round"
                 />
-                {/* Bottom-Right Leaf */}
+                {/* Upper Veins */}
                 <path
-                  d="M23 25.5C27 25 36.5 22.5 39.5 26C40.5 29.5 36 32 20 28.5"
-                  strokeWidth="1.2"
+                  d="M22 22L27 17"
+                  strokeWidth="1.0"
                   strokeLinecap="round"
-                  strokeLinejoin="round"
+                />
+                <path
+                  d="M26 17L31 12"
+                  strokeWidth="1.0"
+                  strokeLinecap="round"
+                />
+                {/* Lower Vein */}
+                <path
+                  d="M21 24L26 26"
+                  strokeWidth="1.0"
+                  strokeLinecap="round"
                 />
               </svg>
             </div>
