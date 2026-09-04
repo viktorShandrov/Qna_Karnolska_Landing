@@ -1,6 +1,7 @@
 import React from 'react';
 import { MonogramLogo } from './MonogramLogo';
 import { CONTACT_DATA } from '../data/content';
+import { Lock } from 'lucide-react';
 
 interface FooterProps {
   onOpenAdmin?: () => void;
@@ -110,27 +111,33 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
         </div>
 
         {/* Sub-footer Separator Hairline */}
-        <div className="border-t border-[#D9D3C7] pt-5 flex flex-col sm:flex-row items-center justify-between text-[11px] text-[#706D69] font-light gap-2">
-          <div>
-            © 2026 Яна Кърнолска Психолог. Всички права запазени.
-          </div>
-
-          <div className="flex items-center gap-4">
-            <a href="#hero" className="hover:text-[#2C2A29] transition-colors underline-offset-4 hover:underline">
-              Политика за поверителност
-            </a>
-
+        <div className="border-t border-[#D9D3C7] pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-[#706D69]">
+          
+          {/* Left: Psychologist Login Rounded Button */}
+          <div className="flex items-center">
             {onOpenAdmin && (
               <button
                 onClick={onOpenAdmin}
-                className="text-[#8A857D] hover:text-[#2C2A29] transition-colors flex items-center gap-1"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#EFEAE1] hover:bg-[#E2DDD2] text-[#525D4D] hover:text-[#2C2A29] border border-[#DDD6C8] transition-all duration-300 shadow-none hover:shadow-sm active:scale-95 text-[11px] uppercase tracking-[0.14em] font-medium"
                 title="Вход за управление на статии"
               >
-                <span>•</span>
+                <Lock className="w-3.5 h-3.5 text-[#747D68]" />
                 <span>Вход за психолога</span>
               </button>
             )}
           </div>
+
+          {/* Right: Copyright & Privacy Policy */}
+          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-6 font-light text-center sm:text-right">
+            <span>
+              © 2026 Яна Кърнолска Психолог. Всички права запазени.
+            </span>
+
+            <a href="#hero" className="hover:text-[#2C2A29] transition-colors underline-offset-4 hover:underline">
+              Политика за поверителност
+            </a>
+          </div>
+
         </div>
 
       </div>

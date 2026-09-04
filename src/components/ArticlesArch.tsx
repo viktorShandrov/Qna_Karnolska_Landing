@@ -61,8 +61,8 @@ export const ArticlesArch: React.FC<ArticlesArchProps> = ({
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-60" />
                 
                 {/* Category Badge overlay on bottom */}
-                <div className="absolute bottom-3 left-1/2 -translate-x-1/2">
-                  <span className="bg-[#FBF9F5]/95 backdrop-blur-sm text-[#525D4D] text-[10px] sm:text-[11px] uppercase tracking-[0.2em] px-3.5 py-1 rounded-full font-medium shadow-sm border border-[#E2DDD5]">
+                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 w-max max-w-[90%] pointer-events-none">
+                  <span className="inline-block whitespace-nowrap bg-[#FBF9F5]/95 backdrop-blur-sm text-[#525D4D] text-[10px] sm:text-[11px] uppercase tracking-[0.14em] sm:tracking-[0.18em] px-3.5 py-1 rounded-full font-medium shadow-sm border border-[#E2DDD5] truncate max-w-full">
                     {article.category}
                   </span>
                 </div>

@@ -25,12 +25,14 @@ interface AdminArticlesModalProps {
   onPreviewArticle: (article: ArticleItem) => void;
 }
 
-const PRESET_IMAGES = [
-  { label: 'Интериор Кабинет', url: '/about-interior-v2.png' },
-  { label: 'Индивидуална терапия', url: '/service-individual.png' },
-  { label: 'Терапия за двойки', url: '/service-couples.png' },
-  { label: 'Онлайн консултации', url: '/service-online.png' },
-  { label: 'Портрет', url: '/hero-portrait.jpg' }
+const ARTICLE_FOLDER_IMAGES = [
+  { id: 'pic1', label: 'Снимка 1 (Природа & Спокойствие)', url: '/Articles Images/pic1.jpeg' },
+  { id: 'pic2', label: 'Снимка 2 (Уют & Терапия)', url: '/Articles Images/pic2.jpeg' },
+  { id: 'pic3', label: 'Снимка 3 (Баланс & Хармония)', url: '/Articles Images/pic3.jpeg' },
+  { id: 'pic4', label: 'Снимка 4 (Светлина & Пространство)', url: '/Articles Images/pic4.jpeg' },
+  { id: 'service-individual', label: 'Индивидуална терапия', url: '/Articles Images/service-individual.png' },
+  { id: 'service-couples', label: 'Терапия за двойки', url: '/Articles Images/service-couples.png' },
+  { id: 'service-online', label: 'Онлайн консултации', url: '/Articles Images/service-online.png' },
 ];
 
 const CATEGORY_PRESETS = [
@@ -123,7 +125,7 @@ export const AdminArticlesModal: React.FC<AdminArticlesModalProps> = ({
     setFormCategory('Личностно развитие');
     setFormReadTime('5 мин четене');
     setFormDate(formattedDate);
-    setFormImage('/about-interior-v2.png');
+    setFormImage('/Articles Images/pic1.jpeg');
     setFormQuote('');
     setFormExcerpt('');
     setFormFullContent('');
@@ -582,57 +584,85 @@ export const AdminArticlesModal: React.FC<AdminArticlesModalProps> = ({
                     </div>
                   </div>
 
-                  {/* Image Picker */}
-                  <div className="bg-[#F4F0E8] p-4 rounded-2xl border border-[#E2DDD5]">
-                    <label className="block text-xs uppercase tracking-wider text-[#2C2A29] font-medium mb-2 flex items-center gap-2">
-                      <ImageIcon className="w-4 h-4 text-[#747D68]" />
-                      <span>Снимка на статията (Корица)</span>
-                    </label>
+                  {/* Image Picker with Article Images Gallery */}
+                  <div className="bg-[#F4F0E8] p-4 sm:p-5 rounded-2xl border border-[#E2DDD5] space-y-4">
+                    <div className="flex items-center justify-between">
+                      <label className="block text-xs uppercase tracking-wider text-[#2C2A29] font-semibold flex items-center gap-2">
+                        <ImageIcon className="w-4 h-4 text-[#747D68]" />
+                        <span>Снимка на статията (Корица)</span>
+                      </label>
+                      <span className="text-[11px] text-[#747D68] font-medium">
+                        Папка: <strong className="text-[#2C2A29]">Article Images</strong>
+                      </span>
+                    </div>
 
-                    <div className="flex flex-col sm:flex-row gap-4 items-center">
-                      <div className="w-24 h-24 rounded-2xl overflow-hidden bg-[#DDD5C7] flex-shrink-0 border-2 border-[#747D68]/40 shadow-sm relative">
-                        <img src={formImage} alt="Преглед" className="w-full h-full object-cover" />
+                    {/* Visual Gallery Grid from Article Images */}
+                    <div>
+                      <p className="text-[11px] text-[#5A5753] mb-2.5 font-serif">
+                        Кликнете върху желаната снимка от колекцията:
+                      </p>
+
+                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5">
+                        {ARTICLE_FOLDER_IMAGES.map((imgItem) => {
+                          const isSelected = formImage === imgItem.url;
+                          return (
+                            <button
+                              key={imgItem.id}
+                              type="button"
+                              onClick={() => setFormImage(imgItem.url)}
+                              className={`group relative flex flex-col rounded-xl overflow-hidden border-2 text-left transition-all duration-200 bg-white ${
+                                isSelected
+                                  ? 'border-[#525D4D] ring-2 ring-[#747D68]/40 shadow-md scale-[1.02]'
+                                  : 'border-[#E2DDD5] hover:border-[#747D68]/60 hover:shadow-sm'
+                              }`}
+                            >
+                              <div className="aspect-[4/3] w-full overflow-hidden bg-[#E8E2D7] relative">
+                                <img
+                                  src={imgItem.url}
+                                  alt={imgItem.label}
+                                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                  loading="lazy"
+                                />
+                                {isSelected && (
+                                  <div className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-[#525D4D] text-white flex items-center justify-center shadow">
+                                    <CheckCircle className="w-3.5 h-3.5" />
+                                  </div>
+                                )}
+                              </div>
+                              <div className="p-1.5 bg-white/95">
+                                <p className="text-[10px] font-medium text-[#2C2A29] truncate leading-tight">
+                                  {imgItem.label}
+                                </p>
+                              </div>
+                            </button>
+                          );
+                        })}
                       </div>
+                    </div>
 
-                      <div className="flex-grow w-full space-y-2">
+                    {/* Custom Image URL or Upload fallback */}
+                    <div className="pt-3 border-t border-[#E2DDD5] flex flex-col sm:flex-row gap-3 items-center justify-between">
+                      <div className="w-full sm:w-auto flex-grow flex items-center gap-2">
+                        <span className="text-[11px] text-[#6A6763] flex-shrink-0">URL:</span>
                         <input
                           type="text"
                           value={formImage}
                           onChange={(e) => setFormImage(e.target.value)}
-                          placeholder="Въведете URL адрес на снимка или изберете отдолу..."
+                          placeholder="Въведете персонализиран URL адрес..."
                           className="w-full px-3 py-1.5 text-xs rounded-lg border border-[#D5CFBF] bg-white focus:outline-none font-mono"
                         />
-                        
-                        <div className="flex flex-wrap items-center gap-2">
-                          <label className="inline-flex items-center gap-1.5 bg-white border border-[#DDD5C7] px-3 py-1.5 rounded-lg text-xs text-[#525D4D] font-medium cursor-pointer hover:bg-[#EAE4D8] transition-colors">
-                            <Upload className="w-3.5 h-3.5" />
-                            <span>Качи снимка от компютъра</span>
-                            <input
-                              type="file"
-                              accept="image/*"
-                              className="hidden"
-                              onChange={handleImageFileUpload}
-                            />
-                          </label>
-
-                          <div className="flex flex-wrap gap-1">
-                            {PRESET_IMAGES.map((preset) => (
-                              <button
-                                key={preset.url}
-                                type="button"
-                                onClick={() => setFormImage(preset.url)}
-                                className={`text-[10px] px-2 py-1 rounded border transition-all ${
-                                  formImage === preset.url 
-                                    ? 'bg-[#525D4D] text-white border-[#525D4D]' 
-                                    : 'bg-white text-[#525D4D] border-[#DDD5C7]'
-                                }`}
-                              >
-                                {preset.label}
-                              </button>
-                            ))}
-                          </div>
-                        </div>
                       </div>
+
+                      <label className="flex-shrink-0 inline-flex items-center gap-1.5 bg-white border border-[#DDD5C7] px-3 py-1.5 rounded-lg text-xs text-[#525D4D] font-medium cursor-pointer hover:bg-[#EAE4D8] transition-colors shadow-sm">
+                        <Upload className="w-3.5 h-3.5" />
+                        <span>Качи друга снимка</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={handleImageFileUpload}
+                        />
+                      </label>
                     </div>
                   </div>
 
