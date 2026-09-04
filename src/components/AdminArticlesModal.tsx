@@ -11,6 +11,11 @@ import {
   resetArticlesToDefault,
   saveArticlesToStorage 
 } from '../services/articlesStorage';
+import { 
+  createArticleInDb, 
+  updateArticleInDb, 
+  deleteArticleInDb 
+} from '../services/articlesApi';
 
 interface AdminArticlesModalProps {
   isOpen: boolean;
@@ -171,7 +176,7 @@ export const AdminArticlesModal: React.FC<AdminArticlesModalProps> = ({
     }
   };
 
-  const handleSaveArticle = (e: React.FormEvent) => {
+  const handleSaveArticle = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formTitle.trim()) {
       alert('Моля, въведете заглавие на статията.');
@@ -203,10 +208,12 @@ export const AdminArticlesModal: React.FC<AdminArticlesModalProps> = ({
     let updatedList: ArticleItem[];
     if (editingArticleId) {
       updatedList = articles.map(art => art.id === editingArticleId ? articleData : art);
-      showToast('Статията е обновена успешно!');
+      showToast('Статията е запазена в базата данни!');
+      updateArticleInDb(articleData);
     } else {
       updatedList = [articleData, ...articles];
-      showToast('Новата статия е публикувана успешно!');
+      showToast('Новата статия е публикувана в базата данни!');
+      createArticleInDb(articleData);
     }
 
     saveArticlesToStorage(updatedList);
@@ -214,12 +221,13 @@ export const AdminArticlesModal: React.FC<AdminArticlesModalProps> = ({
     setActiveView('list');
   };
 
-  const handleDeleteArticle = (id: string, title: string) => {
+  const handleDeleteArticle = async (id: string, title: string) => {
     if (window.confirm(`Сигурни ли сте, че искате да изтриете статията:\n\n„${title}“?`)) {
       const updated = articles.filter(art => art.id !== id);
       saveArticlesToStorage(updated);
       onUpdateArticles(updated);
-      showToast('Статията беше изтрита.');
+      deleteArticleInDb(id);
+      showToast('Статията беше изтрита от базата данни.');
     }
   };
 

@@ -1,18 +1,16 @@
 import React from 'react';
 import { LeafOrnament } from './LeafOrnament';
 import { ArticleItem } from '../data/content';
-import { BookOpen, Clock, ArrowRight, Lock } from 'lucide-react';
+import { BookOpen, Clock, ArrowRight } from 'lucide-react';
 
 interface ArticlesArchProps {
   articles: ArticleItem[];
   onSelectArticle: (article: ArticleItem) => void;
-  onOpenAdmin?: () => void;
 }
 
 export const ArticlesArch: React.FC<ArticlesArchProps> = ({ 
   articles, 
-  onSelectArticle,
-  onOpenAdmin 
+  onSelectArticle 
 }) => {
   return (
     <section id="articles" className="py-20 sm:py-28 md:py-32 bg-[#F4F0E8] relative overflow-hidden">
@@ -108,23 +106,12 @@ export const ArticlesArch: React.FC<ArticlesArchProps> = ({
           ))}
         </div>
 
-        {/* Arch Portal Bottom Note & Admin Link */}
-        <div className="mt-14 sm:mt-16 flex flex-col sm:flex-row items-center justify-center gap-4 text-center">
+        {/* Arch Portal Bottom Note */}
+        <div className="mt-14 sm:mt-16 text-center">
           <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#EAE4D8]/80 border border-[#DBD4C7] text-xs sm:text-sm text-[#4A4846] font-serif">
             <span className="w-1.5 h-1.5 rounded-full bg-[#747D68]" />
             <span>Всяка статия е покана за вътрешен диалог, по-дълбоко себепознание и осъзнати решения.</span>
           </div>
-
-          {onOpenAdmin && (
-            <button
-              onClick={onOpenAdmin}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs text-[#747D68] hover:text-[#2C2A29] hover:bg-[#EAE4D8] transition-colors font-medium border border-[#DBD4C7]/60"
-              title="Панел за управление на статии"
-            >
-              <Lock className="w-3 h-3" />
-              <span>Редактирай статии</span>
-            </button>
-          )}
         </div>
 
       </div>

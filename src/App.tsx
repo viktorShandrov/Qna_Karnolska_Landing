@@ -13,6 +13,7 @@ import { ArticleModal } from './components/ArticleModal';
 import { AdminArticlesModal } from './components/AdminArticlesModal';
 import { ServiceItem, ArticleItem } from './data/content';
 import { getStoredArticles } from './services/articlesStorage';
+import { fetchArticlesFromDb } from './services/articlesApi';
 import { MessageCircle } from 'lucide-react';
 
 export function App() {
@@ -24,6 +25,13 @@ export function App() {
   const [isAdminOpen, setIsAdminOpen] = useState(false);
 
   useEffect(() => {
+    // Fetch latest articles from Neon Database on load
+    fetchArticlesFromDb().then((data) => {
+      if (data && data.length > 0) {
+        setArticles(data);
+      }
+    });
+
     const handleHashChange = () => {
       if (window.location.hash === '#admin') {
         setIsAdminOpen(true);
@@ -71,7 +79,6 @@ export function App() {
         <ArticlesArch 
           articles={articles}
           onSelectArticle={(article) => setSelectedArticleForDetail(article)}
-          onOpenAdmin={() => setIsAdminOpen(true)}
         />
         <Approach />
         <Testimonials />
