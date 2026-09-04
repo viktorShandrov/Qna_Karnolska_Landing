@@ -2,7 +2,11 @@ import React from 'react';
 import { MonogramLogo } from './MonogramLogo';
 import { CONTACT_DATA } from '../data/content';
 
-export const Footer: React.FC = () => {
+interface FooterProps {
+  onOpenAdmin?: () => void;
+}
+
+export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
   return (
     <footer id="contact" className="bg-[#FBF9F5] text-[#2C2A29] pt-20 pb-8">
       <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -111,10 +115,21 @@ export const Footer: React.FC = () => {
             © 2026 Яна Кърнолска Психолог. Всички права запазени.
           </div>
 
-          <div>
+          <div className="flex items-center gap-4">
             <a href="#hero" className="hover:text-[#2C2A29] transition-colors underline-offset-4 hover:underline">
               Политика за поверителност
             </a>
+
+            {onOpenAdmin && (
+              <button
+                onClick={onOpenAdmin}
+                className="text-[#8A857D] hover:text-[#2C2A29] transition-colors flex items-center gap-1"
+                title="Вход за управление на статии"
+              >
+                <span>•</span>
+                <span>Вход за психолога</span>
+              </button>
+            )}
           </div>
         </div>
 

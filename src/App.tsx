@@ -1,20 +1,38 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { Services } from './components/Services';
 import { About } from './components/About';
+import { ArticlesArch } from './components/ArticlesArch';
 import { Approach } from './components/Approach';
 import { Testimonials } from './components/Testimonials';
 import { Footer } from './components/Footer';
 import { BookingModal } from './components/BookingModal';
 import { ServiceModal } from './components/ServiceModal';
-import { ServiceItem } from './data/content';
+import { ArticleModal } from './components/ArticleModal';
+import { AdminArticlesModal } from './components/AdminArticlesModal';
+import { ServiceItem, ArticleItem } from './data/content';
+import { getStoredArticles } from './services/articlesStorage';
 import { MessageCircle } from 'lucide-react';
 
 export function App() {
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [activeServiceId, setActiveServiceId] = useState<string | undefined>(undefined);
   const [selectedServiceForDetail, setSelectedServiceForDetail] = useState<ServiceItem | null>(null);
+  const [selectedArticleForDetail, setSelectedArticleForDetail] = useState<ArticleItem | null>(null);
+  const [articles, setArticles] = useState<ArticleItem[]>(() => getStoredArticles());
+  const [isAdminOpen, setIsAdminOpen] = useState(false);
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      if (window.location.hash === '#admin') {
+        setIsAdminOpen(true);
+      }
+    };
+    handleHashChange();
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
 
   const handleOpenBooking = (serviceId?: string) => {
     setActiveServiceId(serviceId);
@@ -50,12 +68,17 @@ export function App() {
           onOpenBooking={handleOpenBooking} 
         />
         <About onOpenBooking={() => handleOpenBooking()} />
+        <ArticlesArch 
+          articles={articles}
+          onSelectArticle={(article) => setSelectedArticleForDetail(article)}
+          onOpenAdmin={() => setIsAdminOpen(true)}
+        />
         <Approach />
         <Testimonials />
       </main>
 
       {/* Footer */}
-      <Footer />
+      <Footer onOpenAdmin={() => setIsAdminOpen(true)} />
 
       {/* Floating Quick Action Button (Mobile/Desktop) */}
       <div className="fixed bottom-6 right-6 z-40">
@@ -82,6 +105,28 @@ export function App() {
         service={selectedServiceForDetail}
         onClose={handleCloseServiceDetail}
         onBookThisService={handleBookFromServiceDetail}
+      />
+
+      <ArticleModal
+        article={selectedArticleForDetail}
+        onClose={() => setSelectedArticleForDetail(null)}
+        onOpenBooking={() => {
+          setSelectedArticleForDetail(null);
+          handleOpenBooking();
+        }}
+      />
+
+      <AdminArticlesModal
+        isOpen={isAdminOpen}
+        onClose={() => {
+          setIsAdminOpen(false);
+          if (window.location.hash === '#admin') {
+            window.history.replaceState(null, '', window.location.pathname + window.location.search);
+          }
+        }}
+        articles={articles}
+        onUpdateArticles={(updated) => setArticles(updated)}
+        onPreviewArticle={(article) => setSelectedArticleForDetail(article)}
       />
     </div>
   );
