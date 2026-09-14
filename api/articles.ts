@@ -159,7 +159,12 @@ export default async function handler(req: any, res: any) {
         FROM articles
         ORDER BY created_at DESC;
       `;
-      return res.status(200).json(rows);
+      const normalized = rows.map((r: any) => ({
+        ...r,
+        fullContent: typeof r.fullContent === 'string' ? JSON.parse(r.fullContent) : (Array.isArray(r.fullContent) ? r.fullContent : []),
+        keyTakeaways: typeof r.keyTakeaways === 'string' ? JSON.parse(r.keyTakeaways) : (Array.isArray(r.keyTakeaways) ? r.keyTakeaways : []),
+      }));
+      return res.status(200).json(normalized);
     }
 
     // --- POST: Create new article ---

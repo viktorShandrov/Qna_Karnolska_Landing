@@ -14,7 +14,8 @@ import {
 import { 
   createArticleInDb, 
   updateArticleInDb, 
-  deleteArticleInDb 
+  deleteArticleInDb,
+  fetchArticlesFromDb 
 } from '../services/articlesApi';
 
 interface AdminArticlesModalProps {
@@ -210,16 +211,29 @@ export const AdminArticlesModal: React.FC<AdminArticlesModalProps> = ({
     let updatedList: ArticleItem[];
     if (editingArticleId) {
       updatedList = articles.map(art => art.id === editingArticleId ? articleData : art);
-      showToast('Статията е запазена в базата данни!');
-      updateArticleInDb(articleData);
+      showToast('Запазване в Neon базата данни...');
+      const res = await updateArticleInDb(articleData);
+      if (res.success) {
+        showToast('Статията е запазена успешно в Neon!');
+      }
     } else {
       updatedList = [articleData, ...articles];
-      showToast('Новата статия е публикувана в базата данни!');
-      createArticleInDb(articleData);
+      showToast('Публикуване в Neon базата данни...');
+      const res = await createArticleInDb(articleData);
+      if (res.success) {
+        showToast('Новата статия е записана успешно в Neon!');
+      }
     }
 
     saveArticlesToStorage(updatedList);
     onUpdateArticles(updatedList);
+
+    // Re-fetch from DB to guarantee sync
+    const freshDbArticles = await fetchArticlesFromDb();
+    if (freshDbArticles && freshDbArticles.length > 0) {
+      onUpdateArticles(freshDbArticles);
+    }
+
     setActiveView('list');
   };
 
@@ -228,8 +242,15 @@ export const AdminArticlesModal: React.FC<AdminArticlesModalProps> = ({
       const updated = articles.filter(art => art.id !== id);
       saveArticlesToStorage(updated);
       onUpdateArticles(updated);
-      deleteArticleInDb(id);
-      showToast('Статията беше изтрита от базата данни.');
+      
+      showToast('Изтриване от Neon...');
+      await deleteArticleInDb(id);
+      
+      const freshDbArticles = await fetchArticlesFromDb();
+      if (freshDbArticles) {
+        onUpdateArticles(freshDbArticles);
+      }
+      showToast('Статията беше изтрита от Neon базата данни.');
     }
   };
 
