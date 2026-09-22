@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { 
   X, Lock, Unlock, Plus, Edit3, Trash2, Eye, KeyRound, 
-  CheckCircle, AlertCircle, RotateCcw, Upload, Image as ImageIcon,
+  CheckCircle, AlertCircle, RotateCcw, Image as ImageIcon,
   Sparkles, Save, ArrowLeft, LogOut
 } from 'lucide-react';
 import { ArticleItem } from '../data/content';
@@ -146,19 +146,6 @@ export const AdminArticlesModal: React.FC<AdminArticlesModalProps> = ({
     setFormFullContent(article.fullContent.join('\n\n'));
     setFormKeyTakeaways(article.keyTakeaways && article.keyTakeaways.length > 0 ? article.keyTakeaways : ['']);
     setActiveView('edit');
-  };
-
-  const handleImageFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        if (typeof reader.result === 'string') {
-          setFormImage(reader.result);
-        }
-      };
-      reader.readAsDataURL(file);
-    }
   };
 
   const handleAddTakeawayField = () => {
@@ -381,11 +368,6 @@ export const AdminArticlesModal: React.FC<AdminArticlesModalProps> = ({
                   ВЛЕЗ В ПАНЕЛА
                 </button>
               </form>
-
-              <div className="mt-8 pt-6 border-t border-[#E8E2D7] text-xs text-[#7A7773] font-serif">
-                <p>Първоначална парола по подразбиране: <strong className="text-[#2C2A29] font-mono">yana2026</strong></p>
-                <p className="text-[11px] text-[#9A9793] mt-1">(Можете да я смените по всяко време след влизане)</p>
-              </div>
             </div>
           ) : (
             /* 2. AUTHENTICATED ADMIN DASHBOARD */
@@ -661,29 +643,16 @@ export const AdminArticlesModal: React.FC<AdminArticlesModalProps> = ({
                       </div>
                     </div>
 
-                    {/* Custom Image URL or Upload fallback */}
-                    <div className="pt-3 border-t border-[#E2DDD5] flex flex-col sm:flex-row gap-3 items-center justify-between">
-                      <div className="w-full sm:w-auto flex-grow flex items-center gap-2">
-                        <span className="text-[11px] text-[#6A6763] flex-shrink-0">URL:</span>
-                        <input
-                          type="text"
-                          value={formImage}
-                          onChange={(e) => setFormImage(e.target.value)}
-                          placeholder="Въведете персонализиран URL адрес..."
-                          className="w-full px-3 py-1.5 text-xs rounded-lg border border-[#D5CFBF] bg-white focus:outline-none font-mono"
-                        />
-                      </div>
-
-                      <label className="flex-shrink-0 inline-flex items-center gap-1.5 bg-white border border-[#DDD5C7] px-3 py-1.5 rounded-lg text-xs text-[#525D4D] font-medium cursor-pointer hover:bg-[#EAE4D8] transition-colors shadow-sm">
-                        <Upload className="w-3.5 h-3.5" />
-                        <span>Качи друга снимка</span>
-                        <input
-                          type="file"
-                          accept="image/*"
-                          className="hidden"
-                          onChange={handleImageFileUpload}
-                        />
-                      </label>
+                    {/* Custom Image URL fallback */}
+                    <div className="pt-3 border-t border-[#E2DDD5] flex items-center gap-2">
+                      <span className="text-[11px] text-[#6A6763] flex-shrink-0">URL:</span>
+                      <input
+                        type="text"
+                        value={formImage}
+                        onChange={(e) => setFormImage(e.target.value)}
+                        placeholder="Въведете персонализиран URL адрес на снимка..."
+                        className="w-full px-3 py-1.5 text-xs rounded-lg border border-[#D5CFBF] bg-white focus:outline-none font-mono"
+                      />
                     </div>
                   </div>
 
@@ -702,17 +671,19 @@ export const AdminArticlesModal: React.FC<AdminArticlesModalProps> = ({
                     />
                   </div>
 
-                  {/* Excerpt */}
+                  {/* Excerpt (Optional) */}
                   <div>
-                    <label className="block text-xs uppercase tracking-wider text-[#2C2A29] font-medium mb-1.5">
-                      Кратко резюме (за арочната карта на началната страница) *
-                    </label>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <label className="block text-xs uppercase tracking-wider text-[#2C2A29] font-medium">
+                        Кратко резюме (за арочната карта на началната страница)
+                      </label>
+                      <span className="text-[11px] text-[#747D68] font-normal lowercase">(по избор)</span>
+                    </div>
                     <textarea
                       rows={2}
-                      required
                       value={formExcerpt}
                       onChange={(e) => setFormExcerpt(e.target.value)}
-                      placeholder="Кратко изречение или два реда, които привличат читателя..."
+                      placeholder="Кратко изречение или два реда (по избор – ако го оставите празно, автоматично се генерира от текста)..."
                       className="w-full px-4 py-2 rounded-xl border border-[#D5CFBF] bg-white text-[#2C2A29] text-sm focus:ring-2 focus:ring-[#747D68] focus:outline-none font-serif"
                     />
                   </div>

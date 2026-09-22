@@ -217,8 +217,8 @@ export const ARTICLES_DATA: ArticleItem[] = [
 ];
 
 export const CONTACT_DATA = {
-  phone: "0877344424",
-  email: "info@yanakirilova.bg",
+  phone: "0887 344 424",
+  email: "yanakarnolska@gmail.com",
   location: "София / Онлайн",
   address: "гр. София, ул. „Оборище“ 42",
   hours: "Понеделник – Петък: 09:00 – 19:00",

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, Phone } from 'lucide-react';
 import { MonogramLogo } from './MonogramLogo';
+import { CONTACT_DATA } from '../data/content';
 
 interface NavbarProps {
   onOpenBooking: () => void;
@@ -116,11 +117,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
             </button>
             
             <a 
-              href="tel:0877344424" 
+              href={`tel:${CONTACT_DATA.phone.replace(/\s+/g, '')}`} 
               className="flex items-center justify-center gap-2 text-xs text-[#747D68] tracking-wider py-1"
             >
               <Phone className="w-3.5 h-3.5" />
-              0877344424
+              {CONTACT_DATA.phone}
             </a>
           </div>
         </div>
