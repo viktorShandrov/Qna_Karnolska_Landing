@@ -14,6 +14,7 @@ import { AdminArticlesModal } from './components/AdminArticlesModal';
 import { ServiceItem, ArticleItem } from './data/content';
 import { getStoredArticles } from './services/articlesStorage';
 import { fetchArticlesFromDb } from './services/articlesApi';
+import { updatePageSeo } from './utils/seo';
 import { MessageCircle } from 'lucide-react';
 
 export function App() {
@@ -24,23 +25,94 @@ export function App() {
   const [articles, setArticles] = useState<ArticleItem[]>(() => getStoredArticles());
   const [isAdminOpen, setIsAdminOpen] = useState(false);
 
+  // Sync SEO metadata whenever selected article changes
   useEffect(() => {
+    if (selectedArticleForDetail) {
+      updatePageSeo({ article: selectedArticleForDetail });
+    } else {
+      updatePageSeo();
+    }
+  }, [selectedArticleForDetail]);
+
+  useEffect(() => {
+    // Helper to check URL for article or admin deep links
+    const checkUrlRoute = (currentArticles: ArticleItem[]) => {
+      const searchParams = new URLSearchParams(window.location.search);
+      const articleIdFromQuery = searchParams.get('article');
+      const hash = window.location.hash;
+
+      if (hash === '#admin') {
+        setIsAdminOpen(true);
+      }
+
+      if (articleIdFromQuery) {
+        const found = currentArticles.find((a) => a.id === articleIdFromQuery);
+        if (found) {
+          setSelectedArticleForDetail(found);
+        }
+      } else if (hash.startsWith('#article-')) {
+        const articleIdFromHash = hash.replace('#article-', '');
+        const found = currentArticles.find((a) => a.id === articleIdFromHash);
+        if (found) {
+          setSelectedArticleForDetail(found);
+        }
+      }
+    };
+
+    // Check on initial load
+    checkUrlRoute(articles);
+
     // Fetch latest articles from Neon Database on load
     fetchArticlesFromDb().then((data) => {
       if (data && data.length > 0) {
         setArticles(data);
+        checkUrlRoute(data);
       }
     });
 
-    const handleHashChange = () => {
-      if (window.location.hash === '#admin') {
+    const handlePopState = () => {
+      const searchParams = new URLSearchParams(window.location.search);
+      const articleId = searchParams.get('article');
+      const hash = window.location.hash;
+
+      if (hash === '#admin') {
         setIsAdminOpen(true);
+      } else {
+        setIsAdminOpen(false);
+      }
+
+      if (articleId) {
+        const found = articles.find((a) => a.id === articleId);
+        setSelectedArticleForDetail(found || null);
+      } else {
+        setSelectedArticleForDetail(null);
       }
     };
-    handleHashChange();
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+
+    window.addEventListener('popstate', handlePopState);
+    window.addEventListener('hashchange', handlePopState);
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+      window.removeEventListener('hashchange', handlePopState);
+    };
   }, []);
+
+  const handleSelectArticle = (article: ArticleItem) => {
+    setSelectedArticleForDetail(article);
+    const newUrl = `${window.location.pathname}?article=${encodeURIComponent(article.id)}`;
+    window.history.pushState({ articleId: article.id }, '', newUrl);
+  };
+
+  const handleCloseArticle = () => {
+    setSelectedArticleForDetail(null);
+    const searchParams = new URLSearchParams(window.location.search);
+    if (searchParams.has('article')) {
+      searchParams.delete('article');
+      const newQuery = searchParams.toString();
+      const newUrl = window.location.pathname + (newQuery ? `?${newQuery}` : '') + window.location.hash;
+      window.history.pushState(null, '', newUrl);
+    }
+  };
 
   const handleOpenBooking = (serviceId?: string) => {
     setActiveServiceId(serviceId);
@@ -78,7 +150,7 @@ export function App() {
         <About onOpenBooking={() => handleOpenBooking()} />
         <ArticlesArch 
           articles={articles}
-          onSelectArticle={(article) => setSelectedArticleForDetail(article)}
+          onSelectArticle={handleSelectArticle}
         />
         <Approach />
         <Testimonials />
@@ -116,9 +188,9 @@ export function App() {
 
       <ArticleModal
         article={selectedArticleForDetail}
-        onClose={() => setSelectedArticleForDetail(null)}
+        onClose={handleCloseArticle}
         onOpenBooking={() => {
-          setSelectedArticleForDetail(null);
+          handleCloseArticle();
           handleOpenBooking();
         }}
       />
@@ -133,7 +205,7 @@ export function App() {
         }}
         articles={articles}
         onUpdateArticles={(updated) => setArticles(updated)}
-        onPreviewArticle={(article) => setSelectedArticleForDetail(article)}
+        onPreviewArticle={(article) => handleSelectArticle(article)}
       />
     </div>
   );

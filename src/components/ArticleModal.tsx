@@ -36,10 +36,10 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
       />
 
       {/* Modal Container */}
-      <div className="relative bg-[#FBF9F5] w-full max-w-3xl rounded-3xl sm:rounded-[36px] border border-[#E2DDD5] shadow-2xl overflow-hidden z-10 my-6 sm:my-10 transform transition-all duration-300 max-h-[90vh] flex flex-col">
+      <article className="relative bg-[#FBF9F5] w-full max-w-3xl rounded-3xl sm:rounded-[36px] border border-[#E2DDD5] shadow-2xl overflow-hidden z-10 my-6 sm:my-10 transform transition-all duration-300 max-h-[90vh] flex flex-col">
         
         {/* Sticky Header with Close Button */}
-        <div className="sticky top-0 z-30 bg-[#FBF9F5]/90 backdrop-blur-md px-6 py-4 border-b border-[#E8E2D7] flex items-center justify-between">
+        <header className="sticky top-0 z-30 bg-[#FBF9F5]/90 backdrop-blur-md px-6 py-4 border-b border-[#E8E2D7] flex items-center justify-between">
           <div className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-[#747D68] font-semibold">
             <span>{article.category}</span>
           </div>
@@ -51,16 +51,16 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
           >
             <X className="w-5 h-5" />
           </button>
-        </div>
+        </header>
 
         {/* Scrollable Content Body */}
         <div className="overflow-y-auto px-6 sm:px-10 lg:px-12 py-6 sm:py-8 space-y-8">
           
           {/* Article Title & Metadata */}
           <div className="text-center max-w-2xl mx-auto">
-            <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-normal text-[#2C2A29] uppercase tracking-wide leading-tight mb-4">
+            <h1 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-normal text-[#2C2A29] uppercase tracking-wide leading-tight mb-4">
               {article.title}
-            </h2>
+            </h1>
 
             <div className="flex items-center justify-center gap-4 text-xs text-[#7A7773] font-serif">
               <span className="flex items-center gap-1.5">
@@ -85,6 +85,7 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
               src={article.image}
               alt={article.title}
               className="w-full h-full object-cover"
+              loading="eager"
             />
           </div>
 
@@ -112,10 +113,10 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
           {/* Key Takeaways Box */}
           {article.keyTakeaways && article.keyTakeaways.length > 0 && (
             <div className="bg-[#EFEAE1] border border-[#DDD5C7] rounded-2xl p-6 sm:p-7 my-8">
-              <h4 className="font-serif text-lg sm:text-xl font-normal text-[#2C2A29] uppercase tracking-wider mb-4 flex items-center gap-2">
+              <h2 className="font-serif text-lg sm:text-xl font-normal text-[#2C2A29] uppercase tracking-wider mb-4 flex items-center gap-2">
                 <Heart className="w-4 h-4 text-[#747D68]" />
-                <span>Практически насоки & Ключови изводи:</span>
-              </h4>
+                <span>Практически насоки &amp; Ключови изводи:</span>
+              </h2>
               <ul className="space-y-2.5">
                 {article.keyTakeaways.map((takeaway, idx) => (
                   <li key={idx} className="flex items-start gap-3 text-sm sm:text-base font-serif text-[#4A4846]">
@@ -129,9 +130,9 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
 
           {/* Call to Action & Booking Prompt */}
           <div className="bg-[#525D4D] text-[#FBF9F5] rounded-2xl p-6 sm:p-8 text-center flex flex-col items-center">
-            <h4 className="font-serif text-xl sm:text-2xl font-normal tracking-wider mb-2 uppercase">
+            <h2 className="font-serif text-xl sm:text-2xl font-normal tracking-wider mb-2 uppercase">
               Имате ли нужда от лична подкрепа?
-            </h4>
+            </h2>
             <p className="font-serif text-sm sm:text-base text-[#FBF9F5]/90 max-w-md mb-5 leading-relaxed font-light">
               Ако темите в тази статия резонират с вашата лична житейска ситуация, можете да запазите час за индивидуална консултация.
             </p>
@@ -149,7 +150,7 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
 
         </div>
 
-      </div>
+      </article>
     </div>
   );
 };

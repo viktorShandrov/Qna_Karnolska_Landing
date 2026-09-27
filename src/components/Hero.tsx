@@ -14,9 +14,10 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
       <div className="absolute top-0 right-0 w-full lg:w-[100%] xl:w-[100%] h-full bg-[#EAE6DE] flex justify-end">
         <img
           src={HERO_DATA.image}
-          alt="Яна Кърнолска – Психолог"
+          alt="Яна Кърнолска – Психолог и Психотерапевт София"
           className="hero-mobile-img w-full h-full object-cover object-[85%_15%] sm:object-[75%_12%] lg:object-[60%_15%]"
           loading="eager"
+          fetchPriority="high"
         />
         {/* Soft edge blending gradient */}
         <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#F4F0E8] to-transparent hidden lg:block pointer-events-none opacity-40" />
