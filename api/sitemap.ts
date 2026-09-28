@@ -1,4 +1,4 @@
-﻿import { neon } from '@neondatabase/serverless';
+import { neon } from '@neondatabase/serverless';
 
 function getDatabaseUrl(): string | undefined {
   return (
