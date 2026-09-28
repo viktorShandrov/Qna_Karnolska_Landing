@@ -9,9 +9,23 @@ function getDatabaseUrl(): string | undefined {
   );
 }
 
+const DEFAULT_ARTICLES = [
+  'navigating-anxiety',
+  'boundaries-and-self-worth',
+  'overcoming-burnout'
+];
+
 export default async function handler(req: any, res: any) {
+  // CORS Headers
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS');
   res.setHeader('Content-Type', 'application/xml; charset=utf-8');
   res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate=86400');
+
+  if (req.method === 'OPTIONS') {
+    res.statusCode = 200;
+    return res.end();
+  }
 
   const domain = process.env.SITE_URL || 'https://yanakarnolska.com';
   const currentDate = new Date().toISOString().split('T')[0];
@@ -39,30 +53,20 @@ export default async function handler(req: any, res: any) {
           .join('\n');
       }
     }
-  } catch (err) {
-    console.warn('Could not load dynamic articles for sitemap, fallback to static:', err);
+  } catch (err: any) {
+    console.warn('Could not query DB for sitemap, using fallback:', err?.message || err);
   }
 
-  // If no DB articles were fetched, provide default article fallbacks
+  // Fallback to static articles if DB was not reachable or empty
   if (!dynamicArticleUrls) {
-    dynamicArticleUrls = `  <url>
-    <loc>${domain}/?article=navigating-anxiety</loc>
+    dynamicArticleUrls = DEFAULT_ARTICLES
+      .map((id) => `  <url>
+    <loc>${domain}/?article=${id}</loc>
     <lastmod>${currentDate}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>${domain}/?article=boundaries-and-self-worth</loc>
-    <lastmod>${currentDate}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>${domain}/?article=overcoming-burnout</loc>
-    <lastmod>${currentDate}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>`;
+  </url>`)
+      .join('\n');
   }
 
   const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
@@ -95,5 +99,9 @@ export default async function handler(req: any, res: any) {
 ${dynamicArticleUrls}
 </urlset>`;
 
-  return res.status(200).send(sitemapXml);
+  res.statusCode = 200;
+  if (typeof res.send === 'function') {
+    return res.send(sitemapXml);
+  }
+  return res.end(sitemapXml);
 }
