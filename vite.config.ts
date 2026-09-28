@@ -7,10 +7,10 @@ function neonApiPlugin(env: Record<string, string>): Plugin {
     name: 'neon-api-dev-middleware',
     configureServer(server) {
       server.middlewares.use(async (req, res, next) => {
-        // Handle dynamic /api/sitemap
-        if (req.url?.startsWith('/api/sitemap')) {
+        // Handle dynamic live /sitemap.xml and /api/sitemap on every request
+        if (req.url?.startsWith('/api/sitemap') || req.url === '/sitemap.xml' || req.url?.startsWith('/sitemap.xml?')) {
           const dbUrl = env.DATABASE_URL || env.POSTGRES_URL;
-          const domain = env.SITE_URL || 'https://yanakarnolska.com';
+          const domain = env.SITE_URL || 'https://qnakarnolskalanding.vercel.app';
           const currentDate = new Date().toISOString().split('T')[0];
 
           let dynamicArticleUrls = '';

@@ -1,8 +1,6 @@
+import fs from 'fs';
+import path from 'path';
 import { neon } from '@neondatabase/serverless';
-
-export const config = {
-  runtime: 'edge',
-};
 
 const domain = process.env.SITE_URL || 'https://qnakarnolskalanding.vercel.app';
 const dbUrl = process.env.DATABASE_URL || process.env.POSTGRES_URL || 'postgresql://neondb_owner:npg_1tFEpgW2HJfN@ep-nameless-frost-awk2q7z1-pooler.c-12.us-east-1.aws.neon.tech/neondb?channel_binding=require&sslmode=require';
@@ -13,7 +11,8 @@ const DEFAULT_ARTICLES = [
   'overcoming-burnout'
 ];
 
-export default async function handler(req: Request) {
+async function generate() {
+  console.log('Generating static sitemap.xml...');
   const currentDate = new Date().toISOString().split('T')[0];
   let articleUrls = '';
 
@@ -21,10 +20,9 @@ export default async function handler(req: Request) {
     if (dbUrl) {
       const sql = neon(dbUrl);
       const articles = await sql`SELECT id, created_at FROM articles ORDER BY created_at DESC;`;
-      
       if (articles && articles.length > 0) {
         articleUrls = articles
-          .map((a: any) => {
+          .map((a) => {
             const modDate = a.created_at ? new Date(a.created_at).toISOString().split('T')[0] : currentDate;
             return `  <!-- Article: ${a.id} -->
   <url>
@@ -35,13 +33,13 @@ export default async function handler(req: Request) {
   </url>`;
           })
           .join('\n');
+        console.log(`Found ${articles.length} articles in database for sitemap.`);
       }
     }
-  } catch (err: any) {
-    console.warn('Live sitemap DB query warning:', err?.message || err);
+  } catch (err) {
+    console.warn('Could not query DB during sitemap generation, using fallback articles:', err.message);
   }
 
-  // Fallback to default articles if DB query returned nothing
   if (!articleUrls) {
     articleUrls = DEFAULT_ARTICLES
       .map((id) => `  <!-- Article: ${id} -->
@@ -66,14 +64,18 @@ export default async function handler(req: Request) {
     <priority>1.0</priority>
   </url>
 ${articleUrls}
-</urlset>`;
+</urlset>
+`;
 
-  return new Response(sitemapXml, {
-    status: 200,
-    headers: {
-      'Content-Type': 'application/xml; charset=utf-8',
-      'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
-      'Access-Control-Allow-Origin': '*',
-    },
-  });
+  const publicDir = path.resolve('public');
+  if (!fs.existsSync(publicDir)) {
+    fs.mkdirSync(publicDir, { recursive: true });
+  }
+
+  fs.writeFileSync(path.join(publicDir, 'sitemap.xml'), sitemapXml.trim(), 'utf8');
+  console.log('Successfully written public/sitemap.xml');
 }
+
+generate().catch((err) => {
+  console.error('Sitemap generator error:', err);
+});
