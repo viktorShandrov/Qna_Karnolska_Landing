@@ -16,17 +16,6 @@ const DEFAULT_ARTICLES = [
 ];
 
 export default async function handler(req: any, res: any) {
-  // CORS Headers
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS');
-  res.setHeader('Content-Type', 'application/xml; charset=utf-8');
-  res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate=86400');
-
-  if (req.method === 'OPTIONS') {
-    res.statusCode = 200;
-    return res.end();
-  }
-
   const domain = process.env.SITE_URL || 'https://yanakarnolska.com';
   const currentDate = new Date().toISOString().split('T')[0];
 
@@ -99,9 +88,36 @@ export default async function handler(req: any, res: any) {
 ${dynamicArticleUrls}
 </urlset>`;
 
-  res.statusCode = 200;
-  if (typeof res.send === 'function') {
-    return res.send(sitemapXml);
+  // Handle Edge runtime / Web Request
+  if (typeof Response !== 'undefined' && (!res || typeof res.setHeader !== 'function')) {
+    return new Response(sitemapXml, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/xml; charset=utf-8',
+        'Cache-Control': 's-maxage=3600, stale-while-revalidate=86400',
+        'Access-Control-Allow-Origin': '*',
+      },
+    });
   }
-  return res.end(sitemapXml);
+
+  // Handle Node.js runtime (Vercel Serverless Function)
+  if (res && typeof res.setHeader === 'function') {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS');
+    res.setHeader('Content-Type', 'application/xml; charset=utf-8');
+    res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate=86400');
+
+    if (req.method === 'OPTIONS') {
+      res.statusCode = 200;
+      return res.end();
+    }
+
+    res.statusCode = 200;
+    if (typeof res.send === 'function') {
+      return res.send(sitemapXml);
+    }
+    return res.end(sitemapXml);
+  }
+
+  return sitemapXml;
 }
