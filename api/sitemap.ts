@@ -11,7 +11,7 @@ function getDatabaseUrl(): string | undefined {
 
 export default async function handler(req: any, res: any) {
   res.setHeader('Content-Type', 'application/xml; charset=utf-8');
-  res.setHeader('Cache-Control', 's-maxage=86400, stale-while-revalidate');
+  res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate=86400');
 
   const domain = process.env.SITE_URL || 'https://yanakarnolska.com';
   const currentDate = new Date().toISOString().split('T')[0];
@@ -22,52 +22,78 @@ export default async function handler(req: any, res: any) {
     const dbUrl = getDatabaseUrl();
     if (dbUrl) {
       const sql = neon(dbUrl);
-      const articles = await sqlSELECT id, created_at FROM articles ORDER BY created_at DESC;;
+      const articles = await sql`SELECT id, created_at FROM articles ORDER BY created_at DESC;`;
       
-      dynamicArticleUrls = articles
-        .map((a: any) => {
-          const modDate = a.created_at ? new Date(a.created_at).toISOString().split('T')[0] : currentDate;
-          return   <url>
-    <loc>/?article=</loc>
-    <lastmod></lastmod>
+      if (articles && articles.length > 0) {
+        dynamicArticleUrls = articles
+          .map((a: any) => {
+            const modDate = a.created_at ? new Date(a.created_at).toISOString().split('T')[0] : currentDate;
+            return `  <!-- Article: ${a.id} -->
+  <url>
+    <loc>${domain}/?article=${encodeURIComponent(a.id)}</loc>
+    <lastmod>${modDate}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-  </url>;
-        })
-        .join('\n');
+  </url>`;
+          })
+          .join('\n');
+      }
     }
   } catch (err) {
     console.warn('Could not load dynamic articles for sitemap, fallback to static:', err);
   }
 
-  const sitemapXml = <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  // If no DB articles were fetched, provide default article fallbacks
+  if (!dynamicArticleUrls) {
+    dynamicArticleUrls = `  <url>
+    <loc>${domain}/?article=navigating-anxiety</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
   <url>
-    <loc>/</loc>
-    <lastmod></lastmod>
+    <loc>${domain}/?article=boundaries-and-self-worth</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${domain}/?article=overcoming-burnout</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>`;
+  }
+
+  const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>${domain}/</loc>
+    <lastmod>${currentDate}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>/#services</loc>
-    <lastmod></lastmod>
+    <loc>${domain}/#services</loc>
+    <lastmod>${currentDate}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>/#about</loc>
-    <lastmod></lastmod>
+    <loc>${domain}/#about</loc>
+    <lastmod>${currentDate}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>/#articles</loc>
-    <lastmod></lastmod>
+    <loc>${domain}/#articles</loc>
+    <lastmod>${currentDate}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
-
-</urlset>;
+${dynamicArticleUrls}
+</urlset>`;
 
   return res.status(200).send(sitemapXml);
 }

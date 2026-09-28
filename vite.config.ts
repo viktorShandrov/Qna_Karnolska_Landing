@@ -7,6 +7,94 @@ function neonApiPlugin(env: Record<string, string>): Plugin {
     name: 'neon-api-dev-middleware',
     configureServer(server) {
       server.middlewares.use(async (req, res, next) => {
+        // Handle dynamic /api/sitemap
+        if (req.url?.startsWith('/api/sitemap')) {
+          const dbUrl = env.DATABASE_URL || env.POSTGRES_URL;
+          const domain = env.SITE_URL || 'https://yanakarnolska.com';
+          const currentDate = new Date().toISOString().split('T')[0];
+
+          let dynamicArticleUrls = '';
+
+          try {
+            if (dbUrl) {
+              const sql = neon(dbUrl);
+              const articles = await sql`SELECT id, created_at FROM articles ORDER BY created_at DESC;`;
+              if (articles && articles.length > 0) {
+                dynamicArticleUrls = articles
+                  .map((a: any) => {
+                    const modDate = a.created_at ? new Date(a.created_at).toISOString().split('T')[0] : currentDate;
+                    return `  <!-- Article: ${a.id} -->
+  <url>
+    <loc>${domain}/?article=${encodeURIComponent(a.id)}</loc>
+    <lastmod>${modDate}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>`;
+                  })
+                  .join('\n');
+              }
+            }
+          } catch (err: any) {
+            console.warn('Neon dev sitemap error:', err.message);
+          }
+
+          if (!dynamicArticleUrls) {
+            dynamicArticleUrls = `  <url>
+    <loc>${domain}/?article=navigating-anxiety</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${domain}/?article=boundaries-and-self-worth</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${domain}/?article=overcoming-burnout</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>`;
+          }
+
+          const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>${domain}/</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>${domain}/#services</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${domain}/#about</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${domain}/#articles</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+${dynamicArticleUrls}
+</urlset>`;
+
+          res.statusCode = 200;
+          res.setHeader('Content-Type', 'application/xml; charset=utf-8');
+          res.end(sitemapXml);
+          return;
+        }
+
         if (!req.url?.startsWith('/api/articles')) {
           return next();
         }

@@ -1,0 +1,12 @@
+﻿{
+  "rewrites": [
+    {
+      "source": "/api/sitemap",
+      "destination": "/api/sitemap.ts"
+    },
+    {
+      "source": "/api/articles",
+      "destination": "/api/articles.ts"
+    }
+  ]
+}
