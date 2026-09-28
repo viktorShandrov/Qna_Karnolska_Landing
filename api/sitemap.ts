@@ -16,7 +16,7 @@ const DEFAULT_ARTICLES = [
 ];
 
 export default async function handler(req: any, res: any) {
-  const domain = process.env.SITE_URL || 'https://yanakarnolska.com';
+  const domain = process.env.SITE_URL || 'https://qnakarnolskalanding.vercel.app';
   const currentDate = new Date().toISOString().split('T')[0];
 
   let dynamicArticleUrls = '';
@@ -66,24 +66,6 @@ export default async function handler(req: any, res: any) {
     <lastmod>${currentDate}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>${domain}/#services</loc>
-    <lastmod>${currentDate}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>${domain}/#about</loc>
-    <lastmod>${currentDate}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>${domain}/#articles</loc>
-    <lastmod>${currentDate}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
   </url>
 ${dynamicArticleUrls}
 </urlset>`;

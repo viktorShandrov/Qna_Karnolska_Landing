@@ -1,61 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml"
-        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <!-- Main Landing Page -->
   <url>
-    <loc>https://yanakarnolska.com/</loc>
-    <lastmod>2026-09-27</lastmod>
+    <loc>https://qnakarnolskalanding.vercel.app/</loc>
+    <lastmod>2026-09-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 
-  <!-- Services Section -->
+  <!-- Article: Navigating Anxiety -->
   <url>
-    <loc>https://yanakarnolska.com/#services</loc>
-    <lastmod>2026-09-27</lastmod>
+    <loc>https://qnakarnolskalanding.vercel.app/?article=navigating-anxiety</loc>
+    <lastmod>2026-09-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- About Section -->
+  <!-- Article: Boundaries and Self-worth -->
   <url>
-    <loc>https://yanakarnolska.com/#about</loc>
-    <lastmod>2026-09-27</lastmod>
+    <loc>https://qnakarnolskalanding.vercel.app/?article=boundaries-and-self-worth</loc>
+    <lastmod>2026-09-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- Articles Section -->
+  <!-- Article: Overcoming Burnout -->
   <url>
-    <loc>https://yanakarnolska.com/#articles</loc>
-    <lastmod>2026-09-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <!-- Article 1: Navigating Anxiety -->
-  <url>
-    <loc>https://yanakarnolska.com/?article=navigating-anxiety</loc>
-    <lastmod>2026-09-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- Article 2: Boundaries and Self-worth -->
-  <url>
-    <loc>https://yanakarnolska.com/?article=boundaries-and-self-worth</loc>
-    <lastmod>2026-09-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- Article 3: Overcoming Burnout -->
-  <url>
-    <loc>https://yanakarnolska.com/?article=overcoming-burnout</loc>
-    <lastmod>2026-09-27</lastmod>
+    <loc>https://qnakarnolskalanding.vercel.app/?article=overcoming-burnout</loc>
+    <lastmod>2026-09-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

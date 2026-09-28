@@ -1,4 +1,4 @@
-﻿import { ArticleItem } from '../data/content';
+import { ArticleItem } from '../data/content';
 
 export interface SeoConfig {
   title?: string;
@@ -48,7 +48,7 @@ function setJsonLd(id: string, data: object) {
 }
 
 export function updatePageSeo(config?: SeoConfig) {
-  const origin = typeof window !== 'undefined' ? window.location.origin : 'https://yanakarnolska.com';
+  const origin = typeof window !== 'undefined' ? window.location.origin : 'https://qnakarnolskalanding.vercel.app';
   
   if (!config || !config.article) {
     // Default Homepage SEO
