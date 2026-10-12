@@ -23,8 +23,7 @@ function neonApiPlugin(env: Record<string, string>): Plugin {
                 dynamicArticleUrls = articles
                   .map((a: any) => {
                     const modDate = a.created_at ? new Date(a.created_at).toISOString().split('T')[0] : currentDate;
-                    return `  <!-- Article: ${a.id} -->
-  <url>
+                    return `  <url>
     <loc>${domain}/?article=${encodeURIComponent(a.id)}</loc>
     <lastmod>${modDate}</lastmod>
     <changefreq>monthly</changefreq>
@@ -60,8 +59,7 @@ function neonApiPlugin(env: Record<string, string>): Plugin {
           }
 
           const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>${domain}/</loc>
     <lastmod>${currentDate}</lastmod>

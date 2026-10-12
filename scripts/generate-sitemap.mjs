@@ -12,7 +12,7 @@ const DEFAULT_ARTICLES = [
 ];
 
 async function generate() {
-  console.log('Generating static sitemap.xml...');
+  console.log('Generating clean static sitemap.xml...');
   const currentDate = new Date().toISOString().split('T')[0];
   let articleUrls = '';
 
@@ -24,8 +24,7 @@ async function generate() {
         articleUrls = articles
           .map((a) => {
             const modDate = a.created_at ? new Date(a.created_at).toISOString().split('T')[0] : currentDate;
-            return `  <!-- Article: ${a.id} -->
-  <url>
+            return `  <url>
     <loc>${domain}/?article=${encodeURIComponent(a.id)}</loc>
     <lastmod>${modDate}</lastmod>
     <changefreq>monthly</changefreq>
@@ -42,8 +41,7 @@ async function generate() {
 
   if (!articleUrls) {
     articleUrls = DEFAULT_ARTICLES
-      .map((id) => `  <!-- Article: ${id} -->
-  <url>
+      .map((id) => `  <url>
     <loc>${domain}/?article=${id}</loc>
     <lastmod>${currentDate}</lastmod>
     <changefreq>monthly</changefreq>
@@ -53,10 +51,7 @@ async function generate() {
   }
 
   const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  
-  <!-- Main Landing Page -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>${domain}/</loc>
     <lastmod>${currentDate}</lastmod>
@@ -72,7 +67,7 @@ ${articleUrls}
     fs.mkdirSync(publicDir, { recursive: true });
   }
 
-  fs.writeFileSync(path.join(publicDir, 'sitemap.xml'), sitemapXml.trim(), 'utf8');
+  fs.writeFileSync(path.join(publicDir, 'sitemap.xml'), sitemapXml.trimStart(), 'utf8');
   console.log('Successfully written public/sitemap.xml');
 }
 

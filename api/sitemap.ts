@@ -26,8 +26,7 @@ export default async function handler(req: Request) {
         articleUrls = articles
           .map((a: any) => {
             const modDate = a.created_at ? new Date(a.created_at).toISOString().split('T')[0] : currentDate;
-            return `  <!-- Article: ${a.id} -->
-  <url>
+            return `  <url>
     <loc>${domain}/?article=${encodeURIComponent(a.id)}</loc>
     <lastmod>${modDate}</lastmod>
     <changefreq>monthly</changefreq>
@@ -44,8 +43,7 @@ export default async function handler(req: Request) {
   // Fallback to default articles if DB query returned nothing
   if (!articleUrls) {
     articleUrls = DEFAULT_ARTICLES
-      .map((id) => `  <!-- Article: ${id} -->
-  <url>
+      .map((id) => `  <url>
     <loc>${domain}/?article=${id}</loc>
     <lastmod>${currentDate}</lastmod>
     <changefreq>monthly</changefreq>
@@ -55,10 +53,7 @@ export default async function handler(req: Request) {
   }
 
   const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  
-  <!-- Main Landing Page -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>${domain}/</loc>
     <lastmod>${currentDate}</lastmod>
@@ -68,7 +63,7 @@ export default async function handler(req: Request) {
 ${articleUrls}
 </urlset>`;
 
-  return new Response(sitemapXml, {
+  return new Response(sitemapXml.trimStart(), {
     status: 200,
     headers: {
       'Content-Type': 'application/xml; charset=utf-8',
