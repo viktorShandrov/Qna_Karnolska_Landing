@@ -4,7 +4,7 @@ export const config = {
   runtime: 'edge',
 };
 
-const domain = process.env.SITE_URL || 'https://qnakarnolskalanding.vercel.app';
+const domain = process.env.SITE_URL || 'https://yanapsychology.com';
 const dbUrl = process.env.DATABASE_URL || process.env.POSTGRES_URL || 'postgresql://neondb_owner:npg_1tFEpgW2HJfN@ep-nameless-frost-awk2q7z1-pooler.c-12.us-east-1.aws.neon.tech/neondb?channel_binding=require&sslmode=require';
 
 const DEFAULT_ARTICLES = [

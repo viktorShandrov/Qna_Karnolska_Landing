@@ -48,7 +48,7 @@ function setJsonLd(id: string, data: object) {
 }
 
 export function updatePageSeo(config?: SeoConfig) {
-  const origin = typeof window !== 'undefined' ? window.location.origin : 'https://qnakarnolskalanding.vercel.app';
+  const origin = typeof window !== 'undefined' ? window.location.origin : 'https://yanapsychology.com';
   
   if (!config || !config.article) {
     // Default Homepage SEO

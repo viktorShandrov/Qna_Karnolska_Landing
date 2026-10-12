@@ -10,7 +10,7 @@ function neonApiPlugin(env: Record<string, string>): Plugin {
         // Handle dynamic live /sitemap.xml and /api/sitemap on every request
         if (req.url?.startsWith('/api/sitemap') || req.url === '/sitemap.xml' || req.url?.startsWith('/sitemap.xml?')) {
           const dbUrl = env.DATABASE_URL || env.POSTGRES_URL;
-          const domain = env.SITE_URL || 'https://qnakarnolskalanding.vercel.app';
+          const domain = env.SITE_URL || 'https://yanapsychology.com';
           const currentDate = new Date().toISOString().split('T')[0];
 
           let dynamicArticleUrls = '';
