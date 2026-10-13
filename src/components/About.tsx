@@ -60,7 +60,7 @@ export const About: React.FC<AboutProps> = ({ onOpenBooking: _onOpenBooking }) =
                   <p className="leading-relaxed font-serif">
                     {ABOUT_DATA.extendedBio}
                   </p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 pt-2">
                     <div className="flex items-center gap-2">
                       <CheckCircle2 className="w-4 h-4 text-cream-300 flex-shrink-0" />
                       <span className="font-serif">Магистър по Психология</span>
@@ -68,6 +68,10 @@ export const About: React.FC<AboutProps> = ({ onOpenBooking: _onOpenBooking }) =
                     <div className="flex items-center gap-2">
                       <CheckCircle2 className="w-4 h-4 text-cream-300 flex-shrink-0" />
                       <span className="font-serif">Сертифициран психотерапевт</span>
+                    </div>
+                    <div className="flex items-center gap-2 sm:col-span-2 lg:col-span-1">
+                      <CheckCircle2 className="w-4 h-4 text-cream-300 flex-shrink-0" />
+                      <span className="font-serif">Продължаващо образование: Спортна психология</span>
                     </div>
                   </div>
                 </div>

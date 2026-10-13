@@ -130,7 +130,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
           {/* Right: Copyright & Privacy Policy */}
           <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-6 font-light text-center sm:text-right">
             <span>
-              © 2026 Яна Кърнолска Психолог. Всички права запазени.
+              © 2026 Яна Кърнолска – Психолог. Всички права запазени.
             </span>
 
             <a href="#hero" className="hover:text-[#2C2A29] transition-colors underline-offset-4 hover:underline">

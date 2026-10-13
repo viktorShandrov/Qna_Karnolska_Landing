@@ -17,9 +17,9 @@ interface FieldErrors {
 }
 
 const TIME_SLOT_LABELS: Record<string, string> = {
-  morning: 'Сутрин (09:00 - 12:00)',
-  afternoon: 'Обяд / Следобед (12:00 - 16:00)',
-  evening: 'Късен следобед (16:00 - 19:00)'
+  morning: 'Сутрин (09:00 – 12:00)',
+  afternoon: 'Обяд / Следобед (12:00 – 16:00)',
+  evening: 'Късен следобед (16:00 – 19:00)'
 };
 
 const escapeHtml = (text: string): string => {
@@ -392,9 +392,9 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                       onChange={(e) => handleInputChange('timeSlot', e.target.value)}
                       className="w-full bg-[#F2EEE6] border border-[#E2DDD5] rounded-xl pl-10 pr-3.5 py-2.5 text-xs text-[#2C2A29] focus:outline-none focus:ring-1 focus:ring-[#676F5C] transition-all"
                     >
-                      <option value="morning">Сутрин (09:00 - 12:00)</option>
-                      <option value="afternoon">Обяд / Следобед (12:00 - 16:00)</option>
-                      <option value="evening">Късен следобед (16:00 - 19:00)</option>
+                      <option value="morning">Сутрин (09:00 – 12:00)</option>
+                      <option value="afternoon">Обяд / Следобед (12:00 – 16:00)</option>
+                      <option value="evening">Късен следобед (16:00 – 19:00)</option>
                     </select>
                   </div>
                 </div>

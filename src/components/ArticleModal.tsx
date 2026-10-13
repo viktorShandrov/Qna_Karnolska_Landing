@@ -115,7 +115,7 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
             <div className="bg-[#EFEAE1] border border-[#DDD5C7] rounded-2xl p-6 sm:p-7 my-8">
               <h2 className="font-serif text-lg sm:text-xl font-normal text-[#2C2A29] uppercase tracking-wider mb-4 flex items-center gap-2">
                 <Heart className="w-4 h-4 text-[#747D68]" />
-                <span>Практически насоки &amp; Ключови изводи:</span>
+                <span>Практически насоки &amp; ключови изводи:</span>
               </h2>
               <ul className="space-y-2.5">
                 {article.keyTakeaways.map((takeaway, idx) => (

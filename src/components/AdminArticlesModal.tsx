@@ -675,7 +675,7 @@ export const AdminArticlesModal: React.FC<AdminArticlesModalProps> = ({
                   <div>
                     <div className="flex items-center justify-between mb-1.5">
                       <label className="block text-xs uppercase tracking-wider text-[#2C2A29] font-medium">
-                        Кратко резюме (за арочната карта на началната страница)
+                        Кратко резюме (за арковата карта на началната страница)
                       </label>
                       <span className="text-[11px] text-[#747D68] font-normal lowercase">(по избор)</span>
                     </div>
@@ -691,7 +691,7 @@ export const AdminArticlesModal: React.FC<AdminArticlesModalProps> = ({
                   {/* Full Article Content */}
                   <div>
                     <label className="block text-xs uppercase tracking-wider text-[#2C2A29] font-medium mb-1.5">
-                      Пълен текст на статията (раздели параграфите с нов ред) *
+                      Пълен текст на статията (разделете параграфите с нов ред) *
                     </label>
                     <textarea
                       rows={6}
@@ -798,7 +798,7 @@ export const AdminArticlesModal: React.FC<AdminArticlesModalProps> = ({
 
                     <div>
                       <label className="block text-xs uppercase tracking-wider text-[#2C2A29] font-medium mb-1">
-                        Потвърди новата парола
+                        Потвърдете новата парола
                       </label>
                       <input
                         type="password"
