@@ -37,8 +37,10 @@ export const Approach: React.FC = () => {
             </h3>
 
             <p className="font-serif text-lg lg:text-[22.5px] text-[#4A4846] leading-relaxed font-normal max-w-xs sm:max-w-sm">
-              Създавам безопасна и подкрепяща<br className="hidden sm:inline" />
-              среда, в която можете да бъдете<br className="hidden sm:inline" />
+              Създавам безопасна и подкрепяща{' '}
+              <br className="hidden sm:inline" />
+              среда, в която можете да бъдете{' '}
+              <br className="hidden sm:inline" />
               истински и свободни.
             </p>
           </div>
@@ -85,8 +87,10 @@ export const Approach: React.FC = () => {
             </h3>
 
             <p className="font-serif text-lg lg:text-[22.5px] text-[#4A4846] leading-relaxed font-normal max-w-xs sm:max-w-sm">
-              Всеки човек е уникален и терапията<br className="hidden sm:inline" />
-              се адаптира към вашите нужди<br className="hidden sm:inline" />
+              Всеки човек е уникален и терапията{' '}
+              <br className="hidden sm:inline" />
+              се адаптира към вашите нужди{' '}
+              <br className="hidden sm:inline" />
               и цели.
             </p>
           </div>
@@ -109,8 +113,10 @@ export const Approach: React.FC = () => {
             </h3>
 
             <p className="font-serif text-lg lg:text-[22.5px] text-[#4A4846] leading-relaxed font-normal max-w-xs sm:max-w-sm">
-              Вашата история остава между<br className="hidden sm:inline" />
-              нас – с уважение, етика<br className="hidden sm:inline" />
+              Вашата история остава между{' '}
+              <br className="hidden sm:inline" />
+              нас – с уважение, етика{' '}
+              <br className="hidden sm:inline" />
               и професионализъм.
             </p>
           </div>

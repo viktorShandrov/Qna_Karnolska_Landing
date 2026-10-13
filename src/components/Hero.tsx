@@ -53,8 +53,10 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
 
             {/* Description (3 neat lines in classical serif) */}
             <p className="font-serif text-[#ffffdd] lg:text-[#4A4846] text-sm sm:text-base md:text-lg lg:text-[22.5px] leading-relaxed max-w-xs sm:max-w-md mb-5 sm:mb-6 lg:mb-8 font-medium lg:font-normal drop-shadow-md lg:drop-shadow-none">
-              Тук ще намерите пространство,<br />
-              в което да бъдете чути, разбрани и<br />
+              Тук ще намерите пространство,{' '}
+              <br />
+              в което да бъдете чути, разбрани и{' '}
+              <br />
               приети такива, каквито сте.
             </p>
 

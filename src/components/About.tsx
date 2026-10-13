@@ -43,15 +43,20 @@ export const About: React.FC<AboutProps> = ({ onOpenBooking: _onOpenBooking }) =
             {/* Paragraphs in pure classical Serif upright matching reference */}
             <div className="space-y-4 text-[#FBF9F5]/95 font-serif text-lg lg:text-[22.5px] leading-relaxed font-normal mt-4 mb-7 max-w-2xl">
               <p>
-                Казвам се Яна Кърнолска и съм психолог с мисията<br className="hidden sm:inline" />
-                да помагам на хората да опознаят себе си,<br className="hidden sm:inline" />
-                да преодолеят вътрешните си бариери и да живеят<br className="hidden sm:inline" />
+                Казвам се Яна Кърнолска и съм психолог с мисията{' '}
+                <br className="hidden sm:inline" />
+                да помагам на хората да опознаят себе си,{' '}
+                <br className="hidden sm:inline" />
+                да преодолеят вътрешните си бариери и да живеят{' '}
+                <br className="hidden sm:inline" />
                 по-пълноценен и осъзнат живот.
               </p>
 
               <p>
-                Вярвам, че всеки човек носи отговорите в себе си –<br className="hidden sm:inline" />
-                понякога имаме нужда само от подкрепа,<br className="hidden sm:inline" />
+                Вярвам, че всеки човек носи отговорите в себе си –{' '}
+                <br className="hidden sm:inline" />
+                понякога имаме нужда само от подкрепа,{' '}
+                <br className="hidden sm:inline" />
                 за да ги открием.
               </p>
 
