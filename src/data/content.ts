@@ -220,11 +220,11 @@ export const CONTACT_DATA = {
   phone: "087 734 4424",
   email: "yanakarnolska@gmail.com",
   location: "София / Онлайн",
-  address: "гр. София, ул. „Оборище“ 42",
+  address: "София, Бели Брези, бл. 14, партер",
   hours: "Понеделник – Петък: 09:00 – 19:00",
   socials: [
-    { name: "Facebook", href: "https://facebook.com" },
-    { name: "Instagram", href: "https://instagram.com" },
-    { name: "LinkedIn", href: "https://linkedin.com" }
+    { name: "Facebook", href: "https://www.facebook.com/profile.php?id=61559333849584&mibextid=wwXIfr&rdid=X9BPL849nsoG85o0&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1L5oyV6cnA%2F%3Fmibextid%3DwwXIfr#" },
+    { name: "Instagram", href: "https://www.instagram.com/ap_yana_k/" },
+    { name: "LinkedIn", href: "https://www.linkedin.com/in/yana-karnolska-898539246/" }
   ]
 };
