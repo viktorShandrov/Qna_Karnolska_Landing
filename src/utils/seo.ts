@@ -1,4 +1,4 @@
-import { ArticleItem } from '../data/content';
+import { ArticleItem, CONTACT_DATA } from '../data/content';
 
 export interface SeoConfig {
   title?: string;
@@ -155,11 +155,7 @@ export function updatePageSeo(config?: SeoConfig) {
           },
         ],
       },
-      sameAs: [
-        'https://facebook.com',
-        'https://instagram.com',
-        'https://linkedin.com',
-      ],
+      sameAs: CONTACT_DATA.socials.map((s) => s.href),
     };
 
     setJsonLd('schema-org-main', localBusinessSchema);

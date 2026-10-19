@@ -66,7 +66,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
             <div className="flex items-center space-x-3">
               {/* Facebook */}
               <a
-                href="https://facebook.com"
+                href={CONTACT_DATA.socials.find(s => s.name.toLowerCase() === 'facebook')?.href || 'https://facebook.com'}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Facebook"
@@ -79,7 +79,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
 
               {/* Instagram */}
               <a
-                href="https://instagram.com"
+                href={CONTACT_DATA.socials.find(s => s.name.toLowerCase() === 'instagram')?.href || 'https://instagram.com'}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
@@ -94,7 +94,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
 
               {/* LinkedIn */}
               <a
-                href="https://linkedin.com"
+                href={CONTACT_DATA.socials.find(s => s.name.toLowerCase() === 'linkedin')?.href || 'https://linkedin.com'}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"

@@ -219,7 +219,7 @@ export const ARTICLES_DATA: ArticleItem[] = [
 export const CONTACT_DATA = {
   phone: "087 734 4424",
   email: "yanakarnolska@gmail.com",
-  location: "София / Онлайн",
+  location: "София, Бели Брези, бл. 14, партер / Онлайн",
   address: "София, Бели Брези, бл. 14, партер",
   hours: "Понеделник – Петък: 09:00 – 19:00",
   socials: [
