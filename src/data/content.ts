@@ -223,7 +223,7 @@ export const CONTACT_DATA = {
   address: "София, Бели Брези, бл. 14, партер",
   hours: "Понеделник – Петък: 09:00 – 19:00",
   socials: [
-    { name: "Facebook", href: "https://www.facebook.com/profile.php?id=61559333849584&mibextid=wwXIfr&rdid=X9BPL849nsoG85o0&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1L5oyV6cnA%2F%3Fmibextid%3DwwXIfr#" },
+    { name: "Facebook", href: "https://www.facebook.com/profile.php?id=61559333849584" },
     { name: "Instagram", href: "https://www.instagram.com/ap_yana_k/" },
     { name: "LinkedIn", href: "https://www.linkedin.com/in/yana-karnolska-898539246/" }
   ]
