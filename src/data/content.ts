@@ -217,7 +217,7 @@ export const ARTICLES_DATA: ArticleItem[] = [
 ];
 
 export const CONTACT_DATA = {
-  phone: "0887 344 424",
+  phone: "087 734 4424",
   email: "yanakarnolska@gmail.com",
   location: "София / Онлайн",
   address: "гр. София, ул. „Оборище“ 42",
