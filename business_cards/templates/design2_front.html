@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+html, body {
+  width: 1004px;
+  height: 650px;
+  overflow: hidden;
+  background: transparent;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+@page {
+  size: 85mm 55mm;
+  margin: 0;
+}
+.card {
+  width: 1004px;
+  height: 650px;
+  position: relative;
+  overflow: hidden;
+}
+.serif { font-family: 'Cormorant Garamond', Georgia, serif; }
+.sans { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+.card {
+  background: #FCFAF6;
+  color: #2C2A29;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 38px 55px;
+  position: relative;
+}
+.bg-ambient {
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(227, 230, 224, 0.45) 0%, transparent 70%);
+  pointer-events: none;
+}
+.left-col {
+  flex: 1;
+  max-width: 510px;
+  z-index: 2;
+}
+.top-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: #6C7564;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+.top-tag::before {
+  content: "";
+  display: inline-block;
+  width: 24px;
+  height: 1px;
+  background: #6C7564;
+}
+.name {
+  font-size: 50px;
+  font-weight: 500;
+  line-height: 1.05;
+  color: #262423;
+  margin-bottom: 14px;
+}
+.roles-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 22px;
+}
+.role-item {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #676F5C;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.role-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #C5A880;
+}
+.quote-box {
+  border-left: 2px solid #C5A880;
+  padding-left: 16px;
+  margin-top: 8px;
+}
+.quote {
+  font-size: 19px;
+  font-style: italic;
+  line-height: 1.35;
+  color: #55524E;
+}
+.right-col {
+  z-index: 2;
+  position: relative;
+}
+.photo-frame {
+  width: 310px;
+  height: 440px;
+  border-radius: 155px;
+  padding: 6px;
+  background: #FFFFFF;
+  box-shadow: 0 20px 45px rgba(62, 71, 57, 0.12);
+  border: 1px solid #EBE4D8;
+}
+.photo-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 150px;
+  overflow: hidden;
+  background: #EAE5DB;
+}
+.photo-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 8%;
+}
+.monogram-watermark {
+  position: absolute;
+  bottom: -10px;
+  right: -10px;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: #4E5848;
+  color: #FBF9F5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="bg-ambient"></div>
+
+  <div class="left-col">
+    <div class="top-tag sans">Психологическо пространство</div>
+    <div class="name serif">Яна Кърнолска</div>
+    <div class="roles-stack sans">
+      <div class="role-item"><div class="role-dot"></div><span>Психолог</span></div>
+      <div class="role-item"><div class="role-dot"></div><span>Спортен психолог</span></div>
+      <div class="role-item"><div class="role-dot"></div><span>Организационен и социален психолог</span></div>
+    </div>
+    <div class="quote-box">
+      <div class="quote serif">„Пространство, в което да бъдете чути, разбрани и приети.“</div>
+    </div>
+  </div>
+
+  <div class="right-col">
+    <div class="photo-frame">
+      <div class="photo-inner">
+        <img src="../assets/owner.png" alt="Яна Кърнолска" />
+      </div>
+    </div>
+    <div class="monogram-watermark serif">ЯК</div>
+  </div>
+</div>
+</body>
+</html>

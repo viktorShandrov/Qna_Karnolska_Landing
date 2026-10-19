@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+html, body {
+  width: 1004px;
+  height: 650px;
+  overflow: hidden;
+  background: transparent;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+@page {
+  size: 85mm 55mm;
+  margin: 0;
+}
+.card {
+  width: 1004px;
+  height: 650px;
+  position: relative;
+  overflow: hidden;
+}
+.serif { font-family: 'Cormorant Garamond', Georgia, serif; }
+.sans { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+.card {
+  background: #F8F5EE;
+  color: #2C2A29;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 38px 52px;
+  position: relative;
+}
+.left-col {
+  flex: 1;
+  max-width: 520px;
+  z-index: 2;
+}
+.monogram-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.circle-logo {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #4E5848;
+  color: #FAF7F2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  letter-spacing: -1px;
+}
+.logo-label {
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #6C7564;
+  font-weight: 600;
+}
+.fullname {
+  font-size: 48px;
+  font-weight: 500;
+  line-height: 1.05;
+  color: #242220;
+  margin-bottom: 8px;
+}
+.titles-flow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #747D68;
+  margin-bottom: 18px;
+  line-height: 1.6;
+}
+.titles-flow span {
+  color: #C5A880;
+}
+.direct-contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 14px;
+  color: #4D4A47;
+  border-top: 1px solid #E5DED2;
+  padding-top: 14px;
+}
+.contact-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.contact-line strong {
+  color: #242220;
+}
+.right-col {
+  z-index: 2;
+}
+.photo-frame {
+  width: 320px;
+  height: 440px;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 16px 35px rgba(62, 71, 57, 0.16);
+  border: 4px solid #FFFFFF;
+  position: relative;
+  background: #EAE5DB;
+}
+.photo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 8%;
+}
+.photo-badge {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  right: 14px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(8px);
+  padding: 8px 14px;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 13px;
+  font-style: italic;
+  color: #384233;
+}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="left-col">
+    <div class="monogram-bar">
+      <div class="circle-logo serif">ЯК</div>
+      <div class="logo-label sans">Психологически кабинет</div>
+    </div>
+    <div class="fullname serif">Яна Кърнолска</div>
+    <div class="titles-flow sans">
+      Психолог <span>&bull;</span> Спортен психолог<br>
+      Организационен и социален психолог
+    </div>
+    <div class="direct-contacts sans">
+      <div class="contact-line">
+        <span>Телефон:</span>
+        <strong>+359 887 344 424</strong>
+      </div>
+      <div class="contact-line">
+        <span>Локация:</span>
+        <span>гр. София, ул. „Оборище“ 42 &bull; Онлайн</span>
+      </div>
+      <div class="contact-line">
+        <span>Уебсайт:</span>
+        <span>yanapsychology.com</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="right-col">
+    <div class="photo-frame">
+      <img src="../assets/owner.png" alt="Яна Кърнолска" />
+      <div class="photo-badge serif">Подкрепа. Разбиране. Промяна.</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

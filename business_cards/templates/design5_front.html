@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+html, body {
+  width: 1004px;
+  height: 650px;
+  overflow: hidden;
+  background: transparent;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+@page {
+  size: 85mm 55mm;
+  margin: 0;
+}
+.card {
+  width: 1004px;
+  height: 650px;
+  position: relative;
+  overflow: hidden;
+}
+.serif { font-family: 'Cormorant Garamond', Georgia, serif; }
+.sans { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+.card {
+  background: linear-gradient(135deg, #1C2319 0%, #2A3326 50%, #1A2117 100%);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 40px 52px;
+}
+.gold-edge {
+  position: absolute;
+  top: 16px; left: 16px; right: 16px; bottom: 16px;
+  border: 1px solid rgba(212, 184, 146, 0.4);
+  border-radius: 14px;
+  pointer-events: none;
+}
+.left-col {
+  flex: 1;
+  max-width: 530px;
+  z-index: 2;
+}
+.top-header-line {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.gold-pill {
+  background: rgba(212, 184, 146, 0.15);
+  border: 1px solid #D4B892;
+  color: #F0DFC8;
+  font-size: 10.5px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+.name {
+  font-size: 50px;
+  font-weight: 500;
+  color: #FFFFFF;
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+  margin-bottom: 16px;
+}
+.roles-box {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-bottom: 22px;
+}
+.role-badge {
+  background: rgba(255, 255, 255, 0.06);
+  border-left: 3px solid #D4B892;
+  padding: 6px 14px;
+  border-radius: 0 8px 8px 0;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #F7EFE4;
+  font-weight: 600;
+}
+.bottom-quote {
+  font-size: 19px;
+  font-style: italic;
+  color: #D6CEBE;
+}
+.right-col {
+  z-index: 2;
+}
+.portrait-box {
+  width: 310px;
+  height: 440px;
+  border-radius: 28px;
+  border: 2px solid #D4B892;
+  overflow: hidden;
+  box-shadow: 0 20px 45px rgba(0,0,0,0.55);
+  background: #EAE5DB;
+}
+.portrait-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 8%;
+}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="gold-edge"></div>
+  <div class="left-col">
+    <div class="top-header-line">
+      <div class="gold-pill sans">Експертна практика</div>
+      <span class="sans" style="font-size: 11px; letter-spacing: 0.2em; color: #D4B892;">СОФИЯ &bull; ОНЛАЙН</span>
+    </div>
+    <div class="name serif">Яна Кърнолска</div>
+    <div class="roles-box sans">
+      <div class="role-badge">Психолог</div>
+      <div class="role-badge">Спортен психолог</div>
+      <div class="role-badge">Организационен и социален психолог</div>
+    </div>
+    <div class="bottom-quote serif">„Пространство за доверие, приемане и промяна.“</div>
+  </div>
+  <div class="right-col">
+    <div class="portrait-box">
+      <img src="../assets/owner.png" alt="Яна Кърнолска" />
+    </div>
+  </div>
+</div>
+</body>
+</html>

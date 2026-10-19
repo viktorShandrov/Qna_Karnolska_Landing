@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+html, body {
+  width: 1004px;
+  height: 650px;
+  overflow: hidden;
+  background: transparent;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+@page {
+  size: 85mm 55mm;
+  margin: 0;
+}
+.card {
+  width: 1004px;
+  height: 650px;
+  position: relative;
+  overflow: hidden;
+}
+.serif { font-family: 'Cormorant Garamond', Georgia, serif; }
+.sans { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+.card {
+  background: #FAF7F2;
+  color: #2C2A29;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 40px 52px;
+  position: relative;
+}
+.border-frame {
+  position: absolute;
+  top: 16px; left: 16px; right: 16px; bottom: 16px;
+  border: 1px solid #DDD6C8;
+  border-radius: 14px;
+  pointer-events: none;
+}
+.left-col {
+  flex: 1;
+  max-width: 530px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+  z-index: 2;
+}
+.name-area {
+  margin-bottom: 2px;
+}
+.main-name {
+  font-size: 34px;
+  font-weight: 500;
+  color: #262423;
+  line-height: 1.1;
+}
+.sub-roles {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #556050;
+  margin-top: 4px;
+}
+.specs-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.spec-box {
+  background: #EFE9DE;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 12.5px;
+  color: #383533;
+}
+.spec-box strong {
+  color: #4A5445;
+}
+.contacts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.c-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  color: #383533;
+}
+.c-item strong {
+  color: #262423;
+}
+.c-icon {
+  width: 18px;
+  height: 18px;
+  color: #4A5445;
+}
+.right-col {
+  width: 290px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-left: 1px solid #E2D8C7;
+  padding-left: 45px;
+  z-index: 2;
+}
+.qr-card {
+  background: #FFFFFF;
+  padding: 16px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+  border: 1px solid #E2D8C7;
+  text-align: center;
+}
+.qr-card img {
+  width: 155px;
+  height: 155px;
+  display: block;
+}
+.qr-hint {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #4A5445;
+  margin-top: 10px;
+}
+.hours-info {
+  margin-top: 14px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: #55524E;
+  text-align: center;
+  background: #EFE9DE;
+  padding: 5px 12px;
+  border-radius: 12px;
+}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="border-frame"></div>
+  <div class="left-col">
+    <div class="name-area">
+      <div class="main-name serif">Яна Кърнолска</div>
+      <div class="sub-roles sans">Психолог &bull; Консултант &bull; Ментор</div>
+    </div>
+    <div class="specs-container sans">
+      <div class="spec-box"><strong>Психолог:</strong> Индивидуално и семейно консултиране</div>
+      <div class="spec-box"><strong>Спортен психолог:</strong> Ментална издръжливост &amp; спорт</div>
+      <div class="spec-box"><strong>Организационен &amp; социален психолог:</strong> Екипи &amp; бизнес</div>
+    </div>
+    <div class="contacts-list sans">
+      <div class="c-item">
+        <div class="c-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="contact-icon"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></div>
+        <span><strong>+359 887 344 424</strong> / 0887 344 424</span>
+      </div>
+      <div class="c-item">
+        <div class="c-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="contact-icon"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></div>
+        <span>yanakarnolska@gmail.com</span>
+      </div>
+      <div class="c-item">
+        <div class="c-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="contact-icon"><path d="M12 21s-6-5.333-6-10a6 6 0 0 1 12 0c0 4.667-6 10-6 10z"/><circle cx="12" cy="11" r="2.5"/></svg></div>
+        <span>гр. София, ул. „Оборище“ 42 &bull; Онлайн</span>
+      </div>
+    </div>
+  </div>
+  <div class="right-col">
+    <div class="qr-card">
+      <img src="../assets/qr_code.svg" alt="QR Code" />
+      <div class="qr-hint sans">ЗАПАЗИ СВОЯ ЧАС</div>
+    </div>
+    <div class="hours-info sans">Понеделник – Петък: 09:00 – 19:00 ч.</div>
+  </div>
+</div>
+</body>
+</html>

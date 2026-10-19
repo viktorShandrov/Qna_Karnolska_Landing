@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+html, body {
+  width: 1004px;
+  height: 650px;
+  overflow: hidden;
+  background: transparent;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+@page {
+  size: 85mm 55mm;
+  margin: 0;
+}
+.card {
+  width: 1004px;
+  height: 650px;
+  position: relative;
+  overflow: hidden;
+}
+.serif { font-family: 'Cormorant Garamond', Georgia, serif; }
+.sans { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+.card {
+  background: #3B4638;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 40px 50px;
+  position: relative;
+}
+.left-col {
+  flex: 1;
+  max-width: 530px;
+  z-index: 2;
+}
+.monogram-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.18);
+  padding: 5px 14px;
+  border-radius: 20px;
+  margin-bottom: 18px;
+}
+.monogram-badge span {
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #E2DDD5;
+  font-weight: 600;
+}
+.name {
+  font-size: 52px;
+  font-weight: 500;
+  line-height: 1.05;
+  color: #FFFFFF;
+  letter-spacing: 0.02em;
+  margin-bottom: 16px;
+}
+.pill-badges {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 22px;
+}
+.pill-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #F8F5EE;
+  font-weight: 600;
+}
+.pill-item::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: #C5A880;
+}
+.slogan-box {
+  border-left: 2px solid #C5A880;
+  padding-left: 14px;
+}
+.slogan {
+  font-size: 20px;
+  font-style: italic;
+  color: #E2DBD0;
+}
+.right-col {
+  z-index: 2;
+}
+.photo-container {
+  width: 320px;
+  height: 440px;
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 20px 45px rgba(0,0,0,0.45);
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  background: #EAE5DB;
+}
+.photo-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 8%;
+}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="left-col">
+    <div class="monogram-badge">
+      <span class="serif" style="font-size: 16px; color: #C5A880;">ЯК</span>
+      <span class="sans">МЕНТАЛНА УСТОЙЧИВОСТ</span>
+    </div>
+    <div class="name serif">Яна Кърнолска</div>
+    <div class="pill-badges sans">
+      <div class="pill-item">Психолог</div>
+      <div class="pill-item">Спортен психолог</div>
+      <div class="pill-item">Организационен и социален психолог</div>
+    </div>
+    <div class="slogan-box">
+      <div class="slogan serif">„Устойчивост, мотивация и съзидателна промяна.“</div>
+    </div>
+  </div>
+  <div class="right-col">
+    <div class="photo-container">
+      <img src="../assets/owner.png" alt="Яна Кърнолска" />
+    </div>
+  </div>
+</div>
+</body>
+</html>

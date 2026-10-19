@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+html, body {
+  width: 1004px;
+  height: 650px;
+  overflow: hidden;
+  background: transparent;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+@page {
+  size: 85mm 55mm;
+  margin: 0;
+}
+.card {
+  width: 1004px;
+  height: 650px;
+  position: relative;
+  overflow: hidden;
+}
+.serif { font-family: 'Cormorant Garamond', Georgia, serif; }
+.sans { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+.card {
+  background: #F8F5EE;
+  color: #2C2A29;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 38px 52px;
+  position: relative;
+}
+.left-col {
+  flex: 1;
+  max-width: 520px;
+  z-index: 2;
+}
+.monogram-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.circle-logo {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #4E5848;
+  color: #FAF7F2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  letter-spacing: -1px;
+}
+.logo-label {
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #6C7564;
+  font-weight: 600;
+}
+.fullname {
+  font-size: 48px;
+  font-weight: 500;
+  line-height: 1.05;
+  color: #242220;
+  margin-bottom: 8px;
+}
+.titles-flow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #747D68;
+  margin-bottom: 18px;
+  line-height: 1.6;
+}
+.titles-flow span {
+  color: #C5A880;
+}
+.direct-contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 14px;
+  color: #4D4A47;
+  border-top: 1px solid #E5DED2;
+  padding-top: 14px;
+}
+.contact-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.contact-line strong {
+  color: #242220;
+}
+.right-col {
+  z-index: 2;
+}
+.photo-frame {
+  width: 320px;
+  height: 440px;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 16px 35px rgba(62, 71, 57, 0.16);
+  border: 4px solid #FFFFFF;
+  position: relative;
+  background: #EAE5DB;
+}
+.photo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 8%;
+}
+.photo-badge {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  right: 14px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(8px);
+  padding: 8px 14px;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 13px;
+  font-style: italic;
+  color: #384233;
+}
+
+
+
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+html, body {
+  width: 1004px;
+  height: 650px;
+  overflow: hidden;
+  background: transparent;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+@page {
+  size: 85mm 55mm;
+  margin: 0;
+}
+.card {
+  width: 1004px;
+  height: 650px;
+  position: relative;
+  overflow: hidden;
+}
+.serif { font-family: 'Cormorant Garamond', Georgia, serif; }
+.sans { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+.card {
+  background: #F2EEE5;
+  color: #2C2A29;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 40px 52px;
+  position: relative;
+}
+.card-border {
+  position: absolute;
+  top: 16px; left: 16px; right: 16px; bottom: 16px;
+  border: 1px solid #DCD3C3;
+  border-radius: 16px;
+  pointer-events: none;
+}
+.left-col {
+  flex: 1;
+  max-width: 530px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+  z-index: 2;
+}
+.header-area {
+  margin-bottom: 2px;
+}
+.h-name {
+  font-size: 34px;
+  font-weight: 500;
+  color: #22201F;
+}
+.h-sub {
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #5E6954;
+  font-weight: 600;
+  margin-top: 4px;
+}
+.services-card {
+  background: #FAF7F0;
+  border: 1px solid #E5DDCF;
+  border-radius: 14px;
+  padding: 10px 16px;
+}
+.services-card-title {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #4B5543;
+  margin-bottom: 6px;
+}
+.services-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12.5px;
+  color: #44413E;
+}
+.bullet-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.bullet-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #C5A880;
+}
+.contact-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.c-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 14px;
+  color: #383532;
+}
+.c-row strong {
+  color: #201E1C;
+}
+.c-row-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: #FAF7F0;
+  border: 1px solid #E2D9CA;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #4B5543;
+}
+.right-col {
+  width: 290px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-left: 1px solid #DFD6C7;
+  padding-left: 45px;
+  z-index: 2;
+}
+.qr-frame {
+  background: #FFFFFF;
+  padding: 16px;
+  border-radius: 22px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+  border: 1px solid #E5DCCE;
+  text-align: center;
+}
+.qr-frame img {
+  width: 155px;
+  height: 155px;
+  display: block;
+}
+.qr-cta {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #4B5543;
+  margin-top: 10px;
+}
+.schedule-info {
+  margin-top: 14px;
+  font-size: 11.5px;
+  color: #65615C;
+  text-align: center;
+  background: #E8E2D6;
+  padding: 6px 14px;
+  border-radius: 20px;
+}
+
+@page {
+  size: 85mm 55mm;
+  margin: 0;
+}
+body {
+  margin: 0;
+  padding: 0;
+}
+.page-break {
+  page-break-after: always;
+  break-after: page;
+}
+</style>
+</head>
+<body>
+<div class="page-break">
+
+<div class="card">
+  <div class="left-col">
+    <div class="monogram-bar">
+      <div class="circle-logo serif">ЯК</div>
+      <div class="logo-label sans">Психологически кабинет</div>
+    </div>
+    <div class="fullname serif">Яна Кърнолска</div>
+    <div class="titles-flow sans">
+      Психолог <span>&bull;</span> Спортен психолог<br>
+      Организационен и социален психолог
+    </div>
+    <div class="direct-contacts sans">
+      <div class="contact-line">
+        <span>Телефон:</span>
+        <strong>+359 887 344 424</strong>
+      </div>
+      <div class="contact-line">
+        <span>Локация:</span>
+        <span>гр. София, ул. „Оборище“ 42 &bull; Онлайн</span>
+      </div>
+      <div class="contact-line">
+        <span>Уебсайт:</span>
+        <span>yanapsychology.com</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="right-col">
+    <div class="photo-frame">
+      <img src="../assets/owner.png" alt="Яна Кърнолска" />
+      <div class="photo-badge serif">Подкрепа. Разбиране. Промяна.</div>
+    </div>
+  </div>
+</div>
+
+</div>
+<div>
+
+<div class="card">
+  <div class="card-border"></div>
+
+  <div class="left-col">
+    <div class="header-area">
+      <div class="h-name serif">Яна Кърнолска</div>
+      <div class="h-sub sans">Психологическо консултиране</div>
+    </div>
+
+    <div class="services-card sans">
+      <div class="services-card-title">Направления на дейност</div>
+      <div class="services-list">
+        <div class="bullet-item"><div class="bullet-dot"></div><span>Психолог &bull; Индивидуална терапия и двойки</span></div>
+        <div class="bullet-item"><div class="bullet-dot"></div><span>Спортен психолог &bull; Ментална устойчивост</span></div>
+        <div class="bullet-item"><div class="bullet-dot"></div><span>Организационен и социален психолог</span></div>
+      </div>
+    </div>
+
+    <div class="contact-rows sans">
+      <div class="c-row">
+        <div class="c-row-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="contact-icon"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></div>
+        <span><strong>0887 344 424</strong> / +359 887 344 424</span>
+      </div>
+      <div class="c-row">
+        <div class="c-row-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="contact-icon"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></div>
+        <span>yanakarnolska@gmail.com</span>
+      </div>
+      <div class="c-row">
+        <div class="c-row-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="contact-icon"><path d="M12 21s-6-5.333-6-10a6 6 0 0 1 12 0c0 4.667-6 10-6 10z"/><circle cx="12" cy="11" r="2.5"/></svg></div>
+        <span>гр. София, ул. „Оборище“ 42 &bull; Онлайн</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="right-col">
+    <div class="qr-frame">
+      <img src="../assets/qr_code.svg" alt="QR Code" />
+      <div class="qr-cta sans">СКАНИРАЙ ЗА ГРАФИК</div>
+    </div>
+    <div class="schedule-info sans">Понеделник – Петък: 09:00 – 19:00 ч.</div>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

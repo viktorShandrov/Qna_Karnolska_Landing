@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Визитки – Яна Кърнолска | Психолог, Спортен психолог, Организационен и социален психолог</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-cream: #F8F5F0;
+      --card-cream: #FCFAF6;
+      --olive-dark: #2A3326;
+      --olive-primary: #3E4739;
+      --olive-muted: #676F5C;
+      --gold-accent: #C5A880;
+      --charcoal: #2C2A29;
+      --border-color: #E2DDD3;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg-cream);
+      color: var(--charcoal);
+      line-height: 1.6;
+      padding: 40px 20px 80px;
+    }
+
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .monogram-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--olive-primary);
+      color: #FAF7F2;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 32px;
+      margin-bottom: 14px;
+      letter-spacing: -1px;
+      box-shadow: 0 8px 20px rgba(62, 71, 57, 0.2);
+    }
+
+    h1 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 42px;
+      font-weight: 500;
+      color: var(--olive-dark);
+      letter-spacing: 0.02em;
+      margin-bottom: 8px;
+    }
+
+    .subtitle-badge {
+      display: inline-flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .sub-pill {
+      font-size: 11.5px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      background: #EFE9DE;
+      color: #404838;
+      font-weight: 600;
+      padding: 5px 14px;
+      border-radius: 20px;
+      border: 1px solid #DFD7C8;
+    }
+
+    .desc {
+      font-size: 15.5px;
+      color: #55524E;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    /* Tabs */
+    .tabs-nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 35px;
+    }
+
+    .tab-btn {
+      background: #FFFFFF;
+      border: 1px solid var(--border-color);
+      color: #55524E;
+      padding: 10px 18px;
+      border-radius: 25px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tab-btn:hover {
+      border-color: var(--olive-primary);
+      color: var(--olive-primary);
+      transform: translateY(-2px);
+    }
+
+    .tab-btn.active {
+      background: var(--olive-primary);
+      border-color: var(--olive-primary);
+      color: #FFFFFF;
+      box-shadow: 0 6px 18px rgba(62, 71, 57, 0.25);
+    }
+
+    /* 3D Flip Card Container */
+    .showcase-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 50px;
+    }
+
+    .card-perspective {
+      perspective: 1600px;
+      width: 100%;
+      max-width: 720px;
+      aspect-ratio: 1004 / 650;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .card-flipper {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+      border-radius: 18px;
+      box-shadow: 0 25px 60px -10px rgba(44, 42, 41, 0.22);
+    }
+
+    .card-flipper.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .card-side {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      backface-visibility: hidden;
+      border-radius: 18px;
+      overflow: hidden;
+    }
+
+    .card-side img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .card-side.back {
+      transform: rotateY(180deg);
+    }
+
+    .flip-hint {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 18px;
+      font-size: 13.5px;
+      color: #747D68;
+      font-weight: 500;
+      background: #EFE9DE;
+      padding: 6px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .flip-hint:hover {
+      background: #E4DDCF;
+    }
+
+    /* Action Downloads */
+    .download-panel {
+      background: #FFFFFF;
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 24px 30px;
+      max-width: 840px;
+      width: 100%;
+      margin: 30px auto 0;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.04);
+    }
+
+    .download-info h3 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 24px;
+      color: var(--olive-dark);
+      margin-bottom: 2px;
+    }
+
+    .download-info p {
+      font-size: 13.5px;
+      color: #706D69;
+    }
+
+    .actions-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--olive-primary);
+      color: #FFFFFF;
+      border: 1px solid var(--olive-primary);
+    }
+
+    .btn-primary:hover {
+      background: var(--olive-dark);
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      background: #FFFFFF;
+      color: var(--charcoal);
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--olive-primary);
+      color: var(--olive-primary);
+    }
+
+    /* Print sheet banner */
+    .print-sheet-box {
+      margin-top: 50px;
+      background: linear-gradient(135deg, #242D21 0%, #353F30 100%);
+      color: #FFFFFF;
+      border-radius: 20px;
+      padding: 35px 40px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      box-shadow: 0 15px 35px rgba(36, 45, 33, 0.25);
+    }
+
+    .print-sheet-text h2 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 30px;
+      font-weight: 500;
+      margin-bottom: 6px;
+      color: #F8F5EE;
+    }
+
+    .print-sheet-text p {
+      font-size: 14px;
+      color: #D3CDC4;
+      max-width: 620px;
+    }
+
+    /* Gallery Grid with All Designs */
+    .all-designs-section {
+      margin-top: 60px;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 34px;
+      text-align: center;
+      color: var(--olive-dark);
+      margin-bottom: 30px;
+    }
+
+    .designs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+    }
+
+    .mini-card-box {
+      background: #FFFFFF;
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 16px;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+
+    .mini-card-box:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+    }
+
+    .mini-card-box img {
+      width: 100%;
+      border-radius: 10px;
+      display: block;
+      margin-bottom: 10px;
+      border: 1px solid #ECE7DE;
+    }
+
+    .mini-card-title {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--olive-dark);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .mini-badge {
+      font-size: 10.5px;
+      background: #EFE9DE;
+      color: var(--olive-primary);
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-weight: 600;
+    }
+
+    /* Print Specs Table */
+    .specs-box {
+      margin-top: 50px;
+      background: #FFFFFF;
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 30px;
+    }
+
+    .specs-box h3 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 24px;
+      margin-bottom: 16px;
+      color: var(--olive-dark);
+    }
+
+    .specs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .spec-item {
+      border-left: 3px solid var(--gold-accent);
+      padding-left: 14px;
+    }
+
+    .spec-item .label {
+      font-size: 11.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: #747D68;
+      font-weight: 600;
+    }
+
+    .spec-item .val {
+      font-size: 14.5px;
+      font-weight: 600;
+      color: var(--charcoal);
+      margin-top: 2px;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 60px;
+      font-size: 13px;
+      color: #8C8780;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="monogram-badge">ЯК</div>
+      <h1>Дизайни на визитки &bull; Яна Кърнолска</h1>
+      <div class="subtitle-badge">
+        <span class="sub-pill">Психолог</span>
+        <span class="sub-pill">Спортен психолог</span>
+        <span class="sub-pill">Организационен и социален психолог</span>
+      </div>
+      <p class="desc">
+        Колекция от 8 премиум концепции с висока резолюция (300+ DPI), готов векторен PDF за печатница, 
+        активен QR код към yanapsychology.com и пълни координати.
+      </p>
+    </header>
+
+    <!-- Tabs for Switching Designs -->
+    <div class="tabs-nav">
+      <button class="tab-btn active" onclick="switchDesign(1)">1. Премиум Маслина</button>
+      <button class="tab-btn" onclick="switchDesign(2)">2. Топъл Крем &amp; Арка</button>
+      <button class="tab-btn" onclick="switchDesign(3)">3. Модерен Сплит</button>
+      <button class="tab-btn" onclick="switchDesign(4)">4. Хармония Портрет</button>
+      <button class="tab-btn" onclick="switchDesign(5)">5. Екзекютив Триада</button>
+      <button class="tab-btn" onclick="switchDesign(6)">6. Слонова Кост &amp; Злато</button>
+      <button class="tab-btn" onclick="switchDesign(7)">7. Динамика &amp; Баланс</button>
+      <button class="tab-btn" onclick="switchDesign(8)">8. Полунощен Оникс</button>
+    </div>
+
+    <!-- Interactive 3D Flip Card Showcase -->
+    <div class="showcase-area">
+      <div class="card-perspective" onclick="flipCard()">
+        <div class="card-flipper" id="cardFlipper">
+          <div class="card-side front">
+            <img id="frontImg" src="card1-olive-gold-front.png" alt="Лице на визитката">
+          </div>
+          <div class="card-side back">
+            <img id="backImg" src="card1-olive-gold-back.png" alt="Гръб на визитката">
+          </div>
+        </div>
+      </div>
+      <div class="flip-hint" onclick="flipCard()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+        <span>Кликнете върху картата, за да обърнете Лице / Гръб</span>
+      </div>
+
+      <!-- Download Panel for Active Design -->
+      <div class="download-panel">
+        <div class="download-info">
+          <h3 id="designTitle">Дизайн 1: Премиум Маслина &amp; Злато</h3>
+          <p id="designDesc">Елегантен дълбок маслинен фон с портрет в арка и трите титли</p>
+        </div>
+        <div class="actions-group">
+          <a id="btnPdf" href="card1-olive-gold.pdf" download class="btn btn-primary">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            <span>Векторен PDF</span>
+          </a>
+          <a id="btnFrontPng" href="card1-olive-gold-front.png" download class="btn btn-outline">Лице PNG</a>
+          <a id="btnBackPng" href="card1-olive-gold-back.png" download class="btn btn-outline">Гръб PNG</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Print Sheet Banner -->
+    <div class="print-sheet-box">
+      <div class="print-sheet-text">
+        <h2>Лист за печат A4 с всички 8 дизайна</h2>
+        <p>Готов за директен печат върху картон (A4) – 2 страници с включени маркери за рязане на всяка визитка.</p>
+      </div>
+      <div>
+        <a href="print-sheet-a4.pdf" download class="btn" style="background: #FFFFFF; color: #242D21; padding: 14px 26px; font-size: 14px; font-weight: 700; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+          Свали A4 Лист за печат (PDF)
+        </a>
+      </div>
+    </div>
+
+    <!-- Gallery of all 8 designs side by side -->
+    <div class="all-designs-section">
+      <h2 class="section-title">Всички 8 концепции (Лице и Гръб)</h2>
+      <div class="designs-grid">
+        <div class="mini-card-box">
+          <div class="mini-card-title">1. Премиум Маслина <span class="mini-badge">Лице</span></div>
+          <img src="card1-olive-gold-front.png" alt="Дизайн 1 Лице">
+          <div class="mini-card-title" style="margin-top: 8px;">1. Премиум Маслина <span class="mini-badge">Гръб</span></div>
+          <img src="card1-olive-gold-back.png" alt="Дизайн 1 Гръб">
+        </div>
+
+        <div class="mini-card-box">
+          <div class="mini-card-title">2. Топъл Крем &amp; Арка <span class="mini-badge">Лице</span></div>
+          <img src="card2-cream-minimal-front.png" alt="Дизайн 2 Лице">
+          <div class="mini-card-title" style="margin-top: 8px;">2. Топъл Крем &amp; Арка <span class="mini-badge">Гръб</span></div>
+          <img src="card2-cream-minimal-back.png" alt="Дизайн 2 Гръб">
+        </div>
+
+        <div class="mini-card-box">
+          <div class="mini-card-title">3. Модерен Сплит <span class="mini-badge">Лице</span></div>
+          <img src="card3-modern-split-front.png" alt="Дизайн 3 Лице">
+          <div class="mini-card-title" style="margin-top: 8px;">3. Модерен Сплит <span class="mini-badge">Гръб</span></div>
+          <img src="card3-modern-split-back.png" alt="Дизайн 3 Гръб">
+        </div>
+
+        <div class="mini-card-box">
+          <div class="mini-card-title">4. Хармония Портрет <span class="mini-badge">Лице</span></div>
+          <img src="card4-harmony-portrait-front.png" alt="Дизайн 4 Лице">
+          <div class="mini-card-title" style="margin-top: 8px;">4. Хармония Портрет <span class="mini-badge">Гръб</span></div>
+          <img src="card4-harmony-portrait-back.png" alt="Дизайн 4 Гръб">
+        </div>
+
+        <div class="mini-card-box">
+          <div class="mini-card-title">5. Екзекютив Триада <span class="mini-badge">Лице</span></div>
+          <img src="card5-executive-dark-front.png" alt="Дизайн 5 Лице">
+          <div class="mini-card-title" style="margin-top: 8px;">5. Екзекютив Триада <span class="mini-badge">Гръб</span></div>
+          <img src="card5-executive-dark-back.png" alt="Дизайн 5 Гръб">
+        </div>
+
+        <div class="mini-card-box">
+          <div class="mini-card-title">6. Слонова Кост &amp; Злато <span class="mini-badge">Лице</span></div>
+          <img src="card6-ivory-gold-front.png" alt="Дизайн 6 Лице">
+          <div class="mini-card-title" style="margin-top: 8px;">6. Слонова Кост &amp; Злато <span class="mini-badge">Гръб</span></div>
+          <img src="card6-ivory-gold-back.png" alt="Дизайн 6 Гръб">
+        </div>
+
+        <div class="mini-card-box">
+          <div class="mini-card-title">7. Динамика &amp; Баланс <span class="mini-badge">Лице</span></div>
+          <img src="card7-resilience-sage-front.png" alt="Дизайн 7 Лице">
+          <div class="mini-card-title" style="margin-top: 8px;">7. Динамика &amp; Баланс <span class="mini-badge">Гръб</span></div>
+          <img src="card7-resilience-sage-back.png" alt="Дизайн 7 Гръб">
+        </div>
+
+        <div class="mini-card-box">
+          <div class="mini-card-title">8. Полунощен Оникс <span class="mini-badge">Лице</span></div>
+          <img src="card8-midnight-bronze-front.png" alt="Дизайн 8 Лице">
+          <div class="mini-card-title" style="margin-top: 8px;">8. Полунощен Оникс <span class="mini-badge">Гръб</span></div>
+          <img src="card8-midnight-bronze-back.png" alt="Дизайн 8 Гръб">
+        </div>
+      </div>
+    </div>
+
+    <!-- Specifications Table -->
+    <div class="specs-box">
+      <h3>Технически параметри за печатница</h3>
+      <div class="specs-grid">
+        <div class="spec-item">
+          <div class="label">Формат / Размер</div>
+          <div class="val">85 x 55 mm (Европейски стандарт)</div>
+        </div>
+        <div class="spec-item">
+          <div class="label">Резолюция</div>
+          <div class="val">300+ DPI (2008 x 1300 px)</div>
+        </div>
+        <div class="spec-item">
+          <div class="label">Препоръчителен картон</div>
+          <div class="val">350g/m² Матов хром или Ленен картон</div>
+        </div>
+        <div class="spec-item">
+          <div class="label">Екстри / Финиш</div>
+          <div class="val">Soft-touch ламинат + частичен UV лак</div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      &copy; 2026 Яна Кърнолска &bull; Психолог &bull; Спортен психолог &bull; Организационен и социален психолог
+    </footer>
+  </div>
+
+  <script>
+    const designs = {
+      1: {
+        title: "Дизайн 1: Премиум Маслина & Злато",
+        desc: "Елегантен дълбок маслинен фон с портрет в арка и трите роли",
+        front: "card1-olive-gold-front.png",
+        back: "card1-olive-gold-back.png",
+        pdf: "card1-olive-gold.pdf"
+      },
+      2: {
+        title: "Дизайн 2: Топъл Крем & Арка",
+        desc: "Светъл минимализъм с овално кадриран портрет и балансиран двуколонен гръб",
+        front: "card2-cream-minimal-front.png",
+        back: "card2-cream-minimal-back.png",
+        pdf: "card2-cream-minimal.pdf"
+      },
+      3: {
+        title: "Дизайн 3: Модерен Архитектурен Сплит",
+        desc: "Двуцветен разделен дизайн – силуетът на Яна върху светъл крем и тъмно маслинен панел",
+        front: "card3-modern-split-front.png",
+        back: "card3-modern-split-back.png",
+        pdf: "card3-modern-split.pdf"
+      },
+      4: {
+        title: "Дизайн 4: Хармония Портрет",
+        desc: "Пълноцветен класически портрет с бързи контакти на лицето и структуриран гръб",
+        front: "card4-harmony-portrait-front.png",
+        back: "card4-harmony-portrait-back.png",
+        pdf: "card4-harmony-portrait.pdf"
+      },
+      5: {
+        title: "Дизайн 5: Екзекютив Триада",
+        desc: "Луксозен тъмен мъх с шампанско акценти и три ясни табелки за всяка специалност",
+        front: "card5-executive-dark-front.png",
+        back: "card5-executive-dark-back.png",
+        pdf: "card5-executive-dark.pdf"
+      },
+      6: {
+        title: "Дизайн 6: Слонова Кост & Злато",
+        desc: "Изтънчена топла слонова кост с двойна златна рамка и класическа елегантност",
+        front: "card6-ivory-gold-front.png",
+        back: "card6-ivory-gold-back.png",
+        pdf: "card6-ivory-gold.pdf"
+      },
+      7: {
+        title: "Дизайн 7: Динамика & Баланс",
+        desc: "Свежо маслинено зелено (Sage) с фокус върху менталната устойчивост и спорта",
+        front: "card7-resilience-sage-front.png",
+        back: "card7-resilience-sage-back.png",
+        pdf: "card7-resilience-sage.pdf"
+      },
+      8: {
+        title: "Дизайн 8: Полунощен Оникс & Бронз",
+        desc: "Дълбок топъл оникс с метални бронзови акценти и силно премиум присъствие",
+        front: "card8-midnight-bronze-front.png",
+        back: "card8-midnight-bronze-back.png",
+        pdf: "card8-midnight-bronze.pdf"
+      }
+    };
+
+    let currentDesign = 1;
+
+    function switchDesign(num) {
+      currentDesign = num;
+      const d = designs[num];
+
+      document.querySelectorAll('.tab-btn').forEach((btn, idx) => {
+        btn.classList.toggle('active', idx + 1 === num);
+      });
+
+      document.getElementById('frontImg').src = d.front;
+      document.getElementById('backImg').src = d.back;
+
+      document.getElementById('designTitle').innerText = d.title;
+      document.getElementById('designDesc').innerText = d.desc;
+
+      document.getElementById('btnPdf').href = d.pdf;
+      document.getElementById('btnFrontPng').href = d.front;
+      document.getElementById('btnBackPng').href = d.back;
+
+      document.getElementById('cardFlipper').classList.remove('flipped');
+    }
+
+    function flipCard() {
+      document.getElementById('cardFlipper').classList.toggle('flipped');
+    }
+  </script>
+</body>
+</html>
