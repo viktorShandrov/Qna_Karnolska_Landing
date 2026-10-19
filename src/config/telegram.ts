@@ -15,7 +15,7 @@ const getEnvVar = (key: string): string | undefined => {
 
 export const TELEGRAM_BOT_TOKEN = getEnvVar('VITE_TELEGRAM_BOT_TOKEN') || '8909434781:AAGk1jPav9l3QFcHGzdINNln-W5P3Enaolc';
 
-export const TELEGRAM_CHAT_ID = getEnvVar('VITE_TELEGRAM_CHAT_ID') || '6259693114';
+export const TELEGRAM_CHAT_ID = getEnvVar('VITE_TELEGRAM_CHAT_ID') || '5643312147';
 
 export const TELEGRAM_CONFIG = {
   BOT_TOKEN: TELEGRAM_BOT_TOKEN,
