@@ -17,21 +17,8 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
 }) => {
   const { t, language } = useLanguage();
 
-  useEffect(() => {
-    if (rawArticle) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [rawArticle]);
-
-  if (!rawArticle) return null;
-
   // Localize article content if a translation is available
-  const article: ArticleItem = (() => {
+  const article: ArticleItem | null = rawArticle ? (() => {
     if (language === 'en') {
       const translated = t.articles.items.find(a => a.id === rawArticle.id);
       if (translated) {
@@ -49,7 +36,56 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
       }
     }
     return rawArticle;
-  })();
+  })() : null;
+
+  useEffect(() => {
+    if (rawArticle) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [rawArticle]);
+
+  // Dynamically update document.title and canonical link for the article
+  useEffect(() => {
+    if (!article || !rawArticle) return;
+
+    const previousTitle = document.title;
+    const authorSuffix = language === 'en' ? 'Yana Karnolska' : 'Яна Кърнолска';
+    document.title = `${article.title} | ${authorSuffix}`;
+
+    const origin = typeof window !== 'undefined' ? window.location.origin : 'https://yanapsychology.com';
+    const hasBgPrefix = typeof window !== 'undefined' && window.location.pathname.startsWith('/bg');
+    const pathPrefix = language === 'en' ? '/en' : (hasBgPrefix ? '/bg' : '');
+    const articleCanonical = `${origin}${pathPrefix}/?article=${encodeURIComponent(rawArticle.id)}`;
+
+    let canonicalEl = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+    const previousCanonical = canonicalEl ? canonicalEl.getAttribute('href') : null;
+
+    if (!canonicalEl) {
+      canonicalEl = document.createElement('link');
+      canonicalEl.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonicalEl);
+    }
+    canonicalEl.setAttribute('href', articleCanonical);
+
+    return () => {
+      document.title = previousTitle;
+      if (canonicalEl) {
+        if (previousCanonical) {
+          canonicalEl.setAttribute('href', previousCanonical);
+        } else {
+          const homePath = language === 'en' ? '/en/' : (hasBgPrefix ? '/bg/' : '/');
+          canonicalEl.setAttribute('href', `${origin}${homePath}`);
+        }
+      }
+    };
+  }, [article?.title, rawArticle?.id, language]);
+
+  if (!rawArticle || !article) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto">

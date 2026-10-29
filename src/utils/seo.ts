@@ -64,7 +64,9 @@ export function updatePageSeo(config?: SeoConfig) {
     const title = config?.title || langConfig.defaultTitle;
     const description = config?.description || langConfig.defaultDescription;
     const imgUrl = `${origin}/hero-portrait.jpg`;
-    const pageUrl = `${origin}/${lang}/`;
+    const hasBgPrefix = typeof window !== 'undefined' && window.location.pathname.startsWith('/bg');
+    const pathPrefix = lang === 'en' ? '/en/' : (hasBgPrefix ? '/bg/' : '/');
+    const pageUrl = `${origin}${pathPrefix}`;
 
     document.title = title;
     document.documentElement.lang = lang;
@@ -181,7 +183,9 @@ export function updatePageSeo(config?: SeoConfig) {
     const title = `${article.title} | ${lang === 'en' ? 'Yana Karnolska – Psychologist' : 'Яна Кърнолска – Психолог'}`;
     const description = article.excerpt || (article.fullContent[0] ? article.fullContent[0].substring(0, 160) : langConfig.defaultDescription);
     const imgUrl = article.image.startsWith('http') ? article.image : `${origin}${article.image.startsWith('/') ? '' : '/'}${article.image}`;
-    const articleUrl = `${origin}/${lang}/?article=${encodeURIComponent(article.id)}`;
+    const hasBgPrefix = typeof window !== 'undefined' && window.location.pathname.startsWith('/bg');
+    const pathPrefix = lang === 'en' ? '/en' : (hasBgPrefix ? '/bg' : '');
+    const articleUrl = `${origin}${pathPrefix}/?article=${encodeURIComponent(article.id)}`;
 
     document.title = title;
     document.documentElement.lang = lang;
