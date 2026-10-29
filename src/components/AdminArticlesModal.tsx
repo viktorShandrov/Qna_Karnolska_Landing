@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   X, Lock, Unlock, Plus, Edit3, Trash2, Eye, KeyRound, 
   CheckCircle, AlertCircle, RotateCcw, Image as ImageIcon,
-  Save, ArrowLeft, LogOut, Globe
+  Save, ArrowLeft, LogOut, Globe, Copy, Sparkles, Wand2, Check
 } from 'lucide-react';
 import { ArticleItem } from '../data/content';
 import { 
@@ -103,6 +103,11 @@ export const AdminArticlesModal: React.FC<AdminArticlesModalProps> = ({
   
   // Success Toast Notification
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  // AI Assistant State
+  const [showAiPasteModal, setShowAiPasteModal] = useState(false);
+  const [aiPasteText, setAiPasteText] = useState('');
+  const [copiedRecently, setCopiedRecently] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -233,6 +238,132 @@ export const AdminArticlesModal: React.FC<AdminArticlesModalProps> = ({
       setFormKeyTakeawaysEn(['']);
     } else {
       setFormKeyTakeawaysEn(formKeyTakeawaysEn.filter((_, i) => i !== index));
+    }
+  };
+
+  /**
+   * Copies the full Bulgarian article text wrapped in a tailored prompt for AI translation
+   */
+  const handleCopyForAi = (article?: ArticleItem) => {
+    const title = article ? article.title : formTitle;
+    const category = article ? article.category : formCategory;
+    const readTime = article ? article.readTime : formReadTime;
+    const date = article ? article.date : formDate;
+    const quote = article ? (article.quote || '') : formQuote;
+    const excerpt = article ? article.excerpt : formExcerpt;
+    const content = article ? article.fullContent.join('\n\n') : formFullContent;
+    const takeaways = article ? (article.keyTakeaways || []) : formKeyTakeaways.filter(t => t.trim().length > 0);
+
+    if (!title.trim()) {
+      alert('Моля, първо въведете заглавие на статията на български.');
+      return;
+    }
+
+    const promptText = `Моля, преведи следната психологическа статия от български на английски език.
+Използвай топъл, подкрепящ, автентичен и професионален психотерапевтичен тон (натурален английски език за уебсайт на психолог).
+
+Форматирай отговора си ТОЧНО в следния формат с тагове (за да мога да го поставя директно в системата):
+
+[TITLE]
+<Заглавие на английски>
+
+[CATEGORY]
+<Категория на английски, напр. Personal Growth, Psychotherapy & Calm, Emotional Balance>
+
+[READ_TIME]
+<напр. 5 min read>
+
+[DATE]
+<напр. October 2026>
+
+[QUOTE]
+<Акцентен цитат на английски или остави празно, ако в оригинала няма>
+
+[EXCERPT]
+<Кратко резюме (1-2 изречения) на английски>
+
+[CONTENT]
+<Пълен текст на статията на английски, като отделните параграфи са разделени с празен ред>
+
+[TAKEAWAYS]
+${takeaways.length > 0 ? takeaways.map((_, i) => `- <Извод ${i + 1} на английски>`).join('\n') : '- <Извод 1>\n- <Извод 2>'}
+
+--- ОРИГИНАЛЕН БЪЛГАРСКИ ТЕКСТ ЗА ПРЕВОД ---
+Заглавие: ${title}
+Категория: ${category}
+Време за четене: ${readTime}
+Дата: ${date}
+${quote ? `Цитат: ${quote}` : ''}
+Резюме: ${excerpt}
+
+Пълен текст:
+${content}
+
+${takeaways.length > 0 ? `Ключови изводи:\n${takeaways.map(t => `- ${t}`).join('\n')}` : ''}
+`;
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(promptText.trim()).then(() => {
+        setCopiedRecently(true);
+        setTimeout(() => setCopiedRecently(false), 3000);
+        showToast('📋 Готовият промпт с целия български текст е копиран в клипборда! Поставете го в ChatGPT, Claude или Gemini.');
+      }).catch(() => {
+        showToast('Грешка при автоматичното копиране.');
+      });
+    }
+  };
+
+  /**
+   * Parses the AI response with [TITLE], [CATEGORY], etc. and automatically populates English fields
+   */
+  const handleApplyAiResponse = () => {
+    const rawText = aiPasteText.trim();
+    if (!rawText) return;
+
+    const extractTag = (tag: string): string => {
+      const regex = new RegExp(`\\[${tag}\\]([\\s\\S]*?)(?=\\[[A-Z_]+\\]|$)`, 'i');
+      const match = rawText.match(regex);
+      return match ? match[1].trim() : '';
+    };
+
+    const title = extractTag('TITLE');
+    const category = extractTag('CATEGORY');
+    const readTime = extractTag('READ_TIME');
+    const date = extractTag('DATE');
+    const quote = extractTag('QUOTE');
+    const excerpt = extractTag('EXCERPT');
+    const content = extractTag('CONTENT');
+    const takeawaysRaw = extractTag('TAKEAWAYS');
+
+    let filledCount = 0;
+    if (title) { setFormTitleEn(title); filledCount++; }
+    if (category) { setFormCategoryEn(category); filledCount++; }
+    if (readTime) { setFormReadTimeEn(readTime); filledCount++; }
+    if (date) { setFormDateEn(date); filledCount++; }
+    if (quote) { setFormQuoteEn(quote); }
+    if (excerpt) { setFormExcerptEn(excerpt); filledCount++; }
+    if (content) { setFormFullContentEn(content); filledCount++; }
+
+    if (takeawaysRaw) {
+      const takeaways = takeawaysRaw
+        .split('\n')
+        .map(line => line.replace(/^[-*•\d.]+\s*/, '').trim())
+        .filter(line => line.length > 0);
+      if (takeaways.length > 0) {
+        setFormKeyTakeawaysEn(takeaways);
+        filledCount++;
+      }
+    }
+
+    if (filledCount > 0) {
+      showToast(`✨ Полетата на английски бяха попълнени автоматично! (${filledCount} елемента)`);
+      setShowAiPasteModal(false);
+      setAiPasteText('');
+    } else {
+      setFormFullContentEn(rawText);
+      showToast('ℹ️ Текстът беше поставен в полето за съдържание.');
+      setShowAiPasteModal(false);
+      setAiPasteText('');
     }
   };
 
@@ -590,6 +721,17 @@ export const AdminArticlesModal: React.FC<AdminArticlesModalProps> = ({
                             </div>
 
                             <div className="flex items-center gap-2 w-full sm:w-auto justify-end border-t sm:border-t-0 pt-2 sm:pt-0 border-[#E5DFD4]">
+                              {/* Quick Copy for AI */}
+                              <button
+                                type="button"
+                                onClick={() => handleCopyForAi(art)}
+                                className="px-2.5 py-1.5 rounded-lg border border-[#DDD5C7] bg-[#F4F0E8] hover:bg-[#EAE4D8] text-[#525D4D] text-xs flex items-center gap-1.5 transition-all shadow-xs"
+                                title="Копирай готов промпт с цялата статия за превод от ChatGPT / Claude / Gemini"
+                              >
+                                <Copy className="w-3.5 h-3.5 text-[#676F5C]" />
+                                <span className="text-[11px] font-medium hidden sm:inline">Копирай за AI</span>
+                              </button>
+
                               {/* Quick Translate Button */}
                               <button
                                 onClick={() => handleOpenEditForm(art, 'en')}
@@ -905,6 +1047,49 @@ export const AdminArticlesModal: React.FC<AdminArticlesModalProps> = ({
                   {formTab === 'en' && (
                     <div className="space-y-6 animate-fadeIn">
                       
+                      {/* AI Assistant Quick Actions Banner */}
+                      <div className="bg-gradient-to-r from-[#EAE5DA] via-[#F5EFE6] to-[#EAE5DA] border-2 border-[#747D68]/40 rounded-2xl p-4 sm:p-5 shadow-sm space-y-3">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#DDD5C7] pb-3">
+                          <div className="flex items-center gap-2.5">
+                            <div className="w-8 h-8 rounded-lg bg-[#525D4D] text-white flex items-center justify-center shadow-sm">
+                              <Sparkles className="w-4 h-4 text-amber-200" />
+                            </div>
+                            <div>
+                              <h5 className="font-serif text-sm font-semibold text-[#2C2A29]">
+                                Бърз AI превод с 1 клик (ChatGPT, Claude, Gemini)
+                              </h5>
+                              <p className="text-[11px] text-[#676F5C]">
+                                Копирайте готовия промпт с българския текст и поставете генерирания превод
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="flex flex-wrap items-center gap-3">
+                          <button
+                            type="button"
+                            onClick={() => handleCopyForAi()}
+                            className={`px-4 py-2.5 rounded-xl text-xs font-semibold uppercase tracking-wider flex items-center gap-2 transition-all shadow-sm ${
+                              copiedRecently
+                                ? 'bg-emerald-700 text-white shadow-emerald-900/20'
+                                : 'bg-[#525D4D] hover:bg-[#434c3f] text-white'
+                            }`}
+                          >
+                            {copiedRecently ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                            <span>{copiedRecently ? 'Копирано в клипборда! ✔' : '1. Копирай готов промпт за AI'}</span>
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() => setShowAiPasteModal(true)}
+                            className="px-4 py-2.5 rounded-xl text-xs font-semibold uppercase tracking-wider flex items-center gap-2 bg-white hover:bg-[#F9F7F3] text-[#2C2A29] border border-[#C8C1B3] transition-all shadow-sm hover:border-[#525D4D]"
+                          >
+                            <Wand2 className="w-4 h-4 text-[#747D68]" />
+                            <span>2. Постави отговор от AI (Автоматично попълване)</span>
+                          </button>
+                        </div>
+                      </div>
+
                       {/* Bulgarian Reference Box */}
                       <div className="bg-[#EFEAE1] border border-[#DDD5C7] rounded-2xl p-4 sm:p-5 text-xs text-[#4A4846] space-y-2.5">
                         <div className="flex items-center justify-between border-b border-[#DDD5C7]/70 pb-2">
@@ -1203,6 +1388,84 @@ export const AdminArticlesModal: React.FC<AdminArticlesModalProps> = ({
         </div>
 
       </div>
+
+      {/* AI PASTE & AUTO-FILL MODAL */}
+      {showAiPasteModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/60 backdrop-blur-sm animate-fadeIn">
+          <div className="bg-[#FBF9F5] w-full max-w-2xl rounded-3xl border border-[#D5CFBF] shadow-2xl p-5 sm:p-7 space-y-4 max-h-[90vh] flex flex-col my-auto">
+            <div className="flex items-center justify-between border-b border-[#E8E2D7] pb-3.5">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-[#525D4D] text-white flex items-center justify-center shadow-sm">
+                  <Wand2 className="w-5 h-5 text-amber-200" />
+                </div>
+                <div>
+                  <h4 className="font-serif text-lg font-medium text-[#2C2A29]">
+                    Автоматично попълване на превода
+                  </h4>
+                  <p className="text-[11px] text-[#747D68]">
+                    Поставете отговора от ChatGPT / Claude / Gemini
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowAiPasteModal(false)}
+                className="text-[#747D68] hover:text-[#2C2A29] p-2 rounded-xl hover:bg-[#EAE4D8] transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="space-y-2 flex-1 flex flex-col min-h-0">
+              <label className="text-xs text-[#525D4D] font-medium flex items-center justify-between">
+                <span>Поставете генерирания отговор тук:</span>
+                <span className="text-[10px] text-[#747D68]">Разпознава маркери като [TITLE], [CONTENT] и др.</span>
+              </label>
+              <textarea
+                value={aiPasteText}
+                onChange={(e) => setAiPasteText(e.target.value)}
+                placeholder={`[TITLE]
+Boundaries and Self-Worth
+
+[CATEGORY]
+Personal Growth
+
+[READ_TIME]
+5 min read
+
+[CONTENT]
+Full translated article here...`}
+                rows={12}
+                className="w-full p-3.5 rounded-xl border border-[#D5CFBF] bg-white text-[#2C2A29] text-xs font-mono leading-relaxed focus:ring-2 focus:ring-[#747D68] focus:outline-none resize-none flex-1 min-h-[220px]"
+              />
+            </div>
+
+            <div className="flex items-center justify-between pt-3 border-t border-[#E8E2D7]">
+              <button
+                type="button"
+                onClick={() => {
+                  setShowAiPasteModal(false);
+                  setAiPasteText('');
+                }}
+                className="px-4 py-2 rounded-xl text-xs text-[#525D4D] hover:bg-[#EAE4D8] transition-colors"
+              >
+                Отказ
+              </button>
+
+              <button
+                type="button"
+                disabled={!aiPasteText.trim()}
+                onClick={handleApplyAiResponse}
+                className="bg-[#525D4D] hover:bg-[#434c3f] disabled:opacity-50 text-white px-5 py-2.5 rounded-xl text-xs font-semibold uppercase tracking-wider flex items-center gap-2 transition-all shadow-sm hover:shadow"
+              >
+                <Sparkles className="w-4 h-4 text-amber-200" />
+                <span>Попълни полетата автоматично</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };
