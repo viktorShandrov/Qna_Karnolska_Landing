@@ -2,12 +2,20 @@ import React from 'react';
 import { MonogramLogo } from './MonogramLogo';
 import { CONTACT_DATA } from '../data/content';
 import { Lock } from 'lucide-react';
+import { useLanguage } from '../i18n/LanguageContext';
+import { LanguageSwitcher } from './LanguageSwitcher';
 
 interface FooterProps {
   onOpenAdmin?: () => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
+  const { t, language } = useLanguage();
+
+  const locationText = language === 'en'
+    ? 'Sofia, Beli Brezi, bl. 14, ground floor / Online'
+    : CONTACT_DATA.location;
+
   return (
     <footer id="contact" className="bg-[#FBF9F5] text-[#2C2A29] pt-20 pb-8">
       <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -52,7 +60,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
                 <path d="M12 21s-6-5.333-6-10a6 6 0 0 1 12 0c0 4.667-6 10-6 10z" strokeLinecap="round" strokeLinejoin="round" />
                 <circle cx="12" cy="11" r="2.5" />
               </svg>
-              <span className="font-light tracking-wide">{CONTACT_DATA.location}</span>
+              <span className="font-light tracking-wide">{locationText}</span>
             </div>
 
           </div>
@@ -60,10 +68,10 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
           {/* Column 3: Follow Me & Social Circles */}
           <div className="flex flex-col items-center md:items-end text-center md:text-right">
             <h3 className="font-serif text-base font-normal tracking-[0.2em] text-[#363330] uppercase mb-4">
-              ПОСЛЕДВАЙ МЕ
+              {t.footer.followMe}
             </h3>
 
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-3 mb-4">
               {/* Facebook */}
               <a
                 href={CONTACT_DATA.socials.find(s => s.name.toLowerCase() === 'facebook')?.href || 'https://facebook.com'}
@@ -106,6 +114,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
               </a>
             </div>
 
+            <LanguageSwitcher size="sm" />
           </div>
 
         </div>
@@ -119,10 +128,10 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
               <button
                 onClick={onOpenAdmin}
                 className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#EFEAE1] hover:bg-[#E2DDD2] text-[#525D4D] hover:text-[#2C2A29] border border-[#DDD6C8] transition-all duration-300 shadow-none hover:shadow-sm active:scale-95 text-[11px] uppercase tracking-[0.14em] font-medium"
-                title="Вход за управление на статии"
+                title={t.footer.adminTitle}
               >
                 <Lock className="w-3.5 h-3.5 text-[#747D68]" />
-                <span>Вход за психолога</span>
+                <span>{t.footer.adminLogin}</span>
               </button>
             )}
           </div>
@@ -130,11 +139,11 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
           {/* Right: Copyright & Privacy Policy */}
           <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-6 font-light text-center sm:text-right">
             <span>
-              © 2026 Яна Кърнолска – Психолог. Всички права запазени.
+              {t.footer.copyright}
             </span>
 
             <a href="#hero" className="hover:text-[#2C2A29] transition-colors underline-offset-4 hover:underline">
-              Политика за поверителност
+              {t.footer.privacyPolicy}
             </a>
           </div>
 

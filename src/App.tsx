@@ -16,8 +16,10 @@ import { getStoredArticles } from './services/articlesStorage';
 import { fetchArticlesFromDb } from './services/articlesApi';
 import { updatePageSeo } from './utils/seo';
 import { MessageCircle } from 'lucide-react';
+import { useLanguage } from './i18n/LanguageContext';
 
 export function App() {
+  const { t, language } = useLanguage();
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [activeServiceId, setActiveServiceId] = useState<string | undefined>(undefined);
   const [selectedServiceForDetail, setSelectedServiceForDetail] = useState<ServiceItem | null>(null);
@@ -25,14 +27,14 @@ export function App() {
   const [articles, setArticles] = useState<ArticleItem[]>(() => getStoredArticles());
   const [isAdminOpen, setIsAdminOpen] = useState(false);
 
-  // Sync SEO metadata whenever selected article changes
+  // Sync SEO metadata whenever selected article or language changes
   useEffect(() => {
     if (selectedArticleForDetail) {
-      updatePageSeo({ article: selectedArticleForDetail });
+      updatePageSeo({ article: selectedArticleForDetail, language });
     } else {
-      updatePageSeo();
+      updatePageSeo({ language });
     }
-  }, [selectedArticleForDetail]);
+  }, [selectedArticleForDetail, language]);
 
   useEffect(() => {
     // Helper to check URL for article or admin deep links
@@ -95,7 +97,7 @@ export function App() {
       window.removeEventListener('popstate', handlePopState);
       window.removeEventListener('hashchange', handlePopState);
     };
-  }, []);
+  }, [articles]);
 
   const handleSelectArticle = (article: ArticleItem) => {
     setSelectedArticleForDetail(article);
@@ -164,11 +166,11 @@ export function App() {
         <button
           onClick={() => handleOpenBooking()}
           className="bg-[#676F5C] hover:bg-[#4E5848] text-white p-3.5 sm:px-5 sm:py-3.5 rounded-full shadow-elevated flex items-center gap-2.5 transition-all duration-300 transform hover:scale-105 active:scale-95 group border border-white/20"
-          aria-label="Запази час"
+          aria-label={t.floatingButton}
         >
           <MessageCircle className="w-5 h-5" />
           <span className="hidden sm:inline text-xs font-semibold uppercase tracking-[0.16em]">
-            Запази час
+            {t.floatingButton}
           </span>
         </button>
       </div>

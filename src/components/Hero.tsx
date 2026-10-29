@@ -1,12 +1,15 @@
 import React from 'react';
 import { LeafOrnament } from './LeafOrnament';
 import { HERO_DATA } from '../data/content';
+import { useLanguage } from '../i18n/LanguageContext';
 
 interface HeroProps {
   onOpenBooking: () => void;
 }
 
 export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
+  const { t } = useLanguage();
+
   return (
     <section id="hero" className="hero-section relative min-h-screen w-full flex items-center overflow-hidden bg-[#EAE6DE]">
       
@@ -14,7 +17,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
       <div className="absolute top-0 right-0 w-full lg:w-[100%] xl:w-[100%] h-full bg-[#EAE6DE] flex justify-end">
         <img
           src={HERO_DATA.image}
-          alt="Яна Кърнолска – Психолог и Психотерапевт София"
+          alt={t.hero.imageAlt}
           className="hero-mobile-img w-full h-full object-cover object-[85%_15%] sm:object-[75%_12%] lg:object-[60%_15%]"
           loading="eager"
           fetchPriority="high"
@@ -33,12 +36,12 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
             
             {/* Name Heading */}
             <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-[76px] font-normal text-[#ffffdd] lg:text-[#2C2A29] tracking-tight leading-[1.08] drop-shadow-md lg:drop-shadow-none">
-              {HERO_DATA.name}
+              {t.hero.name}
             </h1>
 
             {/* Subtitle: Psychologist */}
             <h2 className="font-serif text-xl sm:text-2xl md:text-3xl lg:text-4xl font-normal tracking-[0.22em] text-[#ffffdd] lg:text-[#2C2A29] uppercase mt-1.5 mb-0.5 drop-shadow-md lg:drop-shadow-none">
-              {HERO_DATA.title}
+              {t.hero.title}
             </h2>
 
             {/* Filigree Leaf Divider with Hairlines */}
@@ -48,24 +51,25 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
 
             {/* Slogan */}
             <h3 className="font-serif text-base sm:text-lg lg:text-xl text-[#ffffdd] lg:text-[#2C2A29] font-medium lg:font-normal tracking-wide mt-1 mb-2 sm:mb-3 drop-shadow-md lg:drop-shadow-none">
-              {HERO_DATA.slogan}
+              {t.hero.slogan}
             </h3>
 
-            {/* Description (3 neat lines in classical serif) */}
+            {/* Description */}
             <p className="font-serif text-[#ffffdd] lg:text-[#4A4846] text-sm sm:text-base md:text-lg lg:text-[22.5px] leading-relaxed max-w-xs sm:max-w-md mb-5 sm:mb-6 lg:mb-8 font-medium lg:font-normal drop-shadow-md lg:drop-shadow-none">
-              Тук ще намерите пространство,{' '}
-              <br />
-              в което да бъдете чути, разбрани и{' '}
-              <br />
-              приети такива, каквито сте.
+              {t.hero.descriptionLines.map((line, idx) => (
+                <React.Fragment key={idx}>
+                  {line}
+                  {idx < t.hero.descriptionLines.length - 1 && <br />}
+                </React.Fragment>
+              ))}
             </p>
 
-            {/* Pill Button: ЗАПАЗИ ЧАС */}
+            {/* Pill Button */}
             <button
               onClick={onOpenBooking}
               className="bg-[#78806A] hover:bg-[#636B56] text-white px-7 py-2.5 sm:px-9 sm:py-3 rounded-full text-[11px] sm:text-xs uppercase tracking-[0.22em] font-normal transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 active:translate-y-0 active:scale-95"
             >
-              {HERO_DATA.ctaButton}
+              {t.hero.ctaButton}
             </button>
 
           </div>

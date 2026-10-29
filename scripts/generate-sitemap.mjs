@@ -25,7 +25,13 @@ async function generate() {
           .map((a) => {
             const modDate = a.created_at ? new Date(a.created_at).toISOString().split('T')[0] : currentDate;
             return `  <url>
-    <loc>${domain}/?article=${encodeURIComponent(a.id)}</loc>
+    <loc>${domain}/bg/?article=${encodeURIComponent(a.id)}</loc>
+    <lastmod>${modDate}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${domain}/en/?article=${encodeURIComponent(a.id)}</loc>
     <lastmod>${modDate}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -42,7 +48,13 @@ async function generate() {
   if (!articleUrls) {
     articleUrls = DEFAULT_ARTICLES
       .map((id) => `  <url>
-    <loc>${domain}/?article=${id}</loc>
+    <loc>${domain}/bg/?article=${id}</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${domain}/en/?article=${id}</loc>
     <lastmod>${currentDate}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -53,7 +65,13 @@ async function generate() {
   const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>${domain}/</loc>
+    <loc>${domain}/bg/</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>${domain}/en/</loc>
     <lastmod>${currentDate}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>

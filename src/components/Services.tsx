@@ -1,6 +1,7 @@
 import React from 'react';
 import { LeafOrnament } from './LeafOrnament';
-import { SERVICES_DATA, ServiceItem } from '../data/content';
+import { ServiceItem } from '../data/content';
+import { useLanguage } from '../i18n/LanguageContext';
 
 interface ServicesProps {
   onSelectService: (service: ServiceItem) => void;
@@ -8,6 +9,8 @@ interface ServicesProps {
 }
 
 export const Services: React.FC<ServicesProps> = ({ onSelectService }) => {
+  const { t } = useLanguage();
+
   return (
     <section id="services" className="py-14 sm:py-20 md:py-32 bg-[#FBF9F5]">
       <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -15,7 +18,7 @@ export const Services: React.FC<ServicesProps> = ({ onSelectService }) => {
         {/* Section Header */}
         <div className="text-center max-w-xl mx-auto mb-10 sm:mb-14 md:mb-20">
           <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-normal text-[#2C2A29] uppercase tracking-[0.25em]">
-            УСЛУГИ
+            {t.services.sectionTitle}
           </h2>
           <div className="flex justify-center -mt-1">
             <LeafOrnament withLines={false} className="w-8 h-8 md:w-10 md:h-10 text-[#676F5C]" />
@@ -24,7 +27,7 @@ export const Services: React.FC<ServicesProps> = ({ onSelectService }) => {
 
         {/* 3 Symmetrical Arch Cards (compact on mobile, expansive on desktop) */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10 items-stretch">
-          {SERVICES_DATA.map((service) => (
+          {t.services.items.map((service) => (
             <div
               key={service.id}
               className="bg-[#F4F0E8] w-full max-w-[290px] sm:max-w-[340px] md:max-w-none mx-auto rounded-t-[120px] sm:rounded-t-[150px] lg:rounded-t-[180px] rounded-b-none overflow-hidden flex flex-col items-center text-center transition-all duration-300 hover:shadow-lg hover:-translate-y-1 group"
@@ -56,10 +59,10 @@ export const Services: React.FC<ServicesProps> = ({ onSelectService }) => {
 
                 {/* Outlined Pill Button */}
                 <button
-                  onClick={() => onSelectService(service)}
+                  onClick={() => onSelectService(service as ServiceItem)}
                   className="border border-[#BDB6A8] hover:border-[#676F5C] hover:bg-[#676F5C] text-[#2C2A29] hover:text-white rounded-full py-2 px-6 md:py-2.5 md:px-8 text-[10px] md:text-[11px] uppercase tracking-[0.18em] font-normal transition-all duration-300 shadow-none hover:shadow-sm active:scale-95"
                 >
-                  НАУЧИ ПОВЕЧЕ
+                  {t.services.learnMore}
                 </button>
 
               </div>

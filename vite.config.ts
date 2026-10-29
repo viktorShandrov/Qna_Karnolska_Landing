@@ -24,7 +24,13 @@ function neonApiPlugin(env: Record<string, string>): Plugin {
                   .map((a: any) => {
                     const modDate = a.created_at ? new Date(a.created_at).toISOString().split('T')[0] : currentDate;
                     return `  <url>
-    <loc>${domain}/?article=${encodeURIComponent(a.id)}</loc>
+    <loc>${domain}/bg/?article=${encodeURIComponent(a.id)}</loc>
+    <lastmod>${modDate}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${domain}/en/?article=${encodeURIComponent(a.id)}</loc>
     <lastmod>${modDate}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -39,19 +45,37 @@ function neonApiPlugin(env: Record<string, string>): Plugin {
 
           if (!dynamicArticleUrls) {
             dynamicArticleUrls = `  <url>
-    <loc>${domain}/?article=navigating-anxiety</loc>
+    <loc>${domain}/bg/?article=navigating-anxiety</loc>
     <lastmod>${currentDate}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>${domain}/?article=boundaries-and-self-worth</loc>
+    <loc>${domain}/en/?article=navigating-anxiety</loc>
     <lastmod>${currentDate}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>${domain}/?article=overcoming-burnout</loc>
+    <loc>${domain}/bg/?article=boundaries-and-self-worth</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${domain}/en/?article=boundaries-and-self-worth</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${domain}/bg/?article=overcoming-burnout</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${domain}/en/?article=overcoming-burnout</loc>
     <lastmod>${currentDate}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -61,7 +85,13 @@ function neonApiPlugin(env: Record<string, string>): Plugin {
           const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>${domain}/</loc>
+    <loc>${domain}/bg/</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>${domain}/en/</loc>
     <lastmod>${currentDate}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>

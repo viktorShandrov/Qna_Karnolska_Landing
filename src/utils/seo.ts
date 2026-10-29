@@ -1,4 +1,5 @@
 import { ArticleItem, CONTACT_DATA } from '../data/content';
+import { Language, translations } from '../i18n/translations';
 
 export interface SeoConfig {
   title?: string;
@@ -7,14 +8,8 @@ export interface SeoConfig {
   url?: string;
   type?: 'website' | 'article';
   article?: ArticleItem;
+  language?: Language;
 }
-
-const DEFAULT_SEO = {
-  title: 'Яна Кърнолска | Психолог & Психотерапевт София – Подкрепа. Разбиране. Промяна.',
-  description: 'Индивидуална терапия, терапия за двойки и онлайн консултации с Яна Кърнолска. Защитено пространство в София и онлайн за себепознание, преодоляване на тревожност, стрес и житейски кризи.',
-  image: '/hero-portrait.jpg',
-  type: 'website' as const,
-};
 
 function setMetaTag(selector: string, attrName: string, attrValue: string, content: string) {
   let el = document.querySelector(selector) as HTMLMetaElement | null;
@@ -50,14 +45,29 @@ function setJsonLd(id: string, data: object) {
 export function updatePageSeo(config?: SeoConfig) {
   const origin = typeof window !== 'undefined' ? window.location.origin : 'https://yanapsychology.com';
   
+  // Resolve current active language
+  let lang: Language = config?.language || 'bg';
+  if (!config?.language && typeof window !== 'undefined') {
+    if (window.location.pathname.startsWith('/en')) {
+      lang = 'en';
+    } else if (window.location.pathname.startsWith('/bg')) {
+      lang = 'bg';
+    } else if (document.documentElement.lang === 'en') {
+      lang = 'en';
+    }
+  }
+
+  const langConfig = translations[lang].seo;
+
   if (!config || !config.article) {
     // Default Homepage SEO
-    const title = config?.title || DEFAULT_SEO.title;
-    const description = config?.description || DEFAULT_SEO.description;
-    const imgUrl = `${origin}${DEFAULT_SEO.image}`;
-    const pageUrl = `${origin}/`;
+    const title = config?.title || langConfig.defaultTitle;
+    const description = config?.description || langConfig.defaultDescription;
+    const imgUrl = `${origin}/hero-portrait.jpg`;
+    const pageUrl = `${origin}/${lang}/`;
 
     document.title = title;
+    document.documentElement.lang = lang;
     setMetaTag('meta[name="description"]', 'name', 'description', description);
     setCanonical(pageUrl);
 
@@ -67,8 +77,8 @@ export function updatePageSeo(config?: SeoConfig) {
     setMetaTag('meta[property="og:image"]', 'property', 'og:image', imgUrl);
     setMetaTag('meta[property="og:url"]', 'property', 'og:url', pageUrl);
     setMetaTag('meta[property="og:type"]', 'property', 'og:type', 'website');
-    setMetaTag('meta[property="og:locale"]', 'property', 'og:locale', 'bg_BG');
-    setMetaTag('meta[property="og:site_name"]', 'property', 'og:site_name', 'Яна Кърнолска – Психолог & Психотерапевт');
+    setMetaTag('meta[property="og:locale"]', 'property', 'og:locale', langConfig.locale);
+    setMetaTag('meta[property="og:site_name"]', 'property', 'og:site_name', langConfig.siteName);
 
     // Twitter
     setMetaTag('meta[name="twitter:card"]', 'name', 'twitter:card', 'summary_large_image');
@@ -81,12 +91,12 @@ export function updatePageSeo(config?: SeoConfig) {
       '@context': 'https://schema.org',
       '@type': ['Psychologist', 'LocalBusiness', 'ProfessionalService'],
       '@id': `${origin}/#psychologist`,
-      name: 'Яна Кърнолска – Психолог и Психотерапевт',
-      alternateName: 'Яна Кирилова Кърнолска',
-      url: origin,
+      name: lang === 'en' ? 'Yana Karnolska – Psychologist & Psychotherapist' : 'Яна Кърнолска – Психолог и Психотерапевт',
+      alternateName: 'Yana Kirilova Karnolska',
+      url: `${origin}/${lang}/`,
       image: `${origin}/hero-portrait.jpg`,
       logo: `${origin}/favicon.svg`,
-      description: DEFAULT_SEO.description,
+      description: description,
       telephone: '+359887344424',
       email: 'yanakarnolska@gmail.com',
       priceRange: '$$',
@@ -112,45 +122,45 @@ export function updatePageSeo(config?: SeoConfig) {
       ],
       founder: {
         '@type': 'Person',
-        name: 'Яна Кърнолска',
-        jobTitle: 'Психолог и Психотерапевт',
+        name: lang === 'en' ? 'Yana Karnolska' : 'Яна Кърнолска',
+        jobTitle: lang === 'en' ? 'Psychologist & Psychotherapist' : 'Психолог и Психотерапевт',
         knowsAbout: [
-          'Психология',
-          'Психотерапия',
-          'Индивидуална терапия',
-          'Терапия за двойки',
-          'Справяне с тревожност и паник атаки',
-          'Преодоляване на бърнаут и стрес',
-          'Онлайн психологическо консултиране',
-          'Спортна психология',
+          'Psychology',
+          'Psychotherapy',
+          'Individual therapy',
+          'Couples therapy',
+          'Anxiety and panic attack treatment',
+          'Burnout recovery and stress management',
+          'Online psychological counseling',
+          'Sports psychology',
         ],
       },
       hasOfferCatalog: {
         '@type': 'OfferCatalog',
-        name: 'Психологически Услуги',
+        name: lang === 'en' ? 'Psychological Services' : 'Психологически Услуги',
         itemListElement: [
           {
             '@type': 'Offer',
             itemOffered: {
               '@type': 'Service',
-              name: 'Индивидуална терапия',
-              description: 'Лична работа, насочена към разбиране на себе си, тревожност, паник атаки и вътрешен баланс.',
+              name: lang === 'en' ? 'Individual Therapy' : 'Индивидуална терапия',
+              description: lang === 'en' ? 'One-on-one sessions for personal growth and emotional balance.' : 'Лична работа, насочена към разбиране на себе си, тревожност, паник атаки и вътрешен баланс.',
             },
           },
           {
             '@type': 'Offer',
             itemOffered: {
               '@type': 'Service',
-              name: 'Терапия за двойки',
-              description: 'Подобряване на комуникацията, възстановяване на близостта и доверието във връзката.',
+              name: lang === 'en' ? 'Couples Therapy' : 'Терапия за двойки',
+              description: lang === 'en' ? 'Improving communication, emotional intimacy, and trust in relationships.' : 'Подобряване на комуникацията, възстановяване на близостта и доверието във връзката.',
             },
           },
           {
             '@type': 'Offer',
             itemOffered: {
               '@type': 'Service',
-              name: 'Онлайн консултации',
-              description: 'Гъвкава терапевтична подкрепа за българи в чужбина и динамично ежедневие.',
+              name: lang === 'en' ? 'Online Consultations' : 'Онлайн консултации',
+              description: lang === 'en' ? 'Flexible therapeutic support worldwide.' : 'Гъвкава терапевтична подкрепа за българи в чужбина и динамично ежедневие.',
             },
           },
         ],
@@ -168,12 +178,13 @@ export function updatePageSeo(config?: SeoConfig) {
   } else {
     // Dynamic Article SEO
     const { article } = config;
-    const title = `${article.title} | Яна Кърнолска – Психолог`;
-    const description = article.excerpt || (article.fullContent[0] ? article.fullContent[0].substring(0, 160) : DEFAULT_SEO.description);
+    const title = `${article.title} | ${lang === 'en' ? 'Yana Karnolska – Psychologist' : 'Яна Кърнолска – Психолог'}`;
+    const description = article.excerpt || (article.fullContent[0] ? article.fullContent[0].substring(0, 160) : langConfig.defaultDescription);
     const imgUrl = article.image.startsWith('http') ? article.image : `${origin}${article.image.startsWith('/') ? '' : '/'}${article.image}`;
-    const articleUrl = `${origin}/?article=${encodeURIComponent(article.id)}`;
+    const articleUrl = `${origin}/${lang}/?article=${encodeURIComponent(article.id)}`;
 
     document.title = title;
+    document.documentElement.lang = lang;
     setMetaTag('meta[name="description"]', 'name', 'description', description);
     setCanonical(articleUrl);
 
@@ -183,8 +194,8 @@ export function updatePageSeo(config?: SeoConfig) {
     setMetaTag('meta[property="og:image"]', 'property', 'og:image', imgUrl);
     setMetaTag('meta[property="og:url"]', 'property', 'og:url', articleUrl);
     setMetaTag('meta[property="og:type"]', 'property', 'og:type', 'article');
-    setMetaTag('meta[property="og:locale"]', 'property', 'og:locale', 'bg_BG');
-    setMetaTag('meta[property="og:site_name"]', 'property', 'og:site_name', 'Яна Кърнолска – Психолог & Психотерапевт');
+    setMetaTag('meta[property="og:locale"]', 'property', 'og:locale', langConfig.locale);
+    setMetaTag('meta[property="og:site_name"]', 'property', 'og:site_name', langConfig.siteName);
 
     // Twitter
     setMetaTag('meta[name="twitter:card"]', 'name', 'twitter:card', 'summary_large_image');
@@ -202,7 +213,7 @@ export function updatePageSeo(config?: SeoConfig) {
       image: [imgUrl],
       datePublished: '2026-01-01T08:00:00+02:00',
       dateModified: '2026-09-27T12:00:00+02:00',
-      inLanguage: 'bg-BG',
+      inLanguage: lang === 'en' ? 'en-US' : 'bg-BG',
       mainEntityOfPage: {
         '@type': 'WebPage',
         '@id': articleUrl,
@@ -210,14 +221,14 @@ export function updatePageSeo(config?: SeoConfig) {
       articleSection: article.category,
       author: {
         '@type': 'Person',
-        name: 'Яна Кърнолска',
-        jobTitle: 'Психолог и Психотерапевт',
-        url: `${origin}/#about`,
+        name: lang === 'en' ? 'Yana Karnolska' : 'Яна Кърнолска',
+        jobTitle: lang === 'en' ? 'Psychologist & Psychotherapist' : 'Психолог и Психотерапевт',
+        url: `${origin}/${lang}/#about`,
       },
       publisher: {
         '@type': 'Organization',
-        name: 'Яна Кърнолска – Психологическо консултиране',
-        url: origin,
+        name: lang === 'en' ? 'Yana Karnolska – Psychological Counseling' : 'Яна Кърнолска – Психологическо консултиране',
+        url: `${origin}/${lang}/`,
         logo: {
           '@type': 'ImageObject',
           url: `${origin}/favicon.svg`,

@@ -1,8 +1,10 @@
 import React from 'react';
 import { LeafOrnament } from './LeafOrnament';
-import { TESTIMONIALS_DATA } from '../data/content';
+import { useLanguage } from '../i18n/LanguageContext';
 
 export const Testimonials: React.FC = () => {
+  const { t } = useLanguage();
+
   return (
     <section id="testimonials" className="py-24 md:py-32 bg-[#707764] text-[#FBF9F5] relative overflow-hidden">
       <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -10,7 +12,7 @@ export const Testimonials: React.FC = () => {
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16 md:mb-20">
           <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal tracking-[0.25em] text-[#FBF9F5] uppercase">
-            КАКВО СПОДЕЛЯТ МОИТЕ КЛИЕНТИ
+            {t.testimonials.sectionTitle}
           </h2>
           <div className="flex justify-center -mt-1">
             <LeafOrnament withLines={false} className="w-8 h-8 md:w-10 md:h-10 text-[#FBF9F5]/90" />
@@ -19,12 +21,12 @@ export const Testimonials: React.FC = () => {
 
         {/* 3 Quote Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10 items-stretch">
-          {TESTIMONIALS_DATA.map((testimonial) => (
+          {t.testimonials.items.map((testimonial) => (
             <div
               key={testimonial.id}
               className="relative border border-white/35 rounded-2xl p-7 sm:p-8 flex flex-col justify-between items-center text-center transition-all duration-300 hover:border-white/60 group min-h-[220px]"
             >
-              {/* Quote Mark Notch in Top Left (Enlarged) */}
+              {/* Quote Mark Notch in Top Left */}
               <div className="absolute -top-5 sm:-top-6 left-7 bg-[#707764] px-2.5 font-serif text-4xl sm:text-7xl text-white/95 leading-none select-none">
                 “
               </div>
@@ -41,6 +43,11 @@ export const Testimonials: React.FC = () => {
                 <span className="font-serif text-sm sm:text-base text-[#FBF9F5] font-normal tracking-wide">
                   {testimonial.author}
                 </span>
+                {testimonial.details && (
+                  <span className="block text-xs text-[#FBF9F5]/75 font-serif mt-0.5">
+                    {testimonial.details}
+                  </span>
+                )}
               </div>
 
             </div>

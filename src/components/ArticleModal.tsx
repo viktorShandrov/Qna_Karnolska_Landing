@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { X, Clock, Calendar, CheckCircle2, MessageCircle, Heart } from 'lucide-react';
 import { ArticleItem } from '../data/content';
 import { LeafOrnament } from './LeafOrnament';
+import { useLanguage } from '../i18n/LanguageContext';
 
 interface ArticleModalProps {
   article: ArticleItem | null;
@@ -10,12 +11,14 @@ interface ArticleModalProps {
 }
 
 export const ArticleModal: React.FC<ArticleModalProps> = ({
-  article,
+  article: rawArticle,
   onClose,
   onOpenBooking,
 }) => {
+  const { t, language } = useLanguage();
+
   useEffect(() => {
-    if (article) {
+    if (rawArticle) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
@@ -23,9 +26,30 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
     return () => {
       document.body.style.overflow = 'unset';
     };
-  }, [article]);
+  }, [rawArticle]);
 
-  if (!article) return null;
+  if (!rawArticle) return null;
+
+  // Localize article content if a translation is available
+  const article: ArticleItem = (() => {
+    if (language === 'en') {
+      const translated = t.articles.items.find(a => a.id === rawArticle.id);
+      if (translated) {
+        return {
+          ...rawArticle,
+          title: translated.title,
+          category: translated.category,
+          readTime: translated.readTime,
+          date: translated.date,
+          excerpt: translated.excerpt,
+          quote: translated.quote || rawArticle.quote,
+          fullContent: translated.fullContent,
+          keyTakeaways: translated.keyTakeaways || rawArticle.keyTakeaways,
+        };
+      }
+    }
+    return rawArticle;
+  })();
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
@@ -47,7 +71,7 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
           <button
             onClick={onClose}
             className="w-9 h-9 rounded-full bg-[#EAE4D8] hover:bg-[#DDD6C8] text-[#4A4846] flex items-center justify-center transition-colors focus:outline-none"
-            aria-label="Затвори"
+            aria-label={t.articleModal.closeLabel}
           >
             <X className="w-5 h-5" />
           </button>
@@ -96,7 +120,7 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
                 „{article.quote}“
               </p>
               <span className="block mt-2 text-xs uppercase tracking-[0.18em] text-[#747D68] font-medium">
-                – Яна Кърнолска, психолог
+                {t.articleModal.authorAttribution}
               </span>
             </div>
           )}
@@ -115,7 +139,7 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
             <div className="bg-[#EFEAE1] border border-[#DDD5C7] rounded-2xl p-6 sm:p-7 my-8">
               <h2 className="font-serif text-lg sm:text-xl font-normal text-[#2C2A29] uppercase tracking-wider mb-4 flex items-center gap-2">
                 <Heart className="w-4 h-4 text-[#747D68]" />
-                <span>Практически насоки &amp; ключови изводи:</span>
+                <span>{t.articleModal.keyTakeawaysTitle}</span>
               </h2>
               <ul className="space-y-2.5">
                 {article.keyTakeaways.map((takeaway, idx) => (
@@ -131,10 +155,10 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
           {/* Call to Action & Booking Prompt */}
           <div className="bg-[#525D4D] text-[#FBF9F5] rounded-2xl p-6 sm:p-8 text-center flex flex-col items-center">
             <h2 className="font-serif text-xl sm:text-2xl font-normal tracking-wider mb-2 uppercase">
-              Имате ли нужда от лична подкрепа?
+              {t.articleModal.ctaHeading}
             </h2>
             <p className="font-serif text-sm sm:text-base text-[#FBF9F5]/90 max-w-md mb-5 leading-relaxed font-light">
-              Ако темите в тази статия резонират с вашата лична житейска ситуация, можете да запазите час за индивидуална консултация.
+              {t.articleModal.ctaDescription}
             </p>
             <button
               onClick={() => {
@@ -144,7 +168,7 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
               className="bg-[#78806A] hover:bg-[#636B56] text-white px-8 py-3 rounded-full text-xs uppercase tracking-[0.2em] font-medium transition-all shadow hover:shadow-lg flex items-center gap-2 active:scale-95 border border-white/20"
             >
               <MessageCircle className="w-4 h-4" />
-              <span>Запази час за консултация</span>
+              <span>{t.articleModal.ctaButton}</span>
             </button>
           </div>
 
