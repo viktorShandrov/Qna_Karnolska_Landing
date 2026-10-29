@@ -17,7 +17,11 @@ export const TELEGRAM_BOT_TOKEN = getEnvVar('VITE_TELEGRAM_BOT_TOKEN') || '89094
 
 export const TELEGRAM_CHAT_ID = getEnvVar('VITE_TELEGRAM_CHAT_ID') || '5643312147';
 
+// Chat ID for receiving notifications when new articles are published needing translation
+export const ADMIN_NOTIFY_CHAT_ID = getEnvVar('VITE_ADMIN_NOTIFY_CHAT_ID') || '6259693114';
+
 export const TELEGRAM_CONFIG = {
   BOT_TOKEN: TELEGRAM_BOT_TOKEN,
   CHAT_ID: TELEGRAM_CHAT_ID,
+  ADMIN_CHAT_ID: ADMIN_NOTIFY_CHAT_ID,
 };

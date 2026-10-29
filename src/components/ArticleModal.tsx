@@ -20,6 +20,19 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
   // Localize article content if a translation is available
   const article: ArticleItem | null = rawArticle ? (() => {
     if (language === 'en') {
+      if (rawArticle.titleEn && rawArticle.titleEn.trim()) {
+        return {
+          ...rawArticle,
+          title: rawArticle.titleEn,
+          category: rawArticle.categoryEn || rawArticle.category,
+          readTime: rawArticle.readTimeEn || rawArticle.readTime,
+          date: rawArticle.dateEn || rawArticle.date,
+          excerpt: rawArticle.excerptEn || rawArticle.excerpt,
+          quote: rawArticle.quoteEn || rawArticle.quote,
+          fullContent: (rawArticle.fullContentEn && rawArticle.fullContentEn.length > 0) ? rawArticle.fullContentEn : rawArticle.fullContent,
+          keyTakeaways: (rawArticle.keyTakeawaysEn && rawArticle.keyTakeawaysEn.length > 0) ? rawArticle.keyTakeawaysEn : rawArticle.keyTakeaways,
+        };
+      }
       const translated = t.articles.items.find(a => a.id === rawArticle.id);
       if (translated) {
         return {

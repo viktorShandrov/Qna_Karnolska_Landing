@@ -1,6 +1,8 @@
 import { neon } from '@neondatabase/serverless';
 
 const DEFAULT_ADMIN_PASS = process.env.ADMIN_PASSWORD || 'yana2026';
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || process.env.VITE_TELEGRAM_BOT_TOKEN || '8909434781:AAGk1jPav9l3QFcHGzdINNln-W5P3Enaolc';
+const ADMIN_NOTIFY_CHAT_ID = process.env.ADMIN_NOTIFY_CHAT_ID || process.env.VITE_ADMIN_NOTIFY_CHAT_ID || '6259693114';
 
 function getDatabaseUrl(): string | undefined {
   return (
@@ -9,6 +11,13 @@ function getDatabaseUrl(): string | undefined {
     process.env.DATABASE_AUTHENTICATED_URL ||
     process.env.POSTGRES_PRISMA_URL
   );
+}
+
+function escapeHtml(text: string): string {
+  return (text || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
 }
 
 export default async function handler(req: any, res: any) {
@@ -50,92 +59,29 @@ export default async function handler(req: any, res: any) {
         quote TEXT,
         full_content JSONB NOT NULL DEFAULT '[]'::jsonb,
         key_takeaways JSONB DEFAULT '[]'::jsonb,
-        created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+        title_en TEXT,
+        category_en TEXT,
+        read_time_en TEXT,
+        date_en TEXT,
+        excerpt_en TEXT,
+        quote_en TEXT,
+        full_content_en JSONB DEFAULT '[]'::jsonb,
+        key_takeaways_en JSONB DEFAULT '[]'::jsonb
       );
     `;
 
-    // 2. Check if table is empty and seed default articles if needed
-    const countResult = await sql`SELECT COUNT(*)::int as count FROM articles;`;
-    if (countResult[0]?.count === 0) {
-      const seedArticles = [
-        {
-          id: "navigating-anxiety",
-          title: "Пътят през тревожността: От съпротива към вътрешен мир",
-          category: "Психотерапия & Спокойствие",
-          read_time: "4 мин четене",
-          date: "Септември 2026",
-          excerpt: "Защо непрекъснатите опити за контрол хранят безпокойството и как осъзнатото приемане отваря врата към истинско облекчение.",
-          image: "/Articles Images/pic1.jpeg",
-          quote: "Тревожността не е признак за слабост или дефект. Тя е вътрешен сигнал, който ни кани да спрем и да се вслушаме в себе си.",
-          full_content: JSON.stringify([
-            "Всеки от нас се е сблъсквал с онова специфично стягане в гърдите, рояка от натрапчиви мисли за бъдещето и усещането, че губим почва под краката си. Тревожността в съвременния свят се е превърнала в почти постоянен спътник за мнозина.",
-            "Често първата ни естествена реакция е съпротивата – опитваме се да 'изгоним' тревожните мисли, да се разсеем с работа или да наложим пълен контрол върху всяка житейска ситуация. Парадоксът обаче е, че колкото повече воюваме с тревожността, толкова по-голяма сила й придаваме.",
-            "В терапевтичния процес ние се учим на коренно различен подход: да се отнесем с любопитство и доброжелателност към нашите телесни усещания. Когато си позволим да дишаме през дискомфорта, без да го съдим, тревожната вълна постепенно започва да спада.",
-            "Истинската устойчивост не означава никога повече да не се тревожим, а да изградим доверие в собствената си способност да посрещнем неизвестното със спокойствие и яснота."
-          ]),
-          key_takeaways: JSON.stringify([
-            "Разпознаване на телесните тригери още в самото начало",
-            "Техники за заземяване (5-4-3-2-1) и диафрагмено дишане",
-            "Прекъсване на автоматичния спираловиден вътрешен монолог",
-            "Състрадание към себе си вместо самокритика"
-          ])
-        },
-        {
-          id: "boundaries-and-self-worth",
-          title: "Граници и себеуважение: Как да казваме „не“ без вина",
-          category: "Личностно развитие",
-          read_time: "5 мин четене",
-          date: "Август 2026",
-          excerpt: "Изкуството да пазим собствената си жизнена енергия и душевен мир, без страх от отхвърляне или конфликт с околните.",
-          image: "/Articles Images/pic2.jpeg",
-          quote: "Поставянето на здравословни граници не е стена срещу света. То е врата с ясен ключ към взаимно уважение и автентичност.",
-          full_content: JSON.stringify([
-            "Колко често ви се случва да кажете 'да' на чужда молба, докато цялото ви същество вика 'не'? Зад този модел на поведение обикновено стои дълбоко вкоренен страх от неодобрение или убеждението, че нашата стойност зависи от това колко сме удобни за radiation.",
-            "Личните граници са невидимата линия, която очертава къде свършвате вие и къде започва другият човек. Без тях ние бързо стигаме до емоционално изтощение, тиха обида и хронично разочарование.",
-            "Да поставиш граница не означава да бъдеш агресивен или студен. Това е спокоен и зрял акт на себеуважение. Когато казвате 'не' на нещо, което ви натоварва, вие казвате 'да' на своето здраве, спокойствие и автентични приоритети.",
-            "Хората, които истински ви ценят, ще уважат вашите граници. А онези, които се сърдят, най-често са имали изгода от липсата им."
-          ]),
-          key_takeaways: JSON.stringify([
-            "Как да различим здравословния компромис от саможертвата",
-            "Формулиране на ясни и добронамерени откази без оправдания",
-            "Справяне с първоначалното чувство за вина",
-            "Изграждане на стабилна вътрешна опора и самооценка"
-          ])
-        },
-        {
-          id: "overcoming-burnout",
-          title: "Прегарянето (Бърнаут) в модерния ритъм: Сигнали и възстановяване",
-          category: "Емоционален баланс",
-          read_time: "6 мин четене",
-          date: "Юли 2026",
-          excerpt: "Кога умората спира да бъде просто физическа и се превръща в дълбок сигнал за необходимост от цялостно пренареждане на ежедневието.",
-          image: "/Articles Images/pic3.jpeg",
-          quote: "Възстановяването от прегаряне не е просто уикенд с повече сън, а смелостта да променим връзката със себе си и своите изисквания.",
-          full_content: JSON.stringify([
-            "Синдромът на прегаряне не се появява за една нощ. Той е бавен и постепенен процес, при който дългосрочният стрес изчерпва емоционалните, физическите и менталните ни ресурси.",
-            "Често първите симптоми остават неразпознати: цинизъм, чувство на безсилие, намалена концентрация, безсъние и загуба на радост от неща, които преди са ни вдъхновявали. Опитите просто 'да стиснем зъби и да продължим' само задълбочават състоянието.",
-            "Възстановяването изисква цялостен поглед върху живота: преоценка на вътрешния ни перфекционизъм, създаване на пространство за истинска почивка и въвеждане на малки ежедневни ритуали за грижа към себе си.",
-            "В терапевтичната среда изследваме вярванията, които са ви довели до претоварването, и изграждаме устойчиви навици за устойчиво благополучие."
-          ]),
-          key_takeaways: JSON.stringify([
-            "Разпознаване на 4-те фази на бърнаут преди критичната точка",
-            "Разграничаване между пасивна почивка и истинско презареждане",
-            "Работа с вътрешния критик и свръхотговорността",
-            "Стратегии за възстановяване на житейската радост и фокус"
-          ])
-        }
-      ];
+    // 2. Ensure English columns exist on existing table
+    await sql`ALTER TABLE articles ADD COLUMN IF NOT EXISTS title_en TEXT;`;
+    await sql`ALTER TABLE articles ADD COLUMN IF NOT EXISTS category_en TEXT;`;
+    await sql`ALTER TABLE articles ADD COLUMN IF NOT EXISTS read_time_en TEXT;`;
+    await sql`ALTER TABLE articles ADD COLUMN IF NOT EXISTS date_en TEXT;`;
+    await sql`ALTER TABLE articles ADD COLUMN IF NOT EXISTS excerpt_en TEXT;`;
+    await sql`ALTER TABLE articles ADD COLUMN IF NOT EXISTS quote_en TEXT;`;
+    await sql`ALTER TABLE articles ADD COLUMN IF NOT EXISTS full_content_en JSONB DEFAULT '[]'::jsonb;`;
+    await sql`ALTER TABLE articles ADD COLUMN IF NOT EXISTS key_takeaways_en JSONB DEFAULT '[]'::jsonb;`;
 
-      for (const item of seedArticles) {
-        await sql`
-          INSERT INTO articles (id, title, category, read_time, date, excerpt, image, quote, full_content, key_takeaways)
-          VALUES (${item.id}, ${item.title}, ${item.category}, ${item.read_time}, ${item.date}, ${item.excerpt}, ${item.image}, ${item.quote}, ${item.full_content}::jsonb, ${item.key_takeaways}::jsonb)
-          ON CONFLICT (id) DO NOTHING;
-        `;
-      }
-    }
-
-    // Helper to authenticate
+    // 3. Helper to authenticate
     const isAuth = (headerOrBodyPass?: string) => {
       const pass = headerOrBodyPass || req.headers['x-admin-password'];
       return pass === DEFAULT_ADMIN_PASS;
@@ -155,7 +101,15 @@ export default async function handler(req: any, res: any) {
           quote, 
           full_content as "fullContent", 
           key_takeaways as "keyTakeaways", 
-          created_at as "createdAt"
+          created_at as "createdAt",
+          title_en as "titleEn",
+          category_en as "categoryEn",
+          read_time_en as "readTimeEn",
+          date_en as "dateEn",
+          excerpt_en as "excerptEn",
+          quote_en as "quoteEn",
+          full_content_en as "fullContentEn",
+          key_takeaways_en as "keyTakeawaysEn"
         FROM articles
         ORDER BY created_at DESC;
       `;
@@ -163,6 +117,8 @@ export default async function handler(req: any, res: any) {
         ...r,
         fullContent: typeof r.fullContent === 'string' ? JSON.parse(r.fullContent) : (Array.isArray(r.fullContent) ? r.fullContent : []),
         keyTakeaways: typeof r.keyTakeaways === 'string' ? JSON.parse(r.keyTakeaways) : (Array.isArray(r.keyTakeaways) ? r.keyTakeaways : []),
+        fullContentEn: typeof r.fullContentEn === 'string' ? JSON.parse(r.fullContentEn) : (Array.isArray(r.fullContentEn) ? r.fullContentEn : []),
+        keyTakeawaysEn: typeof r.keyTakeawaysEn === 'string' ? JSON.parse(r.keyTakeawaysEn) : (Array.isArray(r.keyTakeawaysEn) ? r.keyTakeawaysEn : []),
       }));
       return res.status(200).json(normalized);
     }
@@ -179,9 +135,14 @@ export default async function handler(req: any, res: any) {
       const id = article.id || `article-${Date.now()}`;
       const fullContentJson = JSON.stringify(article.fullContent || []);
       const keyTakeawaysJson = JSON.stringify(article.keyTakeaways || []);
+      const fullContentEnJson = JSON.stringify(article.fullContentEn || []);
+      const keyTakeawaysEnJson = JSON.stringify(article.keyTakeawaysEn || []);
 
       await sql`
-        INSERT INTO articles (id, title, category, read_time, date, excerpt, image, quote, full_content, key_takeaways)
+        INSERT INTO articles (
+          id, title, category, read_time, date, excerpt, image, quote, full_content, key_takeaways,
+          title_en, category_en, read_time_en, date_en, excerpt_en, quote_en, full_content_en, key_takeaways_en
+        )
         VALUES (
           ${id},
           ${article.title},
@@ -192,14 +153,49 @@ export default async function handler(req: any, res: any) {
           ${article.image || '/about-interior-v2.png'},
           ${article.quote || null},
           ${fullContentJson}::jsonb,
-          ${keyTakeawaysJson}::jsonb
+          ${keyTakeawaysJson}::jsonb,
+          ${article.titleEn || null},
+          ${article.categoryEn || null},
+          ${article.readTimeEn || null},
+          ${article.dateEn || null},
+          ${article.excerptEn || null},
+          ${article.quoteEn || null},
+          ${fullContentEnJson}::jsonb,
+          ${keyTakeawaysEnJson}::jsonb
         );
       `;
+
+      // Send Telegram notification to Viktor about the new article
+      try {
+        const hasEn = Boolean(article.titleEn && article.titleEn.trim());
+        const statusText = hasEn 
+          ? '✅ Включен е английски превод' 
+          : '⚠️ <b>Липсва английски превод – моля добавете го!</b>';
+        
+        const notifyText = 
+          `🔔 <b>Нова статия в сайта!</b>\n\n` +
+          `📌 <b>Заглавие:</b> ${escapeHtml(article.title)}\n` +
+          `🏷️ <b>Категория:</b> ${escapeHtml(article.category || 'Обща')}\n` +
+          `🌐 <b>Статус:</b> ${statusText}\n\n` +
+          `👉 <b>Влезте тук за превод:</b> <a href="https://yanapsychology.com/#admin">yanapsychology.com/#admin</a>`;
+
+        await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: ADMIN_NOTIFY_CHAT_ID,
+            text: notifyText,
+            parse_mode: 'HTML',
+          }),
+        });
+      } catch (tgErr) {
+        console.warn('Telegram notification error for new article:', tgErr);
+      }
 
       return res.status(201).json({ success: true, article: { ...article, id } });
     }
 
-    // --- PUT: Update existing article ---
+    // --- PUT: Update existing article (or add translation) ---
     if (req.method === 'PUT') {
       const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
       const { password, ...article } = body;
@@ -214,6 +210,8 @@ export default async function handler(req: any, res: any) {
 
       const fullContentJson = JSON.stringify(article.fullContent || []);
       const keyTakeawaysJson = JSON.stringify(article.keyTakeaways || []);
+      const fullContentEnJson = JSON.stringify(article.fullContentEn || []);
+      const keyTakeawaysEnJson = JSON.stringify(article.keyTakeawaysEn || []);
 
       await sql`
         UPDATE articles
@@ -226,7 +224,15 @@ export default async function handler(req: any, res: any) {
           image = ${article.image || '/about-interior-v2.png'},
           quote = ${article.quote || null},
           full_content = ${fullContentJson}::jsonb,
-          key_takeaways = ${keyTakeawaysJson}::jsonb
+          key_takeaways = ${keyTakeawaysJson}::jsonb,
+          title_en = ${article.titleEn || null},
+          category_en = ${article.categoryEn || null},
+          read_time_en = ${article.readTimeEn || null},
+          date_en = ${article.dateEn || null},
+          excerpt_en = ${article.excerptEn || null},
+          quote_en = ${article.quoteEn || null},
+          full_content_en = ${fullContentEnJson}::jsonb,
+          key_takeaways_en = ${keyTakeawaysEnJson}::jsonb
         WHERE id = ${article.id};
       `;
 
@@ -235,12 +241,13 @@ export default async function handler(req: any, res: any) {
 
     // --- DELETE: Delete article ---
     if (req.method === 'DELETE') {
-      const { id } = req.query || {};
-      const body = typeof req.body === 'string' && req.body ? JSON.parse(req.body) : (req.body || {});
-      const articleId = id || body.id;
-      const password = body.password || req.headers['x-admin-password'];
+      const url = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
+      const idFromQuery = url.searchParams.get('id');
+      const body = typeof req.body === 'string' ? (req.body ? JSON.parse(req.body) : {}) : (req.body || {});
+      const articleId = idFromQuery || body?.id;
+      const pass = req.headers['x-admin-password'] || body?.password;
 
-      if (!isAuth(password)) {
+      if (!isAuth(pass)) {
         return res.status(401).json({ error: 'Невалидна администраторска парола.' });
       }
 
@@ -248,16 +255,16 @@ export default async function handler(req: any, res: any) {
         return res.status(400).json({ error: 'Липсва ID на статията за изтриване.' });
       }
 
-      await sql`
-        DELETE FROM articles WHERE id = ${articleId};
-      `;
-
+      await sql`DELETE FROM articles WHERE id = ${articleId};`;
       return res.status(200).json({ success: true, message: 'Статията е изтрита успешно.' });
     }
 
-    return res.status(405).json({ error: 'Методът не се поддържа.' });
-  } catch (error: any) {
-    console.error('Neon DB Error:', error);
-    return res.status(500).json({ error: error?.message || 'Грешка при комуникация с базата данни Neon.' });
+    return res.status(405).json({ error: 'Неподдържан HTTP метод.' });
+  } catch (err: any) {
+    console.error('Neon API Serverless Error:', err);
+    return res.status(500).json({ 
+      error: 'Грешка при комуникация с базата данни.', 
+      details: err?.message || String(err) 
+    });
   }
 }

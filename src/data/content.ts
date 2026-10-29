@@ -35,6 +35,16 @@ export interface ArticleItem {
   quote?: string;
   fullContent: string[];
   keyTakeaways?: string[];
+
+  // English translation fields
+  titleEn?: string;
+  categoryEn?: string;
+  readTimeEn?: string;
+  dateEn?: string;
+  excerptEn?: string;
+  quoteEn?: string;
+  fullContentEn?: string[];
+  keyTakeawaysEn?: string[];
 }
 
 export const HERO_DATA = {

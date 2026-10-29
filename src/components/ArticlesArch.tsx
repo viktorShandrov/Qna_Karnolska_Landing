@@ -18,6 +18,19 @@ export const ArticlesArch: React.FC<ArticlesArchProps> = ({
   // Helper to map article to translated version if available in current language
   const getLocalizedArticle = (article: ArticleItem): ArticleItem => {
     if (language === 'en') {
+      if (article.titleEn && article.titleEn.trim()) {
+        return {
+          ...article,
+          title: article.titleEn,
+          category: article.categoryEn || article.category,
+          readTime: article.readTimeEn || article.readTime,
+          date: article.dateEn || article.date,
+          excerpt: article.excerptEn || article.excerpt,
+          quote: article.quoteEn || article.quote,
+          fullContent: (article.fullContentEn && article.fullContentEn.length > 0) ? article.fullContentEn : article.fullContent,
+          keyTakeaways: (article.keyTakeawaysEn && article.keyTakeawaysEn.length > 0) ? article.keyTakeawaysEn : article.keyTakeaways,
+        };
+      }
       const translated = t.articles.items.find((item) => item.id === article.id);
       if (translated) {
         return {

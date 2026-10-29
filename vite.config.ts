@@ -144,9 +144,26 @@ ${dynamicArticleUrls}
               quote TEXT,
               full_content JSONB NOT NULL DEFAULT '[]'::jsonb,
               key_takeaways JSONB DEFAULT '[]'::jsonb,
-              created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+              created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+              title_en TEXT,
+              category_en TEXT,
+              read_time_en TEXT,
+              date_en TEXT,
+              excerpt_en TEXT,
+              quote_en TEXT,
+              full_content_en JSONB DEFAULT '[]'::jsonb,
+              key_takeaways_en JSONB DEFAULT '[]'::jsonb
             );
           `;
+
+          await sql`ALTER TABLE articles ADD COLUMN IF NOT EXISTS title_en TEXT;`;
+          await sql`ALTER TABLE articles ADD COLUMN IF NOT EXISTS category_en TEXT;`;
+          await sql`ALTER TABLE articles ADD COLUMN IF NOT EXISTS read_time_en TEXT;`;
+          await sql`ALTER TABLE articles ADD COLUMN IF NOT EXISTS date_en TEXT;`;
+          await sql`ALTER TABLE articles ADD COLUMN IF NOT EXISTS excerpt_en TEXT;`;
+          await sql`ALTER TABLE articles ADD COLUMN IF NOT EXISTS quote_en TEXT;`;
+          await sql`ALTER TABLE articles ADD COLUMN IF NOT EXISTS full_content_en JSONB DEFAULT '[]'::jsonb;`;
+          await sql`ALTER TABLE articles ADD COLUMN IF NOT EXISTS key_takeaways_en JSONB DEFAULT '[]'::jsonb;`;
 
           if (req.method === 'GET') {
             const rows = await sql`
@@ -161,7 +178,15 @@ ${dynamicArticleUrls}
                 quote, 
                 full_content as "fullContent", 
                 key_takeaways as "keyTakeaways", 
-                created_at as "createdAt"
+                created_at as "createdAt",
+                title_en as "titleEn",
+                category_en as "categoryEn",
+                read_time_en as "readTimeEn",
+                date_en as "dateEn",
+                excerpt_en as "excerptEn",
+                quote_en as "quoteEn",
+                full_content_en as "fullContentEn",
+                key_takeaways_en as "keyTakeawaysEn"
               FROM articles
               ORDER BY created_at DESC;
             `;
@@ -169,6 +194,8 @@ ${dynamicArticleUrls}
               ...r,
               fullContent: typeof r.fullContent === 'string' ? JSON.parse(r.fullContent) : (Array.isArray(r.fullContent) ? r.fullContent : []),
               keyTakeaways: typeof r.keyTakeaways === 'string' ? JSON.parse(r.keyTakeaways) : (Array.isArray(r.keyTakeaways) ? r.keyTakeaways : []),
+              fullContentEn: typeof r.fullContentEn === 'string' ? JSON.parse(r.fullContentEn) : (Array.isArray(r.fullContentEn) ? r.fullContentEn : []),
+              keyTakeawaysEn: typeof r.keyTakeawaysEn === 'string' ? JSON.parse(r.keyTakeawaysEn) : (Array.isArray(r.keyTakeawaysEn) ? r.keyTakeawaysEn : []),
             }));
             res.statusCode = 200;
             res.setHeader('Content-Type', 'application/json');
@@ -181,9 +208,14 @@ ${dynamicArticleUrls}
             const id = article.id || `article-${Date.now()}`;
             const fullContentJson = JSON.stringify(article.fullContent || []);
             const keyTakeawaysJson = JSON.stringify(article.keyTakeaways || []);
+            const fullContentEnJson = JSON.stringify(article.fullContentEn || []);
+            const keyTakeawaysEnJson = JSON.stringify(article.keyTakeawaysEn || []);
 
             await sql`
-              INSERT INTO articles (id, title, category, read_time, date, excerpt, image, quote, full_content, key_takeaways)
+              INSERT INTO articles (
+                id, title, category, read_time, date, excerpt, image, quote, full_content, key_takeaways,
+                title_en, category_en, read_time_en, date_en, excerpt_en, quote_en, full_content_en, key_takeaways_en
+              )
               VALUES (
                 ${id},
                 ${article.title},
@@ -194,7 +226,15 @@ ${dynamicArticleUrls}
                 ${article.image || '/Articles Images/pic1.jpeg'},
                 ${article.quote || null},
                 ${fullContentJson}::jsonb,
-                ${keyTakeawaysJson}::jsonb
+                ${keyTakeawaysJson}::jsonb,
+                ${article.titleEn || null},
+                ${article.categoryEn || null},
+                ${article.readTimeEn || null},
+                ${article.dateEn || null},
+                ${article.excerptEn || null},
+                ${article.quoteEn || null},
+                ${fullContentEnJson}::jsonb,
+                ${keyTakeawaysEnJson}::jsonb
               );
             `;
             res.statusCode = 201;
@@ -207,6 +247,8 @@ ${dynamicArticleUrls}
             const article = body;
             const fullContentJson = JSON.stringify(article.fullContent || []);
             const keyTakeawaysJson = JSON.stringify(article.keyTakeaways || []);
+            const fullContentEnJson = JSON.stringify(article.fullContentEn || []);
+            const keyTakeawaysEnJson = JSON.stringify(article.keyTakeawaysEn || []);
 
             await sql`
               UPDATE articles
@@ -219,7 +261,15 @@ ${dynamicArticleUrls}
                 image = ${article.image || '/Articles Images/pic1.jpeg'},
                 quote = ${article.quote || null},
                 full_content = ${fullContentJson}::jsonb,
-                key_takeaways = ${keyTakeawaysJson}::jsonb
+                key_takeaways = ${keyTakeawaysJson}::jsonb,
+                title_en = ${article.titleEn || null},
+                category_en = ${article.categoryEn || null},
+                read_time_en = ${article.readTimeEn || null},
+                date_en = ${article.dateEn || null},
+                excerpt_en = ${article.excerptEn || null},
+                quote_en = ${article.quoteEn || null},
+                full_content_en = ${fullContentEnJson}::jsonb,
+                key_takeaways_en = ${keyTakeawaysEnJson}::jsonb
               WHERE id = ${article.id};
             `;
             res.statusCode = 200;
