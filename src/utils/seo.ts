@@ -181,7 +181,7 @@ export function updatePageSeo(config?: SeoConfig) {
     // Dynamic Article SEO
     const { article } = config;
     const title = `${article.title} | ${lang === 'en' ? 'Yana Karnolska – Psychologist' : 'Яна Кърнолска – Психолог'}`;
-    const description = article.excerpt || (article.fullContent[0] ? article.fullContent[0].substring(0, 160) : langConfig.defaultDescription);
+    const description = article.excerpt || (article.fullContent && article.fullContent[0] ? article.fullContent[0].substring(0, 160) : langConfig.defaultDescription);
     const imgUrl = article.image.startsWith('http') ? article.image : `${origin}${article.image.startsWith('/') ? '' : '/'}${article.image}`;
     const hasBgPrefix = typeof window !== 'undefined' && window.location.pathname.startsWith('/bg');
     const pathPrefix = lang === 'en' ? '/en' : (hasBgPrefix ? '/bg' : '');
@@ -238,7 +238,7 @@ export function updatePageSeo(config?: SeoConfig) {
           url: `${origin}/favicon.svg`,
         },
       },
-      articleBody: article.fullContent.join('\n\n'),
+      articleBody: article.fullContent ? article.fullContent.join('\n\n') : (article.excerpt || ''),
     };
 
     setJsonLd('schema-org-article', articleSchema);

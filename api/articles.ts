@@ -20,75 +20,163 @@ function escapeHtml(text: string): string {
     .replace(/>/g, '&gt;');
 }
 
-export default async function handler(req: any, res: any) {
+async function ensureTableSchema(sql: any) {
+  await sql`
+    CREATE TABLE IF NOT EXISTS articles (
+      id TEXT PRIMARY KEY,
+      title TEXT NOT NULL,
+      category TEXT NOT NULL,
+      read_time TEXT NOT NULL,
+      date TEXT NOT NULL,
+      excerpt TEXT NOT NULL,
+      image TEXT NOT NULL,
+      quote TEXT,
+      full_content JSONB NOT NULL DEFAULT '[]'::jsonb,
+      key_takeaways JSONB DEFAULT '[]'::jsonb,
+      created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+      title_en TEXT,
+      category_en TEXT,
+      read_time_en TEXT,
+      date_en TEXT,
+      excerpt_en TEXT,
+      quote_en TEXT,
+      full_content_en JSONB DEFAULT '[]'::jsonb,
+      key_takeaways_en JSONB DEFAULT '[]'::jsonb
+    );
+  `;
+  await sql`ALTER TABLE articles ADD COLUMN IF NOT EXISTS title_en TEXT;`;
+  await sql`ALTER TABLE articles ADD COLUMN IF NOT EXISTS category_en TEXT;`;
+  await sql`ALTER TABLE articles ADD COLUMN IF NOT EXISTS read_time_en TEXT;`;
+  await sql`ALTER TABLE articles ADD COLUMN IF NOT EXISTS date_en TEXT;`;
+  await sql`ALTER TABLE articles ADD COLUMN IF NOT EXISTS excerpt_en TEXT;`;
+  await sql`ALTER TABLE articles ADD COLUMN IF NOT EXISTS quote_en TEXT;`;
+  await sql`ALTER TABLE articles ADD COLUMN IF NOT EXISTS full_content_en JSONB DEFAULT '[]'::jsonb;`;
+  await sql`ALTER TABLE articles ADD COLUMN IF NOT EXISTS key_takeaways_en JSONB DEFAULT '[]'::jsonb;`;
+}
+
+export default async function handler(req: any, res?: any) {
   // CORS Headers
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, x-admin-password, Authorization'
-  );
+  const corsHeaders: Record<string, string> = {
+    'Access-Control-Allow-Credentials': 'true',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET,OPTIONS,PATCH,DELETE,POST,PUT',
+    'Access-Control-Allow-Headers': 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, x-admin-password, Authorization',
+  };
+
+  if (res && typeof res.setHeader === 'function') {
+    Object.entries(corsHeaders).forEach(([k, v]) => res.setHeader(k, v));
+  }
 
   if (req.method === 'OPTIONS') {
-    res.status(200).end();
-    return;
+    if (res && typeof res.status === 'function') {
+      res.status(200).end();
+      return;
+    }
+    return new Response(null, { status: 200, headers: corsHeaders });
   }
+
+  // Response helper supporting both Node serverless (res) and Edge / Web-standard (Response)
+  const respondJson = (data: any, status = 200, cache = false) => {
+    const headers: Record<string, string> = {
+      ...corsHeaders,
+      'Content-Type': 'application/json',
+    };
+
+    if (cache) {
+      // 24 hours edge cache, 12 hours stale-while-revalidate for Vercel & Cloudflare
+      headers['Cache-Control'] = 'public, s-maxage=86400, stale-while-revalidate=43200';
+    } else {
+      headers['Cache-Control'] = 'no-store, no-cache, must-revalidate';
+    }
+
+    if (res && typeof res.setHeader === 'function') {
+      Object.entries(headers).forEach(([k, v]) => res.setHeader(k, v));
+      return res.status(status).json(data);
+    }
+
+    return new Response(JSON.stringify(data), {
+      status,
+      headers,
+    });
+  };
 
   const dbUrl = getDatabaseUrl();
   if (!dbUrl) {
-    return res.status(500).json({ 
+    return respondJson({ 
       error: 'Липсва DATABASE_URL в средата на Vercel.',
       hint: 'Моля, уверете се, че Neon Postgres базата данни е свързана към проекта във Vercel.' 
-    });
+    }, 500, false);
   }
 
   const sql = neon(dbUrl);
 
   try {
-    // 1. Ensure table exists
-    await sql`
-      CREATE TABLE IF NOT EXISTS articles (
-        id TEXT PRIMARY KEY,
-        title TEXT NOT NULL,
-        category TEXT NOT NULL,
-        read_time TEXT NOT NULL,
-        date TEXT NOT NULL,
-        excerpt TEXT NOT NULL,
-        image TEXT NOT NULL,
-        quote TEXT,
-        full_content JSONB NOT NULL DEFAULT '[]'::jsonb,
-        key_takeaways JSONB DEFAULT '[]'::jsonb,
-        created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-        title_en TEXT,
-        category_en TEXT,
-        read_time_en TEXT,
-        date_en TEXT,
-        excerpt_en TEXT,
-        quote_en TEXT,
-        full_content_en JSONB DEFAULT '[]'::jsonb,
-        key_takeaways_en JSONB DEFAULT '[]'::jsonb
-      );
-    `;
-
-    // 2. Ensure English columns exist on existing table
-    await sql`ALTER TABLE articles ADD COLUMN IF NOT EXISTS title_en TEXT;`;
-    await sql`ALTER TABLE articles ADD COLUMN IF NOT EXISTS category_en TEXT;`;
-    await sql`ALTER TABLE articles ADD COLUMN IF NOT EXISTS read_time_en TEXT;`;
-    await sql`ALTER TABLE articles ADD COLUMN IF NOT EXISTS date_en TEXT;`;
-    await sql`ALTER TABLE articles ADD COLUMN IF NOT EXISTS excerpt_en TEXT;`;
-    await sql`ALTER TABLE articles ADD COLUMN IF NOT EXISTS quote_en TEXT;`;
-    await sql`ALTER TABLE articles ADD COLUMN IF NOT EXISTS full_content_en JSONB DEFAULT '[]'::jsonb;`;
-    await sql`ALTER TABLE articles ADD COLUMN IF NOT EXISTS key_takeaways_en JSONB DEFAULT '[]'::jsonb;`;
-
-    // 3. Helper to authenticate
+    // Helper to authenticate
     const isAuth = (headerOrBodyPass?: string) => {
-      const pass = headerOrBodyPass || req.headers['x-admin-password'];
+      const pass = headerOrBodyPass || (req.headers && req.headers['x-admin-password']);
       return pass === DEFAULT_ADMIN_PASS;
     };
 
-    // --- GET: Fetch all articles ---
+    // --- GET: Fetch articles ---
     if (req.method === 'GET') {
+      let articleId: string | null = null;
+      if (req.query?.id) {
+        articleId = String(req.query.id);
+      } else if (req.url) {
+        try {
+          const parsedUrl = new URL(req.url, `http://${req.headers?.host || 'localhost'}`);
+          articleId = parsedUrl.searchParams.get('id');
+        } catch {
+          // ignore
+        }
+      }
+
+      // 1. Fetch single article with full content when ID is requested
+      if (articleId) {
+        const rows = await sql`
+          SELECT 
+            id, 
+            title, 
+            category, 
+            read_time as "readTime", 
+            date, 
+            excerpt, 
+            image, 
+            quote, 
+            full_content as "fullContent", 
+            key_takeaways as "keyTakeaways", 
+            created_at as "createdAt",
+            title_en as "titleEn",
+            category_en as "categoryEn",
+            read_time_en as "readTimeEn",
+            date_en as "dateEn",
+            excerpt_en as "excerptEn",
+            quote_en as "quoteEn",
+            full_content_en as "fullContentEn",
+            key_takeaways_en as "keyTakeawaysEn"
+          FROM articles
+          WHERE id = ${articleId}
+          LIMIT 1;
+        `;
+
+        if (!rows || rows.length === 0) {
+          return respondJson({ error: 'Статията не е намерена.' }, 404, false);
+        }
+
+        const r = rows[0];
+        const normalized = {
+          ...r,
+          fullContent: typeof r.fullContent === 'string' ? JSON.parse(r.fullContent) : (Array.isArray(r.fullContent) ? r.fullContent : []),
+          keyTakeaways: typeof r.keyTakeaways === 'string' ? JSON.parse(r.keyTakeaways) : (Array.isArray(r.keyTakeaways) ? r.keyTakeaways : []),
+          fullContentEn: typeof r.fullContentEn === 'string' ? JSON.parse(r.fullContentEn) : (Array.isArray(r.fullContentEn) ? r.fullContentEn : []),
+          keyTakeawaysEn: typeof r.keyTakeawaysEn === 'string' ? JSON.parse(r.keyTakeawaysEn) : (Array.isArray(r.keyTakeawaysEn) ? r.keyTakeawaysEn : []),
+        };
+
+        return respondJson(normalized, 200, true);
+      }
+
+      // 2. For list on homepage: query ONLY metadata (id, title, category, readTime, date, excerpt, image)
+      // DO NOT pull full content or heavy fields
       const rows = await sql`
         SELECT 
           id, 
@@ -98,38 +186,28 @@ export default async function handler(req: any, res: any) {
           date, 
           excerpt, 
           image, 
-          quote, 
-          full_content as "fullContent", 
-          key_takeaways as "keyTakeaways", 
           created_at as "createdAt",
           title_en as "titleEn",
           category_en as "categoryEn",
           read_time_en as "readTimeEn",
           date_en as "dateEn",
-          excerpt_en as "excerptEn",
-          quote_en as "quoteEn",
-          full_content_en as "fullContentEn",
-          key_takeaways_en as "keyTakeawaysEn"
+          excerpt_en as "excerptEn"
         FROM articles
         ORDER BY created_at DESC;
       `;
-      const normalized = rows.map((r: any) => ({
-        ...r,
-        fullContent: typeof r.fullContent === 'string' ? JSON.parse(r.fullContent) : (Array.isArray(r.fullContent) ? r.fullContent : []),
-        keyTakeaways: typeof r.keyTakeaways === 'string' ? JSON.parse(r.keyTakeaways) : (Array.isArray(r.keyTakeaways) ? r.keyTakeaways : []),
-        fullContentEn: typeof r.fullContentEn === 'string' ? JSON.parse(r.fullContentEn) : (Array.isArray(r.fullContentEn) ? r.fullContentEn : []),
-        keyTakeawaysEn: typeof r.keyTakeawaysEn === 'string' ? JSON.parse(r.keyTakeawaysEn) : (Array.isArray(r.keyTakeawaysEn) ? r.keyTakeawaysEn : []),
-      }));
-      return res.status(200).json(normalized);
+
+      return respondJson(rows, 200, true);
     }
 
     // --- POST: Create new article ---
     if (req.method === 'POST') {
+      await ensureTableSchema(sql);
+
       const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
       const { password, ...article } = body;
       
       if (!isAuth(password)) {
-        return res.status(401).json({ error: 'Невалидна администраторска парола.' });
+        return respondJson({ error: 'Невалидна администраторска парола.' }, 401, false);
       }
 
       const id = article.id || `article-${Date.now()}`;
@@ -192,20 +270,22 @@ export default async function handler(req: any, res: any) {
         console.warn('Telegram notification error for new article:', tgErr);
       }
 
-      return res.status(201).json({ success: true, article: { ...article, id } });
+      return respondJson({ success: true, article: { ...article, id } }, 201, false);
     }
 
     // --- PUT: Update existing article (or add translation) ---
     if (req.method === 'PUT') {
+      await ensureTableSchema(sql);
+
       const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
       const { password, ...article } = body;
 
       if (!isAuth(password)) {
-        return res.status(401).json({ error: 'Невалидна администраторска парола.' });
+        return respondJson({ error: 'Невалидна администраторска парола.' }, 401, false);
       }
 
       if (!article.id) {
-        return res.status(400).json({ error: 'Липсва ID на статията.' });
+        return respondJson({ error: 'Липсва ID на статията.' }, 400, false);
       }
 
       const fullContentJson = JSON.stringify(article.fullContent || []);
@@ -236,35 +316,47 @@ export default async function handler(req: any, res: any) {
         WHERE id = ${article.id};
       `;
 
-      return res.status(200).json({ success: true, article });
+      return respondJson({ success: true, article }, 200, false);
     }
 
     // --- DELETE: Delete article ---
     if (req.method === 'DELETE') {
-      const url = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
-      const idFromQuery = url.searchParams.get('id');
+      let articleId: string | null = null;
+      if (req.query?.id) {
+        articleId = String(req.query.id);
+      } else if (req.url) {
+        try {
+          const url = new URL(req.url, `http://${req.headers?.host || 'localhost'}`);
+          articleId = url.searchParams.get('id');
+        } catch {
+          // ignore
+        }
+      }
+
       const body = typeof req.body === 'string' ? (req.body ? JSON.parse(req.body) : {}) : (req.body || {});
-      const articleId = idFromQuery || body?.id;
-      const pass = req.headers['x-admin-password'] || body?.password;
+      if (!articleId) {
+        articleId = body?.id;
+      }
+      const pass = (req.headers && req.headers['x-admin-password']) || body?.password;
 
       if (!isAuth(pass)) {
-        return res.status(401).json({ error: 'Невалидна администраторска парола.' });
+        return respondJson({ error: 'Невалидна администраторска парола.' }, 401, false);
       }
 
       if (!articleId) {
-        return res.status(400).json({ error: 'Липсва ID на статията за изтриване.' });
+        return respondJson({ error: 'Липсва ID на статията за изтриване.' }, 400, false);
       }
 
       await sql`DELETE FROM articles WHERE id = ${articleId};`;
-      return res.status(200).json({ success: true, message: 'Статията е изтрита успешно.' });
+      return respondJson({ success: true, message: 'Статията е изтрита успешно.' }, 200, false);
     }
 
-    return res.status(405).json({ error: 'Неподдържан HTTP метод.' });
+    return respondJson({ error: 'Неподдържан HTTP метод.' }, 405, false);
   } catch (err: any) {
     console.error('Neon API Serverless Error:', err);
-    return res.status(500).json({ 
+    return respondJson({ 
       error: 'Грешка при комуникация с базата данни.', 
       details: err?.message || String(err) 
-    });
+    }, 500, false);
   }
 }

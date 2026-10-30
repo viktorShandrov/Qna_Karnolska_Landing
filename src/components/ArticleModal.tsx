@@ -243,11 +243,21 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
 
           {/* Main Article Paragraphs */}
           <div className="space-y-4 sm:space-y-5 text-[#3E3C3A] font-serif text-base sm:text-lg lg:text-[20px] leading-relaxed font-normal">
-            {article.fullContent.map((paragraph, idx) => (
-              <p key={idx}>
-                {paragraph}
-              </p>
-            ))}
+            {article.fullContent && article.fullContent.length > 0 ? (
+              article.fullContent.map((paragraph, idx) => (
+                <p key={idx}>
+                  {paragraph}
+                </p>
+              ))
+            ) : (
+              <div className="space-y-3 py-4 animate-pulse">
+                <div className="h-4 bg-[#E8E2D7] rounded w-full"></div>
+                <div className="h-4 bg-[#E8E2D7] rounded w-11/12"></div>
+                <div className="h-4 bg-[#E8E2D7] rounded w-4/5"></div>
+                <div className="h-4 bg-[#E8E2D7] rounded w-full mt-4"></div>
+                <div className="h-4 bg-[#E8E2D7] rounded w-10/12"></div>
+              </div>
+            )}
           </div>
 
           {/* Key Takeaways Box */}

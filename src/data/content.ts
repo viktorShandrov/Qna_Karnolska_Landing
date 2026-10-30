@@ -33,8 +33,9 @@ export interface ArticleItem {
   excerpt: string;
   image: string;
   quote?: string;
-  fullContent: string[];
+  fullContent?: string[];
   keyTakeaways?: string[];
+  createdAt?: string;
 
   // English translation fields
   titleEn?: string;

@@ -16,7 +16,8 @@ import {
   createArticleInDb, 
   updateArticleInDb, 
   deleteArticleInDb,
-  fetchArticlesFromDb 
+  fetchArticlesFromDb,
+  fetchArticleById 
 } from '../services/articlesApi';
 import { BulgarianFlag, UkFlag } from './LanguageSwitcher';
 import { getArticleShareUrl, copyTextToClipboard } from '../utils/share';
@@ -180,30 +181,39 @@ export const AdminArticlesModal: React.FC<AdminArticlesModalProps> = ({
     setActiveView('create');
   };
 
-  const handleOpenEditForm = (article: ArticleItem, initialTab: 'bg' | 'en' = 'bg') => {
+  const handleOpenEditForm = async (article: ArticleItem, initialTab: 'bg' | 'en' = 'bg') => {
     setEditingArticleId(article.id);
     setFormTab(initialTab);
 
+    let art = article;
+    if (!article.fullContent || article.fullContent.length === 0) {
+      const full = await fetchArticleById(article.id);
+      if (full) {
+        art = full;
+        onUpdateArticles(articles.map((a) => (a.id === full.id ? { ...a, ...full } : a)));
+      }
+    }
+
     // BG fields
-    setFormTitle(article.title);
-    setFormCategory(article.category);
-    setFormReadTime(article.readTime);
-    setFormDate(article.date);
-    setFormImage(article.image);
-    setFormQuote(article.quote || '');
-    setFormExcerpt(article.excerpt);
-    setFormFullContent(article.fullContent.join('\n\n'));
-    setFormKeyTakeaways(article.keyTakeaways && article.keyTakeaways.length > 0 ? article.keyTakeaways : ['']);
+    setFormTitle(art.title);
+    setFormCategory(art.category);
+    setFormReadTime(art.readTime);
+    setFormDate(art.date);
+    setFormImage(art.image);
+    setFormQuote(art.quote || '');
+    setFormExcerpt(art.excerpt);
+    setFormFullContent(art.fullContent && art.fullContent.length > 0 ? art.fullContent.join('\n\n') : '');
+    setFormKeyTakeaways(art.keyTakeaways && art.keyTakeaways.length > 0 ? art.keyTakeaways : ['']);
 
     // EN fields
-    setFormTitleEn(article.titleEn || '');
-    setFormCategoryEn(article.categoryEn || '');
-    setFormReadTimeEn(article.readTimeEn || '5 min read');
-    setFormDateEn(article.dateEn || '');
-    setFormQuoteEn(article.quoteEn || '');
-    setFormExcerptEn(article.excerptEn || '');
-    setFormFullContentEn(article.fullContentEn && article.fullContentEn.length > 0 ? article.fullContentEn.join('\n\n') : '');
-    setFormKeyTakeawaysEn(article.keyTakeawaysEn && article.keyTakeawaysEn.length > 0 ? article.keyTakeawaysEn : ['']);
+    setFormTitleEn(art.titleEn || '');
+    setFormCategoryEn(art.categoryEn || '');
+    setFormReadTimeEn(art.readTimeEn || '5 min read');
+    setFormDateEn(art.dateEn || '');
+    setFormQuoteEn(art.quoteEn || '');
+    setFormExcerptEn(art.excerptEn || '');
+    setFormFullContentEn(art.fullContentEn && art.fullContentEn.length > 0 ? art.fullContentEn.join('\n\n') : '');
+    setFormKeyTakeawaysEn(art.keyTakeawaysEn && art.keyTakeawaysEn.length > 0 ? art.keyTakeawaysEn : ['']);
 
     setActiveView('edit');
   };
@@ -254,7 +264,7 @@ export const AdminArticlesModal: React.FC<AdminArticlesModalProps> = ({
     const date = article ? article.date : formDate;
     const quote = article ? (article.quote || '') : formQuote;
     const excerpt = article ? article.excerpt : formExcerpt;
-    const content = article ? article.fullContent.join('\n\n') : formFullContent;
+    const content = article ? (article.fullContent?.join('\n\n') || article.excerpt) : formFullContent;
     const takeaways = article ? (article.keyTakeaways || []) : formKeyTakeaways.filter(t => t.trim().length > 0);
 
     if (!title.trim()) {
@@ -455,8 +465,8 @@ ${takeaways.length > 0 ? `Ключови изводи:\n${takeaways.map(t => `- 
     saveArticlesToStorage(updatedList);
     onUpdateArticles(updatedList);
 
-    // Re-fetch from DB to guarantee sync
-    const freshDbArticles = await fetchArticlesFromDb();
+    // Re-fetch from DB to guarantee sync (bypassing CDN cache)
+    const freshDbArticles = await fetchArticlesFromDb({ forceFresh: true });
     if (freshDbArticles && freshDbArticles.length > 0) {
       onUpdateArticles(freshDbArticles);
     }
@@ -473,7 +483,7 @@ ${takeaways.length > 0 ? `Ключови изводи:\n${takeaways.map(t => `- 
       showToast('Изтриване от Neon...');
       await deleteArticleInDb(id);
       
-      const freshDbArticles = await fetchArticlesFromDb();
+      const freshDbArticles = await fetchArticlesFromDb({ forceFresh: true });
       if (freshDbArticles) {
         onUpdateArticles(freshDbArticles);
       }

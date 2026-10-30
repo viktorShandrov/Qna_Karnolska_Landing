@@ -13,7 +13,7 @@ import { ArticleModal } from './components/ArticleModal';
 import { AdminArticlesModal } from './components/AdminArticlesModal';
 import { ServiceItem, ArticleItem } from './data/content';
 import { getStoredArticles } from './services/articlesStorage';
-import { fetchArticlesFromDb } from './services/articlesApi';
+import { fetchArticlesFromDb, fetchArticleById } from './services/articlesApi';
 import { updatePageSeo } from './utils/seo';
 import { MessageCircle } from 'lucide-react';
 import { useLanguage } from './i18n/LanguageContext';
@@ -36,6 +36,27 @@ export function App() {
     }
   }, [selectedArticleForDetail, language]);
 
+  const loadAndSelectArticle = async (articleId: string, initialArticle?: ArticleItem) => {
+    if (initialArticle) {
+      setSelectedArticleForDetail(initialArticle);
+    }
+    // Check if fullContent is already loaded
+    if (initialArticle && initialArticle.fullContent && initialArticle.fullContent.length > 0) {
+      return;
+    }
+    // Fetch full article from DB / CDN cache
+    const full = await fetchArticleById(articleId);
+    if (full) {
+      setSelectedArticleForDetail((current) => {
+        if (!current || current.id === articleId) {
+          return full;
+        }
+        return current;
+      });
+      setArticles((prev) => prev.map((a) => (a.id === articleId ? { ...a, ...full } : a)));
+    }
+  };
+
   useEffect(() => {
     // Helper to check URL for article or admin deep links
     const checkUrlRoute = (currentArticles: ArticleItem[]) => {
@@ -49,22 +70,18 @@ export function App() {
 
       if (articleIdFromQuery) {
         const found = currentArticles.find((a) => a.id === articleIdFromQuery);
-        if (found) {
-          setSelectedArticleForDetail(found);
-        }
+        loadAndSelectArticle(articleIdFromQuery, found);
       } else if (hash.startsWith('#article-')) {
         const articleIdFromHash = hash.replace('#article-', '');
         const found = currentArticles.find((a) => a.id === articleIdFromHash);
-        if (found) {
-          setSelectedArticleForDetail(found);
-        }
+        loadAndSelectArticle(articleIdFromHash, found);
       }
     };
 
     // Check on initial load
     checkUrlRoute(articles);
 
-    // Fetch latest articles from Neon Database on load
+    // Fetch latest articles list from Neon Database on load
     fetchArticlesFromDb().then((data) => {
       if (data && data.length > 0) {
         setArticles(data);
@@ -85,7 +102,7 @@ export function App() {
 
       if (articleId) {
         const found = articles.find((a) => a.id === articleId);
-        setSelectedArticleForDetail(found || null);
+        loadAndSelectArticle(articleId, found);
       } else {
         setSelectedArticleForDetail(null);
       }
@@ -100,7 +117,7 @@ export function App() {
   }, [articles]);
 
   const handleSelectArticle = (article: ArticleItem) => {
-    setSelectedArticleForDetail(article);
+    loadAndSelectArticle(article.id, article);
     const newUrl = `${window.location.pathname}?article=${encodeURIComponent(article.id)}`;
     window.history.pushState({ articleId: article.id }, '', newUrl);
   };
