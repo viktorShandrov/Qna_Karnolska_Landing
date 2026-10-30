@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { Services } from './components/Services';
@@ -26,6 +26,11 @@ export function App() {
   const [selectedArticleForDetail, setSelectedArticleForDetail] = useState<ArticleItem | null>(null);
   const [articles, setArticles] = useState<ArticleItem[]>(() => getStoredArticles());
   const [isAdminOpen, setIsAdminOpen] = useState(false);
+  const articlesRef = useRef(articles);
+
+  useEffect(() => {
+    articlesRef.current = articles;
+  }, [articles]);
 
   // Sync SEO metadata whenever selected article or language changes
   useEffect(() => {
@@ -37,11 +42,12 @@ export function App() {
   }, [selectedArticleForDetail, language]);
 
   const loadAndSelectArticle = async (articleId: string, initialArticle?: ArticleItem) => {
-    if (initialArticle) {
-      setSelectedArticleForDetail(initialArticle);
+    const base = initialArticle || articlesRef.current.find((a) => a.id === articleId);
+    if (base) {
+      setSelectedArticleForDetail(base);
     }
     // Check if fullContent is already loaded
-    if (initialArticle && initialArticle.fullContent && initialArticle.fullContent.length > 0) {
+    if (base && base.fullContent && base.fullContent.length > 0) {
       return;
     }
     // Fetch full article from DB / CDN cache
@@ -79,9 +85,9 @@ export function App() {
     };
 
     // Check on initial load
-    checkUrlRoute(articles);
+    checkUrlRoute(articlesRef.current);
 
-    // Fetch latest articles list from Neon Database on load
+    // Fetch latest articles list from Neon Database ONCE on load
     fetchArticlesFromDb().then((data) => {
       if (data && data.length > 0) {
         setArticles(data);
@@ -101,7 +107,7 @@ export function App() {
       }
 
       if (articleId) {
-        const found = articles.find((a) => a.id === articleId);
+        const found = articlesRef.current.find((a) => a.id === articleId);
         loadAndSelectArticle(articleId, found);
       } else {
         setSelectedArticleForDetail(null);
@@ -114,7 +120,7 @@ export function App() {
       window.removeEventListener('popstate', handlePopState);
       window.removeEventListener('hashchange', handlePopState);
     };
-  }, [articles]);
+  }, []); // Run ONLY once on mount to prevent infinite request loops!
 
   const handleSelectArticle = (article: ArticleItem) => {
     loadAndSelectArticle(article.id, article);

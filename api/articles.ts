@@ -20,6 +20,132 @@ function escapeHtml(text: string): string {
     .replace(/>/g, '&gt;');
 }
 
+const DEFAULT_FALLBACK_ARTICLES = [
+  {
+    id: "navigating-anxiety",
+    title: "Пътят през тревожността: От съпротива към вътрешен мир",
+    category: "Психотерапия & Спокойствие",
+    readTime: "4 мин четене",
+    date: "Септември 2026",
+    excerpt: "Защо непрекъснатите опити за контрол хранят безпокойството и как осъзнатото приемане отваря врата към истинско облекчение.",
+    image: "/Articles Images/pic1.jpeg",
+    quote: "Тревожността не е признак за слабост или дефект. Тя е вътрешен сигнал, който ни кани да спрем и да се вслушаме в себе си.",
+    fullContent: [
+      "Всеки от нас се е сблъсквал с онова специфично стягане в гърдите, рояка от натрапчиви мисли за бъдещето и усещането, че губим почва под краката си. Тревожността в съвременния свят се е превърнала в почти постоянен спътник за мнозина.",
+      "Често първата ни естествена реакция е съпротивата – опитваме се да „изгоним“ тревожните мисли, да се разсеем с работа или да наложим пълен контрол върху всяка житейска ситуация. Парадоксът обаче е, че колкото повече воюваме с тревожността, толкова по-голяма сила ѝ придаваме.",
+      "В терапевтичния процес ние се учим на коренно различен подход: да се отнесем с любопитство и доброжелателност към нашите телесни усещания. Когато си позволим да дишаме през дискомфорта, без да го съдим, тревожната вълна постепенно започва да спада.",
+      "Истинската устойчивост не означава никога повече да не се тревожим, а да изградим доверие в собствената си способност да посрещнем неизвестното със спокойствие и яснота."
+    ],
+    keyTakeaways: [
+      "Разпознаване на телесните тригери още в самото начало",
+      "Техники за заземяване (5-4-3-2-1) и диафрагмено дишане",
+      "Прекъсване на автоматичния спираловиден вътрешен монолог",
+      "Състрадание към себе си вместо самокритика"
+    ],
+    createdAt: "2026-09-01T08:00:00.000Z",
+    titleEn: "Navigating Anxiety: From Resistance to Inner Peace",
+    categoryEn: "Psychotherapy & Calm",
+    readTimeEn: "4 min read",
+    dateEn: "September 2026",
+    excerptEn: "Why constant attempts to control fuel distress, and how mindful acceptance opens the door to genuine relief.",
+    quoteEn: "Anxiety is not a sign of defect. It is an inner signal inviting us to pause and listen.",
+    fullContentEn: [
+      "We all know the tightness in the chest, the racing thoughts about the future, and the feeling of losing our footing. Anxiety has become a frequent companion for many.",
+      "Our first instinct is often resistance: trying to expel distressing thoughts, drown them out with work, or force complete control over every situation. The paradox is that the harder we fight anxiety, the more fuel we give it.",
+      "In therapy, we cultivate a fundamentally different approach: meeting our bodily sensations with curiosity and kindness. When we breathe through discomfort without judgment, the intensity gradually softens.",
+      "True resilience is not the total absence of worry, but building deep trust in our ability to face the unknown with calm and clarity."
+    ],
+    keyTakeawaysEn: [
+      "Recognizing bodily triggers early",
+      "Grounding exercises (5-4-3-2-1) and diaphragmatic breathing",
+      "Interrupting automatic spiraling inner dialogue",
+      "Practicing self-compassion instead of harsh self-criticism"
+    ]
+  },
+  {
+    id: "boundaries-and-self-worth",
+    title: "Граници и себеуважение: Как да казваме „не“ без вина",
+    category: "Личностно развитие",
+    readTime: "5 мин четене",
+    date: "Август 2026",
+    excerpt: "Изкуството да пазим собствената си жизнена енергия и душевен мир, без страх от отхвърляне или конфликт с околните.",
+    image: "/Articles Images/pic2.jpeg",
+    quote: "Поставянето на здравословни граници не е стена срещу света. То е врата с ясен ключ към взаимно уважение и автентичност.",
+    fullContent: [
+      "Колко често ви се случва да кажете „да“ на чужда молба, докато цялото ви същество вика „не“? Зад този модел на поведение обикновено стои дълбоко вкоренен страх от неодобрение или убеждението, че нашата стойност зависи от това колко сме удобни за другите.",
+      "Личните граници са невидимата линия, която очертава къде свършвате вие и къде започва другият човек. Без тях ние бързо стигаме до емоционално изтощение, тиха обида и хронично разочарование.",
+      "Да поставиш граница не означава да бъдеш агресивен или студен. Това е спокоен и зрял акт на себеуважение. Когато казвате „не“ на нещо, което ви натоварва, вие казвате „да“ на своето здраве, спокойствие и автентични приоритети.",
+      "Хората, които истински ви ценят, ще уважат вашите граници. А онези, които се сърдят, най-често са имали изгода от липсата им."
+    ],
+    keyTakeaways: [
+      "Как да различим здравословния компромис от саможертвата",
+      "Формулиране на ясни и добронамерени откази без оправдания",
+      "Справяне с първоначалното чувство за вина",
+      "Изграждане на стабилна вътрешна опора и самооценка"
+    ],
+    createdAt: "2026-08-01T08:00:00.000Z",
+    titleEn: "Boundaries and Self-Worth: Saying 'No' Without Guilt",
+    categoryEn: "Personal Growth",
+    readTimeEn: "5 min read",
+    dateEn: "August 2026",
+    excerptEn: "The subtle art of preserving your vital energy and peace of mind without fear of rejection or confrontation.",
+    quoteEn: "Setting healthy boundaries is not building a wall. It is creating a doorway with clear keys of mutual respect.",
+    fullContentEn: [
+      "How often do you say 'yes' to someone else while your whole body screams 'no'? Behind this pattern usually lies a deep fear of rejection or the belief that our value depends on pleasing others.",
+      "Personal boundaries define where you end and others begin. Without them, emotional exhaustion and quiet resentment quickly take over.",
+      "Setting a boundary is neither aggressive nor cold. It is a calm, grounded act of self-respect. Saying 'no' to overextension is saying 'yes' to your well-being.",
+      "Those who truly care about you will respect your boundaries; those who react with anger often benefited from your lack of them."
+    ],
+    keyTakeawaysEn: [
+      "Distinguishing healthy compromise from self-sacrifice",
+      "Formulating clear, kind refusals without over-explaining",
+      "Working through initial waves of guilt",
+      "Building a solid internal sense of self-worth"
+    ]
+  },
+  {
+    id: "overcoming-burnout",
+    title: "Прегарянето (Бърнаут) в модерния ритъм: Сигнали и възстановяване",
+    category: "Емоционален баланс",
+    readTime: "6 мин четене",
+    date: "Юли 2026",
+    excerpt: "Кога умората спира да бъде просто физическа и се превръща в дълбок сигнал за необходимост от цялостно пренареждане на ежедневието.",
+    image: "/Articles Images/pic3.jpeg",
+    quote: "Възстановяването от прегаряне не е просто уикенд с повече сън, а смелостта да променим връзката със себе си и своите изисквания.",
+    fullContent: [
+      "Синдромът на прегаряне не се появява за една нощ. Той е бавен и постепенен процес, при който дългосрочният стрес изчерпва емоционалните, физическите и менталните ни ресурси.",
+      "Често първите симптоми остават неразпознати: цинизъм, чувство на безсилие, намалена концентрация, безсъние и загуба на радост от неща, които преди са ни вдъхновявали. Опитите просто „да стиснем зъби и да продължим“ само задълбочават състоянието.",
+      "Възстановяването изисква цялостен поглед върху живота: преоценка на вътрешния ни перфекционизъм, създаване на пространство за истинска почивка и въвеждане на малки ежедневни ритуали за грижа към себе си.",
+      "В терапевтичната среда изследваме вярванията, които са ви довели до претоварването, и изграждаме здравословни навици за устойчиво благополучие."
+    ],
+    keyTakeaways: [
+      "Разпознаване на 4-те фази на бърнаут преди критичната точка",
+      "Разграничаване между пасивна почивка и истинско презареждане",
+      "Работа с вътрешния критик и свръхотговорността",
+      "Стратегии за възстановяване на житейската радост и фокус"
+    ],
+    createdAt: "2026-07-01T08:00:00.000Z",
+    titleEn: "Burnout in Fast-Paced Life: Warning Signs and Recovery",
+    categoryEn: "Emotional Balance",
+    readTimeEn: "6 min read",
+    dateEn: "July 2026",
+    excerptEn: "When fatigue goes beyond the physical and signals an urgent need to re-align daily living and expectations.",
+    quoteEn: "Recovering from burnout is not just an extra weekend of sleep. It is the courage to reshape your inner expectations.",
+    fullContentEn: [
+      "Burnout does not occur overnight. It is a slow, cumulative exhaustion of mental, physical, and emotional reserves under prolonged strain.",
+      "Early warning signs often go unheeded: emotional cynicism, detached frustration, sleep fragmentation, and loss of joy in once loved activities.",
+      "Recovery requires stepping back to examine inner perfectionism, learning what restorative rest looks like, and introducing sustainable self-care routines.",
+      "Through therapeutic support, we unpack the beliefs that drove the overload and build habits for long-term psychological equilibrium."
+    ],
+    keyTakeawaysEn: [
+      "Recognizing the 4 phases of burnout early",
+      "Distinguishing passive screen-scrolling from authentic restorative rest",
+      "Taming inner self-criticism and over-responsibility",
+      "Practical strategies to restore joy and mental clarity"
+    ]
+  }
+];
+
 async function ensureTableSchema(sql: any) {
   await sql`
     CREATE TABLE IF NOT EXISTS articles (
@@ -110,6 +236,18 @@ export default async function handler(req: any, res?: any) {
 
   const sql = neon(dbUrl);
 
+  let requestedArticleId: string | null = null;
+  if (req.query?.id) {
+    requestedArticleId = String(req.query.id);
+  } else if (req.url) {
+    try {
+      const parsedUrl = new URL(req.url, `http://${req.headers?.host || 'localhost'}`);
+      requestedArticleId = parsedUrl.searchParams.get('id');
+    } catch {
+      // ignore
+    }
+  }
+
   try {
     // Helper to authenticate
     const isAuth = (headerOrBodyPass?: string) => {
@@ -119,17 +257,7 @@ export default async function handler(req: any, res?: any) {
 
     // --- GET: Fetch articles ---
     if (req.method === 'GET') {
-      let articleId: string | null = null;
-      if (req.query?.id) {
-        articleId = String(req.query.id);
-      } else if (req.url) {
-        try {
-          const parsedUrl = new URL(req.url, `http://${req.headers?.host || 'localhost'}`);
-          articleId = parsedUrl.searchParams.get('id');
-        } catch {
-          // ignore
-        }
-      }
+      const articleId = requestedArticleId;
 
       // 1. Fetch single article with full content when ID is requested
       if (articleId) {
@@ -354,6 +482,36 @@ export default async function handler(req: any, res?: any) {
     return respondJson({ error: 'Неподдържан HTTP метод.' }, 405, false);
   } catch (err: any) {
     console.error('Neon API Serverless Error:', err);
+
+    // If GET request fails (e.g. Neon quota exceeded or DB offline):
+    // Return default articles with 200 OK and CDN Cache-Control headers.
+    // This allows Vercel / Cloudflare to cache the response for 24h, stopping the barrage on Neon!
+    if (req.method === 'GET') {
+      if (requestedArticleId) {
+        const found = DEFAULT_FALLBACK_ARTICLES.find((a) => a.id === requestedArticleId);
+        if (found) {
+          return respondJson(found, 200, true);
+        }
+      } else {
+        const summaries = DEFAULT_FALLBACK_ARTICLES.map((a) => ({
+          id: a.id,
+          title: a.title,
+          category: a.category,
+          readTime: a.readTime,
+          date: a.date,
+          excerpt: a.excerpt,
+          image: a.image,
+          createdAt: a.createdAt || '2026-09-01T08:00:00.000Z',
+          titleEn: a.titleEn,
+          categoryEn: a.categoryEn,
+          readTimeEn: a.readTimeEn,
+          dateEn: a.dateEn,
+          excerptEn: a.excerptEn,
+        }));
+        return respondJson(summaries, 200, true);
+      }
+    }
+
     return respondJson({ 
       error: 'Грешка при комуникация с базата данни.', 
       details: err?.message || String(err) 

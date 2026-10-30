@@ -3,7 +3,7 @@ import { getStoredArticles, saveArticlesToStorage } from './articlesStorage';
 
 const API_ENDPOINT = '/api/articles';
 
-export const fetchArticlesFromDb = async (options?: { forceFresh?: boolean }): Promise<ArticleItem[]> => {
+export const fetchArticlesFromDb = async (options?: { forceFresh?: boolean }): Promise<ArticleItem[] | null> => {
   try {
     const url = options?.forceFresh ? `${API_ENDPOINT}?t=${Date.now()}` : API_ENDPOINT;
     const response = await fetch(url, {
@@ -36,11 +36,13 @@ export const fetchArticlesFromDb = async (options?: { forceFresh?: boolean }): P
         saveArticlesToStorage(merged);
         return merged;
       }
+    } else {
+      console.warn(`Articles API returned status ${response.status}: ${response.statusText}`);
     }
   } catch (error) {
     console.warn('Neon DB not reachable (offline/local fallback):', error);
   }
-  return getStoredArticles();
+  return null;
 };
 
 export const fetchArticleById = async (id: string): Promise<ArticleItem | null> => {
