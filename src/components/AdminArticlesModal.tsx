@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { 
   X, Lock, Unlock, Plus, Edit3, Trash2, Eye, KeyRound, 
   CheckCircle, AlertCircle, RotateCcw, Image as ImageIcon,
-  Save, ArrowLeft, LogOut, Globe, Copy, Sparkles, Wand2, Check
+  Save, ArrowLeft, LogOut, Globe, Copy, Sparkles, Wand2, Check,
+  Link2
 } from 'lucide-react';
 import { ArticleItem } from '../data/content';
 import { 
@@ -18,6 +19,7 @@ import {
   fetchArticlesFromDb 
 } from '../services/articlesApi';
 import { BulgarianFlag, UkFlag } from './LanguageSwitcher';
+import { getArticleShareUrl, copyTextToClipboard } from '../utils/share';
 
 interface AdminArticlesModalProps {
   isOpen: boolean;
@@ -108,6 +110,7 @@ export const AdminArticlesModal: React.FC<AdminArticlesModalProps> = ({
   const [showAiPasteModal, setShowAiPasteModal] = useState(false);
   const [aiPasteText, setAiPasteText] = useState('');
   const [copiedRecently, setCopiedRecently] = useState(false);
+  const [copiedLinkId, setCopiedLinkId] = useState<string | null>(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -310,6 +313,23 @@ ${takeaways.length > 0 ? `Ключови изводи:\n${takeaways.map(t => `- 
       }).catch(() => {
         showToast('Грешка при автоматичното копиране.');
       });
+    }
+  };
+
+  /**
+   * Copies the direct canonical public link to an article
+   */
+  const handleCopyArticleLink = async (article: ArticleItem) => {
+    const url = getArticleShareUrl(article.id);
+    const success = await copyTextToClipboard(url);
+    if (success) {
+      setCopiedLinkId(article.id);
+      showToast(`🔗 Директната връзка за „${article.title}“ е копирана в клипборда!`);
+      setTimeout(() => {
+        setCopiedLinkId((prev) => (prev === article.id ? null : prev));
+      }, 2500);
+    } else {
+      showToast('Възникна проблем при копирането на връзката.');
     }
   };
 
@@ -633,6 +653,34 @@ ${takeaways.length > 0 ? `Ключови изводи:\n${takeaways.map(t => `- 
                     </>
                   )}
 
+                  {activeView === 'edit' && editingArticleId && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const currentArt = articles.find(a => a.id === editingArticleId);
+                        if (currentArt) handleCopyArticleLink(currentArt);
+                      }}
+                      className={`px-3.5 py-2 rounded-full text-xs font-medium flex items-center gap-1.5 border transition-all ${
+                        copiedLinkId === editingArticleId
+                          ? 'bg-emerald-50 text-emerald-800 border-emerald-300'
+                          : 'bg-[#EFEAE1] hover:bg-[#E2DDD2] text-[#525D4D] border-[#DDD6C8]'
+                      }`}
+                      title="Копирай публична връзка към статията"
+                    >
+                      {copiedLinkId === editingArticleId ? (
+                        <>
+                          <Check className="w-3.5 h-3.5 text-emerald-600" />
+                          <span className="text-emerald-700">Копирана!</span>
+                        </>
+                      ) : (
+                        <>
+                          <Link2 className="w-3.5 h-3.5 text-[#676F5C]" />
+                          <span className="hidden sm:inline">Копирай линк</span>
+                        </>
+                      )}
+                    </button>
+                  )}
+
                   <button
                     onClick={handleLogout}
                     className="bg-[#EAE4D8] hover:bg-rose-100 text-[#4A4846] hover:text-rose-700 px-3.5 py-2 rounded-full text-xs font-medium flex items-center gap-1.5 transition-colors"
@@ -744,6 +792,30 @@ ${takeaways.length > 0 ? `Ключови изводи:\n${takeaways.map(t => `- 
                               >
                                 <UkFlag className="w-3.5 h-2.5" />
                                 <span className="text-[11px]">{hasEn ? 'EN Превод' : 'Преведи'}</span>
+                              </button>
+
+                              {/* Copy Direct Article Link */}
+                              <button
+                                type="button"
+                                onClick={() => handleCopyArticleLink(art)}
+                                className={`px-2.5 py-1.5 rounded-lg border text-xs flex items-center gap-1.5 transition-all shadow-xs ${
+                                  copiedLinkId === art.id
+                                    ? 'bg-emerald-50 text-emerald-800 border-emerald-300'
+                                    : 'bg-white hover:bg-[#EAE4D8] text-[#525D4D] border-[#DDD5C7]'
+                                }`}
+                                title="Копирай директна публична връзка към статията"
+                              >
+                                {copiedLinkId === art.id ? (
+                                  <>
+                                    <Check className="w-3.5 h-3.5 text-emerald-600" />
+                                    <span className="text-[11px] font-medium text-emerald-700">Копирана!</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Link2 className="w-3.5 h-3.5 text-[#676F5C]" />
+                                    <span className="text-[11px] font-medium hidden sm:inline">Копирай линк</span>
+                                  </>
+                                )}
                               </button>
 
                               <button

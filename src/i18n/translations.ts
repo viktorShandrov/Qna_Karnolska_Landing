@@ -150,6 +150,9 @@ export interface Translations {
     ctaHeading: string;
     ctaDescription: string;
     ctaButton: string;
+    copyLink: string;
+    linkCopied: string;
+    shareTooltip: string;
   };
   seo: {
     defaultTitle: string;
@@ -435,6 +438,9 @@ export const translations: Record<Language, Translations> = {
       ctaHeading: 'Имате ли нужда от лична подкрепа?',
       ctaDescription: 'Ако темите в тази статия резонират с вашата лична житейска ситуация, можете да запазите час за индивидуална консултация.',
       ctaButton: 'Запази час за консултация',
+      copyLink: 'Копирай връзка',
+      linkCopied: 'Връзката е копирана!',
+      shareTooltip: 'Копирай връзка към статията',
     },
     seo: {
       defaultTitle: 'Яна Кърнолска | Психолог & Психотерапевт София – Подкрепа. Разбиране. Промяна.',
@@ -718,6 +724,9 @@ export const translations: Record<Language, Translations> = {
       ctaHeading: 'Need Personal Psychological Support?',
       ctaDescription: 'If the topics in this article resonate with your personal journey, you can schedule an individual consultation session.',
       ctaButton: 'Book a Consultation',
+      copyLink: 'Copy link',
+      linkCopied: 'Link copied!',
+      shareTooltip: 'Copy link to article',
     },
     seo: {
       defaultTitle: 'Yana Karnolska | Psychologist & Psychotherapist Sofia – Support. Understanding. Transformation.',

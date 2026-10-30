@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
-import { X, Clock, Calendar, CheckCircle2, MessageCircle, Heart } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { X, Clock, Calendar, CheckCircle2, MessageCircle, Heart, Link2, Check } from 'lucide-react';
 import { ArticleItem } from '../data/content';
 import { LeafOrnament } from './LeafOrnament';
 import { useLanguage } from '../i18n/LanguageContext';
+import { getArticleShareUrl, copyTextToClipboard } from '../utils/share';
 
 interface ArticleModalProps {
   article: ArticleItem | null;
@@ -16,6 +17,23 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
   onOpenBooking,
 }) => {
   const { t, language } = useLanguage();
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    setCopied(false);
+  }, [rawArticle?.id]);
+
+  const handleCopyLink = async () => {
+    if (!rawArticle) return;
+    const url = getArticleShareUrl(rawArticle.id, language);
+    const success = await copyTextToClipboard(url);
+    if (success) {
+      setCopied(true);
+      setTimeout(() => {
+        setCopied(false);
+      }, 2500);
+    }
+  };
 
   // Localize article content if a translation is available
   const article: ArticleItem | null = rawArticle ? (() => {
@@ -111,19 +129,49 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
       {/* Modal Container */}
       <article className="relative bg-[#FBF9F5] w-full max-w-3xl rounded-3xl sm:rounded-[36px] border border-[#E2DDD5] shadow-2xl overflow-hidden z-10 my-6 sm:my-10 transform transition-all duration-300 max-h-[90vh] flex flex-col">
         
-        {/* Sticky Header with Close Button */}
-        <header className="sticky top-0 z-30 bg-[#FBF9F5]/90 backdrop-blur-md px-6 py-4 border-b border-[#E8E2D7] flex items-center justify-between">
-          <div className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-[#747D68] font-semibold">
+        {/* Sticky Header with Close Button & Copy Link */}
+        <header className="sticky top-0 z-30 bg-[#FBF9F5]/90 backdrop-blur-md px-6 py-4 border-b border-[#E8E2D7] flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-[#747D68] font-semibold truncate">
             <span>{article.category}</span>
           </div>
 
-          <button
-            onClick={onClose}
-            className="w-9 h-9 rounded-full bg-[#EAE4D8] hover:bg-[#DDD6C8] text-[#4A4846] flex items-center justify-center transition-colors focus:outline-none"
-            aria-label={t.articleModal.closeLabel}
-          >
-            <X className="w-5 h-5" />
-          </button>
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <button
+              type="button"
+              onClick={handleCopyLink}
+              className={`px-3 py-1.5 rounded-full text-xs font-serif flex items-center gap-1.5 transition-all active:scale-95 border ${
+                copied
+                  ? 'bg-emerald-50 text-emerald-800 border-emerald-300 shadow-sm'
+                  : 'bg-[#EAE4D8] hover:bg-[#DDD6C8] text-[#3A3836] border-[#D8D1C2]'
+              }`}
+              title={copied ? t.articleModal.linkCopied : t.articleModal.shareTooltip}
+              aria-label={t.articleModal.copyLink}
+            >
+              {copied ? (
+                <>
+                  <Check className="w-3.5 h-3.5 text-emerald-700" />
+                  <span className="text-[11px] font-medium tracking-wide">
+                    {t.articleModal.linkCopied}
+                  </span>
+                </>
+              ) : (
+                <>
+                  <Link2 className="w-3.5 h-3.5 text-[#5A6350]" />
+                  <span className="text-[11px] font-medium tracking-wide hidden sm:inline">
+                    {t.articleModal.copyLink}
+                  </span>
+                </>
+              )}
+            </button>
+
+            <button
+              onClick={onClose}
+              className="w-9 h-9 rounded-full bg-[#EAE4D8] hover:bg-[#DDD6C8] text-[#4A4846] flex items-center justify-center transition-colors focus:outline-none"
+              aria-label={t.articleModal.closeLabel}
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
         </header>
 
         {/* Scrollable Content Body */}
@@ -135,7 +183,7 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
               {article.title}
             </h1>
 
-            <div className="flex items-center justify-center gap-4 text-xs text-[#7A7773] font-serif">
+            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-xs text-[#7A7773] font-serif">
               <span className="flex items-center gap-1.5">
                 <Clock className="w-3.5 h-3.5 text-[#747D68]" />
                 {article.readTime}
@@ -145,6 +193,25 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
                 <Calendar className="w-3.5 h-3.5 text-[#747D68]" />
                 {article.date}
               </span>
+              <span>•</span>
+              <button
+                type="button"
+                onClick={handleCopyLink}
+                className="inline-flex items-center gap-1 text-[#676F5C] hover:text-[#2C2A29] underline decoration-[#A8A296] underline-offset-4 transition-colors cursor-pointer"
+                title={t.articleModal.shareTooltip}
+              >
+                {copied ? (
+                  <>
+                    <Check className="w-3.5 h-3.5 text-emerald-600" />
+                    <span className="text-emerald-700 font-semibold">{t.articleModal.linkCopied}</span>
+                  </>
+                ) : (
+                  <>
+                    <Link2 className="w-3.5 h-3.5" />
+                    <span>{t.articleModal.copyLink}</span>
+                  </>
+                )}
+              </button>
             </div>
 
             <div className="flex justify-center my-3">
@@ -200,6 +267,40 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
               </ul>
             </div>
           )}
+
+          {/* Share Article Bar */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-5 rounded-2xl bg-[#F4F0E8] border border-[#E2DDD5]">
+            <div className="text-center sm:text-left">
+              <span className="text-xs uppercase tracking-[0.16em] text-[#747D68] font-semibold block mb-0.5">
+                {language === 'en' ? 'Share this article' : 'Споделете статията'}
+              </span>
+              <p className="text-xs text-[#6A6763] font-serif">
+                {language === 'en' ? 'Copy direct link to share with someone who might find it helpful' : 'Копирайте директна връзка, за да я изпратите на близък или в социалните мрежи'}
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={handleCopyLink}
+              className={`px-4 py-2 rounded-full text-xs font-serif flex items-center gap-2 transition-all active:scale-95 border flex-shrink-0 shadow-xs ${
+                copied
+                  ? 'bg-emerald-50 text-emerald-800 border-emerald-300 font-semibold'
+                  : 'bg-white hover:bg-[#EAE4D8] text-[#2C2A29] border-[#DDD5C7]'
+              }`}
+              title={copied ? t.articleModal.linkCopied : t.articleModal.shareTooltip}
+            >
+              {copied ? (
+                <>
+                  <Check className="w-4 h-4 text-emerald-600" />
+                  <span>{t.articleModal.linkCopied}</span>
+                </>
+              ) : (
+                <>
+                  <Link2 className="w-4 h-4 text-[#676F5C]" />
+                  <span>{t.articleModal.copyLink}</span>
+                </>
+              )}
+            </button>
+          </div>
 
           {/* Call to Action & Booking Prompt */}
           <div className="bg-[#525D4D] text-[#FBF9F5] rounded-2xl p-6 sm:p-8 text-center flex flex-col items-center">
