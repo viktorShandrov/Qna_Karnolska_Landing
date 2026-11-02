@@ -35,10 +35,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
   return (
     <header 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled 
-          ? 'glass-nav py-3 sm:py-3.5 shadow-sm border-b border-[#E2DDD5]/60' 
-          : 'bg-transparent py-4 sm:py-5 lg:py-6'
+        isMobileMenuOpen
+          ? 'bg-white/95 backdrop-blur-md py-3 sm:py-3.5 shadow-sm border-b border-[#E2DDD5]/60'
+          : isScrolled 
+            ? 'glass-nav py-3 sm:py-3.5 shadow-sm border-b border-[#E2DDD5]/60' 
+            : 'bg-transparent py-4 sm:py-5 lg:py-6'
       }`}
+      style={isMobileMenuOpen ? { backgroundColor: 'rgba(255, 255, 255, 0.96)' } : undefined}
     >
       <div className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-12">
         <div className="flex items-center justify-between">
@@ -97,25 +100,18 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
 
       {/* Mobile Drawer Menu */}
       <div 
-        className={`md:hidden fixed inset-x-0 top-[62px] sm:top-[70px] bg-[#FBF9F5]/98 backdrop-blur-xl border-b border-[#E2DDD5] shadow-2xl transition-all duration-300 ease-in-out origin-top z-50 ${
-          isMobileMenuOpen ? 'opacity-100 max-h-[560px] py-6' : 'opacity-0 max-h-0 overflow-hidden pointer-events-none'
+        className={`md:hidden absolute inset-x-0 top-full bg-white/95 backdrop-blur-md border-b border-[#E2DDD5] shadow-2xl transition-all duration-300 ease-in-out origin-top z-50 ${
+          isMobileMenuOpen ? 'opacity-100 max-h-[85vh] py-6 overflow-y-auto' : 'opacity-0 max-h-0 overflow-hidden pointer-events-none'
         }`}
+        style={{ backgroundColor: 'rgba(255, 255, 255, 0.96)' }}
       >
         <div className="max-w-7xl mx-auto px-6 flex flex-col space-y-3.5">
-          {/* Mobile Drawer Language Switcher Banner */}
-          <div className="flex items-center justify-between pb-3 border-b border-[#E2DDD5]/60">
-            <span className="text-[11px] uppercase tracking-[0.16em] text-[#747D68] font-medium">
-              Език / Language
-            </span>
-            <LanguageSwitcher size="sm" />
-          </div>
-
           {navLinks.map((link) => (
             <a
               key={link.name}
               href={link.href}
               onClick={() => setIsMobileMenuOpen(false)}
-              className="text-xs uppercase tracking-[0.2em] text-[#2C2A29] hover:text-[#4E5848] font-medium py-2 border-b border-[#E2DDD5]/40 transition-colors"
+              className="text-xs uppercase tracking-[0.2em] text-[#2C2A29] hover:text-[#4E5848] font-medium py-2 border-b border-[#E2DDD5]/60 transition-colors"
             >
               {link.name}
             </a>
