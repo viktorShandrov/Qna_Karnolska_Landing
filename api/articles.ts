@@ -210,7 +210,7 @@ export default async function handler(req: any, res?: any) {
 
     if (cache) {
       // 24 hours edge cache, 12 hours stale-while-revalidate for Vercel & Cloudflare
-      headers['Cache-Control'] = 'public, s-maxage=86400, stale-while-revalidate=43200';
+      headers['Cache-Control'] = 'public, s-maxage=60, stale-while-revalidate=300';
     } else {
       headers['Cache-Control'] = 'no-store, no-cache, must-revalidate';
     }
