@@ -5,6 +5,7 @@ import './index.css'
 import { getStoredArticles } from './services/articlesStorage'
 import { updatePageSeo } from './utils/seo'
 import { LanguageProvider } from './i18n/LanguageContext'
+import { Analytics } from '@vercel/analytics/react'
 
 // Immediately initialize SEO before render (crucial for Googlebot & social share preview scrapers)
 if (typeof window !== 'undefined') {
@@ -26,6 +27,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <LanguageProvider>
       <App />
+      <Analytics />
     </LanguageProvider>
   </React.StrictMode>,
 )
