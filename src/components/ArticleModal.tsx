@@ -4,6 +4,8 @@ import { ArticleItem } from '../data/content';
 import { LeafOrnament } from './LeafOrnament';
 import { useLanguage } from '../i18n/LanguageContext';
 import { getArticleShareUrl, copyTextToClipboard } from '../utils/share';
+import { ViberButton } from './ViberButton';
+import { ViberIcon } from './ViberIcon';
 
 interface ArticleModalProps {
   article: ArticleItem | null;
@@ -310,6 +312,20 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
                 </>
               )}
             </button>
+          </div>
+
+          {/* Viber Community Box in Article */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-5 rounded-2xl bg-[#F8F5FA] border border-[#E3D6E8]">
+            <div className="text-center sm:text-left">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#EFE8F4] text-[#694A75] text-[10px] font-semibold tracking-wider uppercase mb-1">
+                <ViberIcon className="w-3 h-3 text-[#7E5C8C]" />
+                <span>{t.viberChannel.badge}</span>
+              </div>
+              <p className="text-xs sm:text-sm text-[#4A4846] font-serif">
+                {t.viberChannel.articlePrompt}
+              </p>
+            </div>
+            <ViberButton size="sm" customText={t.viberChannel.modalButtonText} className="flex-shrink-0" />
           </div>
 
           {/* Call to Action & Booking Prompt */}

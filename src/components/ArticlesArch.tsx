@@ -3,6 +3,8 @@ import { LeafOrnament } from './LeafOrnament';
 import { ArticleItem } from '../data/content';
 import { BookOpen, Clock, ArrowRight } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
+import { ViberButton } from './ViberButton';
+import { ViberIcon } from './ViberIcon';
 
 interface ArticlesArchProps {
   articles: ArticleItem[];
@@ -146,9 +148,44 @@ export const ArticlesArch: React.FC<ArticlesArchProps> = ({
           })}
         </div>
 
+        {/* Viber Community Card */}
+        <div className="mt-16 sm:mt-20 max-w-2xl mx-auto">
+          <div className="relative overflow-hidden rounded-3xl bg-[#FBF9F5] border border-[#DDD5C7] p-7 sm:p-9 text-center shadow-sm">
+            {/* Soft decorative background glows */}
+            <div className="absolute top-0 right-0 -mr-12 -mt-12 w-48 h-48 rounded-full bg-[#7E5C8C]/5 pointer-events-none blur-2xl" />
+            <div className="absolute bottom-0 left-0 -ml-12 -mb-12 w-48 h-48 rounded-full bg-[#747D68]/5 pointer-events-none blur-2xl" />
+            
+            <div className="relative z-10 flex flex-col items-center">
+              {/* Viber Badge */}
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#F4EEF7] border border-[#E1D4E7] text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-[#694A75] font-semibold mb-3">
+                <ViberIcon className="w-3.5 h-3.5 text-[#7E5C8C]" />
+                <span>{t.viberChannel.badge}</span>
+              </div>
+
+              {/* Title */}
+              <h3 className="font-serif text-xl sm:text-2xl text-[#2C2A29] font-normal uppercase tracking-wider mb-2.5">
+                {t.viberChannel.title}
+              </h3>
+
+              {/* Description */}
+              <p className="font-serif text-sm sm:text-base text-[#4A4846] font-normal leading-relaxed max-w-lg mb-6">
+                {t.viberChannel.description}
+              </p>
+
+              {/* Purple Viber Button */}
+              <ViberButton size="md" />
+
+              {/* Subtext */}
+              <span className="text-[11px] sm:text-xs text-[#7A7773] font-serif mt-3.5 block">
+                {t.viberChannel.subtext}
+              </span>
+            </div>
+          </div>
+        </div>
+
         {/* Arch Portal Bottom Note */}
-        <div className="mt-14 sm:mt-16 text-center">
-          <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#EAE4D8]/80 border border-[#DBD4C7] text-xs sm:text-sm text-[#4A4846] font-serif">
+        <div className="mt-10 sm:mt-12 text-center">
+          <div className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#EAE4D8]/80 border border-[#DBD4C7] text-xs sm:text-sm text-[#4A4846] font-serif">
             <span className="w-1.5 h-1.5 rounded-full bg-[#747D68]" />
             <span>{t.articles.bottomNote}</span>
           </div>

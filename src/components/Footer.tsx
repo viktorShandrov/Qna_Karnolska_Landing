@@ -4,6 +4,7 @@ import { CONTACT_DATA } from '../data/content';
 import { Lock } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { LanguageSwitcher } from './LanguageSwitcher';
+import { ViberIcon } from './ViberIcon';
 
 interface FooterProps {
   onOpenAdmin?: () => void;
@@ -111,6 +112,18 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
                 <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
                   <path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z" />
                 </svg>
+              </a>
+
+              {/* Viber Channel */}
+              <a
+                href={CONTACT_DATA.viberChannelUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Viber Channel"
+                title={t.viberChannel.badge}
+                className="w-10 h-10 rounded-full bg-[#745480] text-white flex items-center justify-center hover:bg-[#60426C] transition-all duration-300 transform hover:scale-105 shadow-sm"
+              >
+                <ViberIcon className="w-4 h-4" />
               </a>
             </div>
 

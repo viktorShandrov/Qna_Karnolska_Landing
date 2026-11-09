@@ -161,6 +161,15 @@ export interface Translations {
     siteName: string;
   };
   floatingButton: string;
+  viberChannel: {
+    badge: string;
+    title: string;
+    description: string;
+    buttonText: string;
+    subtext: string;
+    articlePrompt: string;
+    modalButtonText: string;
+  };
 }
 
 export const translations: Record<Language, Translations> = {
@@ -449,6 +458,15 @@ export const translations: Record<Language, Translations> = {
       siteName: 'Яна Кърнолска – Психолог & Психотерапевт',
     },
     floatingButton: 'Запази час',
+    viberChannel: {
+      badge: 'Viber Общност',
+      title: 'Следете новостите в психологията',
+      description: 'Присъединете се към нашия Viber канал за кратки психологически насоки, полезни теми, вдъхновение и първи известия за нови статии.',
+      buttonText: 'Присъединете се във Viber',
+      subtext: 'Безплатен достъп • Без спам • Полезни психологически материали',
+      articlePrompt: 'Хареса ви статията? Получавайте нови анализи и теми по психология директно във Viber.',
+      modalButtonText: 'Към Viber канала',
+    },
   },
   en: {
     nav: {
@@ -735,5 +753,14 @@ export const translations: Record<Language, Translations> = {
       siteName: 'Yana Karnolska – Psychologist & Psychotherapist',
     },
     floatingButton: 'Book a Session',
+    viberChannel: {
+      badge: 'Viber Community',
+      title: 'Follow the latest in psychology',
+      description: 'Join our Viber channel for concise psychological insights, practical guidance, inspiration, and early access to new articles.',
+      buttonText: 'Join on Viber',
+      subtext: 'Free access • No spam • Valuable psychological resources',
+      articlePrompt: 'Enjoyed this article? Receive new psychology insights and articles directly on Viber.',
+      modalButtonText: 'Join Viber Channel',
+    },
   }
 };

@@ -233,6 +233,8 @@ export const CONTACT_DATA = {
   location: "София, Бели Брези, бл. 14, партер / Онлайн",
   address: "София, Бели Брези, бл. 14, партер",
   hours: "Понеделник – Петък: 09:00 – 19:00",
+  // Линк за присъединяване към Viber канала (заменете с вашия финален линк при нужда):
+  viberChannelUrl: "https://invite.viber.com/?g2=AQB%2F8q1fN%2FkZ8Ew0bF4MvT3K8",
   socials: [
     { name: "Facebook", href: "https://www.facebook.com/profile.php?id=61559333849584" },
     { name: "Instagram", href: "https://www.instagram.com/ap_yana_k/" },
