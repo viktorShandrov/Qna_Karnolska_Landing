@@ -230,8 +230,11 @@ export const ARTICLES_DATA: ArticleItem[] = [
 export const CONTACT_DATA = {
   phone: "087 734 4424",
   email: "yanakarnolska@gmail.com",
-  location: "София, Бели Брези, бл. 14, партер / Онлайн",
-  address: "София, Бели Брези, бл. 14, партер",
+  location: "ж.к. Белите брези, 14, 1680 София (партер) / Онлайн",
+  address: "ж.к. Белите брези, 14, 1680 София",
+  fullAddress: "ж.к. Белите брези, 14, 1680 София",
+  googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=%D0%B6.%D0%BA.+%D0%91%D0%B5%D0%BB%D0%B8%D1%82%D0%B5+%D0%B1%D1%80%D0%B5%D0%B7%D0%B8+14%2C+1680+%D0%A1%D0%BE%D1%84%D0%B8%D1%8F",
+  googleMapsEmbedUrl: "https://maps.google.com/maps?q=%D0%B6.%D0%BA.+%D0%91%D0%B5%D0%BB%D0%B8%D1%82%D0%B5+%D0%B1%D1%80%D0%B5%D0%B7%D0%B8+14%2C+1680+%D0%A1%D0%BE%D1%84%D0%B8%D1%8F&t=&z=16&ie=UTF8&iwloc=&output=embed",
   hours: "Понеделник – Петък: 09:00 – 19:00",
   // Линк за присъединяване към Viber канала (заменете с вашия финален линк при нужда):
   viberChannelUrl: "https://invite.viber.com/?g2=AQBZPVj7o5QiqFdZ37s2LZC%2BgTLhK4rx2EBxQFalsjl7qro67JErAp%2BnrXrkae7v",

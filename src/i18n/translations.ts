@@ -172,6 +172,19 @@ export interface Translations {
     articlePrompt: string;
     modalButtonText: string;
   };
+  officeMap: {
+    badge: string;
+    sectionTitle: string;
+    subtitle: string;
+    addressLabel: string;
+    addressValue: string;
+    floorInfo: string;
+    transportTitle: string;
+    transportInfo: string;
+    hoursLabel: string;
+    hoursValue: string;
+    openInGoogleMaps: string;
+  };
 }
 
 export const translations: Record<Language, Translations> = {
@@ -471,6 +484,19 @@ export const translations: Record<Language, Translations> = {
       articlePrompt: 'Хареса ви статията? Получавайте нови анализи и теми по психология директно във Viber.',
       modalButtonText: 'Към Viber канала',
     },
+    officeMap: {
+      badge: 'ЛОКАЦИЯ НА КАБИНЕТА',
+      sectionTitle: 'КЪДЕ ДА НИ НАМЕРИТЕ',
+      subtitle: 'Уютно и защитено терапевтично пространство в София',
+      addressLabel: 'Адрес на кабинета:',
+      addressValue: 'ж.к. Белите брези, бл. 14, 1680 София',
+      floorInfo: 'Партерен етаж, самостоятелен вход и дискретен достъп',
+      transportTitle: 'Удобен достъп:',
+      transportInfo: 'Близо до бул. „България“, бул. „Гоце Делчев“ и метростанция „Красно село“',
+      hoursLabel: 'Работно време:',
+      hoursValue: 'Понеделник – Петък: 09:00 – 19:00 (с предварително записан час)',
+      openInGoogleMaps: 'Отвори в Google Maps',
+    },
   },
   en: {
     nav: {
@@ -767,6 +793,19 @@ export const translations: Record<Language, Translations> = {
       subtext: 'Free access • No spam • Valuable psychological resources',
       articlePrompt: 'Enjoyed this article? Receive new psychology insights and articles directly on Viber.',
       modalButtonText: 'Join Viber Channel',
+    },
+    officeMap: {
+      badge: 'OFFICE LOCATION',
+      sectionTitle: 'HOW TO FIND THE PRACTICE',
+      subtitle: 'A welcoming and confidential therapeutic space in Sofia',
+      addressLabel: 'Office address:',
+      addressValue: 'Beli Brezi, bl. 14, 1680 Sofia, Bulgaria',
+      floorInfo: 'Ground floor, private and discreet entrance',
+      transportTitle: 'Convenient access:',
+      transportInfo: 'Close to Bulgaria Blvd, Gotse Delchev Blvd, and Krasno Selo metro station',
+      hoursLabel: 'Working hours:',
+      hoursValue: 'Monday – Friday: 09:00 – 19:00 (by appointment)',
+      openInGoogleMaps: 'Open in Google Maps',
     },
   }
 };

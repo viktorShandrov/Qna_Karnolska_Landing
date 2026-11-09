@@ -6,6 +6,7 @@ import { About } from './components/About';
 import { ArticlesArch } from './components/ArticlesArch';
 import { Approach } from './components/Approach';
 import { Testimonials } from './components/Testimonials';
+import { OfficeMap } from './components/OfficeMap';
 import { Footer } from './components/Footer';
 import { BookingModal } from './components/BookingModal';
 import { ServiceModal } from './components/ServiceModal';
@@ -179,6 +180,7 @@ export function App() {
         />
         <Approach />
         <Testimonials />
+        <OfficeMap />
       </main>
 
       {/* Footer */}

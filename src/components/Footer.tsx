@@ -18,7 +18,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
     : CONTACT_DATA.location;
 
   return (
-    <footer id="contact" className="bg-[#FBF9F5] text-[#2C2A29] pt-20 pb-8">
+    <footer className="bg-[#FBF9F5] text-[#2C2A29] pt-12 pb-8 border-t border-[#EAE4D8]">
       <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Main 3-Column Area */}
@@ -56,13 +56,19 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
             </a>
 
             {/* Location */}
-            <div className="flex items-center gap-3.5 text-[#363330]">
-              <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5 stroke-current stroke-[1.4] text-[#363330]">
+            <a 
+              href={CONTACT_DATA.googleMapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3.5 hover:text-[#747D68] transition-colors group"
+              title="Отвори адреса в Google Maps"
+            >
+              <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5 stroke-current stroke-[1.4] text-[#363330] group-hover:text-[#747D68] transition-colors">
                 <path d="M12 21s-6-5.333-6-10a6 6 0 0 1 12 0c0 4.667-6 10-6 10z" strokeLinecap="round" strokeLinejoin="round" />
                 <circle cx="12" cy="11" r="2.5" />
               </svg>
-              <span className="font-light tracking-wide">{locationText}</span>
-            </div>
+              <span className="font-light tracking-wide group-hover:underline underline-offset-4">{locationText}</span>
+            </a>
 
           </div>
 
