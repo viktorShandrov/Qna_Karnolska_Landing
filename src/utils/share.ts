@@ -25,10 +25,11 @@ export function getArticleShareUrl(articleId: string, forcedLang?: Language): st
 }
 
 /**
- * Builds a direct shareable URL for the booking modal, optionally targeting a specific service.
- * E.g. https://yanapsychology.com/?booking=true
- *   or https://yanapsychology.com/?booking=individual
- *   or https://yanapsychology.com/en/?booking=true
+ * Builds a clean, direct shareable URL for the booking modal without query parameters ('?').
+ * E.g. https://yanapsychology.com/booking
+ *   or https://yanapsychology.com/booking/individual
+ *   or https://yanapsychology.com/booking/couples
+ *   or https://yanapsychology.com/en/booking
  */
 export function getBookingShareUrl(serviceId?: string, forcedLang?: Language): string {
   const origin = typeof window !== 'undefined' ? window.location.origin : 'https://yanapsychology.com';
@@ -44,10 +45,9 @@ export function getBookingShareUrl(serviceId?: string, forcedLang?: Language): s
     }
   }
 
-  const hasBgPrefix = typeof window !== 'undefined' && window.location.pathname.startsWith('/bg');
-  const pathPrefix = lang === 'en' ? '/en' : (hasBgPrefix ? '/bg' : '');
-  const queryParam = serviceId && serviceId !== 'all' ? `?booking=${encodeURIComponent(serviceId)}` : '?booking=true';
-  return `${origin}${pathPrefix}/${queryParam}`;
+  const pathPrefix = lang === 'en' ? '/en' : '';
+  const serviceSegment = serviceId && serviceId !== 'all' ? `/${encodeURIComponent(serviceId)}` : '';
+  return `${origin}${pathPrefix}/booking${serviceSegment}`;
 }
 
 /**

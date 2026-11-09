@@ -206,15 +206,21 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     if (fieldErrors[field as keyof FieldErrors]) {
       setFieldErrors(prev => ({ ...prev, [field]: undefined }));
     }
-    // Dynamically update URL param when selected service changes
+    // Dynamically update clean URL path without '?' when selected service changes
     if (field === 'serviceId' && typeof window !== 'undefined') {
+      const hasEnPrefix = window.location.pathname.startsWith('/en');
+      const langPrefix = hasEnPrefix ? '/en' : '';
+      const serviceSegment = value && value !== 'all' ? `/${encodeURIComponent(value)}` : '';
+      const newPath = `${langPrefix}/booking${serviceSegment}`;
+
       const searchParams = new URLSearchParams(window.location.search);
-      if (searchParams.has('booking') || searchParams.has('book')) {
-        searchParams.set('booking', value);
-        const newQuery = searchParams.toString();
-        const newUrl = `${window.location.pathname}?${newQuery}${window.location.hash}`;
-        window.history.replaceState({ booking: true, serviceId: value }, '', newUrl);
-      }
+      searchParams.delete('booking');
+      searchParams.delete('book');
+      const queryString = searchParams.toString() ? `?${searchParams.toString()}` : '';
+      const cleanHash = window.location.hash.startsWith('#book') ? '' : window.location.hash;
+
+      const newUrl = `${newPath}${queryString}${cleanHash}`;
+      window.history.replaceState({ booking: true, serviceId: value }, '', newUrl);
     }
   };
 
