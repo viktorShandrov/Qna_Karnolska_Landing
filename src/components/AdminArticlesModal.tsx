@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { 
   X, Lock, Unlock, Plus, Edit3, Trash2, Eye, KeyRound, 
-  CheckCircle, AlertCircle, RotateCcw, Image as ImageIcon,
+  CheckCircle, AlertCircle, Image as ImageIcon,
   Save, ArrowLeft, LogOut, Globe, Copy, Sparkles, Wand2, Check,
   Link2
 } from 'lucide-react';
@@ -9,7 +9,6 @@ import { ArticleItem } from '../data/content';
 import { 
   verifyAdminPassword, 
   updateAdminPassword, 
-  resetArticlesToDefault,
   saveArticlesToStorage 
 } from '../services/articlesStorage';
 import { 
@@ -488,14 +487,6 @@ ${takeaways.length > 0 ? `Ключови изводи:\n${takeaways.map(t => `- 
         onUpdateArticles(freshDbArticles);
       }
       showToast('Статията беше изтрита от Neon базата данни.');
-    }
-  };
-
-  const handleResetDefaults = () => {
-    if (window.confirm('Внимание: Това ще възстанови първоначалните 3 статии по подразбиране. Желаете ли да продължите?')) {
-      const defaults = resetArticlesToDefault();
-      onUpdateArticles(defaults);
-      showToast('Статиите бяха възстановени по подразбиране.');
     }
   };
 

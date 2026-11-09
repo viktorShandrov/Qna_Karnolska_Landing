@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { LeafOrnament } from './LeafOrnament';
 import { ArticleItem } from '../data/content';
-import { BookOpen, Clock, ArrowRight } from 'lucide-react';
+import { BookOpen, Clock, ArrowRight, ChevronDown, ChevronUp } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { ViberButton } from './ViberButton';
 import { ViberIcon } from './ViberIcon';
@@ -16,6 +16,9 @@ export const ArticlesArch: React.FC<ArticlesArchProps> = ({
   onSelectArticle 
 }) => {
   const { t, language } = useLanguage();
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const visibleArticles = isExpanded ? articles : articles.slice(0, 3);
 
   // Helper to map article to translated version if available in current language
   const getLocalizedArticle = (article: ArticleItem): ArticleItem => {
@@ -81,9 +84,9 @@ export const ArticlesArch: React.FC<ArticlesArchProps> = ({
           </p>
         </div>
 
-        {/* 3 Arched Article Cards Grid */}
+        {/* Arched Article Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10 items-stretch">
-          {articles.map((rawArticle) => {
+          {visibleArticles.map((rawArticle) => {
             const article = getLocalizedArticle(rawArticle);
             return (
               <article
@@ -147,6 +150,38 @@ export const ArticlesArch: React.FC<ArticlesArchProps> = ({
             );
           })}
         </div>
+
+        {/* Expand / Collapse All Articles Button */}
+        {articles.length > 3 && (
+          <div className="mt-10 sm:mt-12 text-center">
+            <button
+              type="button"
+              onClick={() => {
+                if (isExpanded) {
+                  setIsExpanded(false);
+                  const section = document.getElementById('articles');
+                  if (section) {
+                    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }
+                } else {
+                  setIsExpanded(true);
+                }
+              }}
+              className="group inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full text-xs font-serif uppercase tracking-[0.2em] font-medium bg-[#EAE4D8] hover:bg-[#DDD5C7] text-[#2C2A29] border border-[#D5CDC0] transition-all duration-300 shadow-xs hover:shadow-md active:scale-95"
+            >
+              <span>
+                {isExpanded
+                  ? t.articles.showLessArticles
+                  : `${t.articles.showAllArticles} (${articles.length})`}
+              </span>
+              {isExpanded ? (
+                <ChevronUp className="w-4 h-4 text-[#676F5C] transform transition-transform group-hover:-translate-y-0.5" />
+              ) : (
+                <ChevronDown className="w-4 h-4 text-[#676F5C] transform transition-transform group-hover:translate-y-0.5" />
+              )}
+            </button>
+          </div>
+        )}
 
         {/* Viber Community Card */}
         <div className="mt-16 sm:mt-20 max-w-2xl mx-auto">

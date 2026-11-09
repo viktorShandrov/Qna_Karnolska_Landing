@@ -88,6 +88,8 @@ export interface Translations {
     leadDescription: string;
     readArticle: string;
     bottomNote: string;
+    showAllArticles: string;
+    showLessArticles: string;
     items: ArticleTranslation[];
   };
   footer: {
@@ -318,6 +320,8 @@ export const translations: Record<Language, Translations> = {
       leadDescription: 'Потопете се в размисли, психологически анализи и практически насоки за вътрешна хармония и себепознание.',
       readArticle: 'Прочети статията',
       bottomNote: 'Всяка статия е покана за вътрешен диалог, по-дълбоко себепознание и осъзнати решения.',
+      showAllArticles: 'Виж всички статии',
+      showLessArticles: 'Покажи по-малко',
       items: [
         {
           id: 'navigating-anxiety',
@@ -613,6 +617,8 @@ export const translations: Record<Language, Translations> = {
       leadDescription: 'Explore reflections, psychological analyses, and practical guidance for emotional wellbeing and self-awareness.',
       readArticle: 'Read article',
       bottomNote: 'Every article is an open invitation for self-reflection, clarity, and intentional living.',
+      showAllArticles: 'View all articles',
+      showLessArticles: 'Show less',
       items: [
         {
           id: 'navigating-anxiety',
