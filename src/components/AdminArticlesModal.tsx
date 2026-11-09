@@ -856,17 +856,7 @@ ${takeaways.length > 0 ? `Ключови изводи:\n${takeaways.map(t => `- 
                     </div>
                   )}
 
-                  {/* Reset Defaults Button */}
-                  <div className="pt-6 mt-6 border-t border-[#E8E2D7] flex justify-between items-center text-xs text-[#7A7773]">
-                    <span>Статиите се синхронизират автоматично с Neon Postgres базата данни.</span>
-                    <button
-                      onClick={handleResetDefaults}
-                      className="text-[#747D68] hover:text-[#2C2A29] flex items-center gap-1.5 transition-colors"
-                    >
-                      <RotateCcw className="w-3.5 h-3.5" />
-                      <span>Възстанови статиите по подразбиране</span>
-                    </button>
-                  </div>
+                
                 </div>
               )}
 
