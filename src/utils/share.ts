@@ -1,4 +1,4 @@
-﻿import { Language } from '../i18n/translations';
+import { Language } from '../i18n/translations';
 
 /**
  * Builds a direct shareable URL for an article, respecting the current or target language.
@@ -22,6 +22,32 @@ export function getArticleShareUrl(articleId: string, forcedLang?: Language): st
   const hasBgPrefix = typeof window !== 'undefined' && window.location.pathname.startsWith('/bg');
   const pathPrefix = lang === 'en' ? '/en' : (hasBgPrefix ? '/bg' : '');
   return `${origin}${pathPrefix}/?article=${encodeURIComponent(articleId)}`;
+}
+
+/**
+ * Builds a direct shareable URL for the booking modal, optionally targeting a specific service.
+ * E.g. https://yanapsychology.com/?booking=true
+ *   or https://yanapsychology.com/?booking=individual
+ *   or https://yanapsychology.com/en/?booking=true
+ */
+export function getBookingShareUrl(serviceId?: string, forcedLang?: Language): string {
+  const origin = typeof window !== 'undefined' ? window.location.origin : 'https://yanapsychology.com';
+
+  let lang: Language = forcedLang || 'bg';
+  if (!forcedLang && typeof window !== 'undefined') {
+    if (window.location.pathname.startsWith('/en')) {
+      lang = 'en';
+    } else if (window.location.pathname.startsWith('/bg')) {
+      lang = 'bg';
+    } else if (document.documentElement.lang === 'en') {
+      lang = 'en';
+    }
+  }
+
+  const hasBgPrefix = typeof window !== 'undefined' && window.location.pathname.startsWith('/bg');
+  const pathPrefix = lang === 'en' ? '/en' : (hasBgPrefix ? '/bg' : '');
+  const queryParam = serviceId && serviceId !== 'all' ? `?booking=${encodeURIComponent(serviceId)}` : '?booking=true';
+  return `${origin}${pathPrefix}/${queryParam}`;
 }
 
 /**

@@ -33,14 +33,18 @@ export function App() {
     articlesRef.current = articles;
   }, [articles]);
 
-  // Sync SEO metadata whenever selected article or language changes
+  // Sync SEO metadata and title whenever booking, selected article, or language changes
   useEffect(() => {
-    if (selectedArticleForDetail) {
+    if (isBookingOpen) {
+      const authorSuffix = language === 'en' ? 'Yana Karnolska' : 'Яна Кърнолска';
+      const bookingTitle = language === 'en' ? 'Book a Consultation' : 'Запази час за консултация';
+      document.title = `${bookingTitle} | ${authorSuffix}`;
+    } else if (selectedArticleForDetail) {
       updatePageSeo({ article: selectedArticleForDetail, language });
     } else {
       updatePageSeo({ language });
     }
-  }, [selectedArticleForDetail, language]);
+  }, [isBookingOpen, selectedArticleForDetail, language]);
 
   const loadAndSelectArticle = async (articleId: string, initialArticle?: ArticleItem) => {
     const base = initialArticle || articlesRef.current.find((a) => a.id === articleId);
@@ -65,14 +69,27 @@ export function App() {
   };
 
   useEffect(() => {
-    // Helper to check URL for article or admin deep links
+    // Helper to check URL for article, booking, or admin deep links
     const checkUrlRoute = (currentArticles: ArticleItem[]) => {
       const searchParams = new URLSearchParams(window.location.search);
       const articleIdFromQuery = searchParams.get('article');
+      const bookingQuery = searchParams.get('booking') || searchParams.get('book');
       const hash = window.location.hash;
 
       if (hash === '#admin') {
         setIsAdminOpen(true);
+      }
+
+      // Check booking deep link in query param (?booking=true, ?booking=individual, etc.) or hash (#booking, #book, etc.)
+      if (bookingQuery) {
+        const serviceId = (bookingQuery !== 'true' && bookingQuery !== '1') ? bookingQuery : undefined;
+        setActiveServiceId(serviceId);
+        setIsBookingOpen(true);
+      } else if (hash === '#booking' || hash === '#book' || hash.startsWith('#book-') || hash.startsWith('#booking-')) {
+        const serviceFromHash = hash.replace(/^#(booking-|book-)/, '');
+        const serviceId = (serviceFromHash && serviceFromHash !== 'booking' && serviceFromHash !== 'book') ? serviceFromHash : undefined;
+        setActiveServiceId(serviceId);
+        setIsBookingOpen(true);
       }
 
       if (articleIdFromQuery) {
@@ -99,12 +116,27 @@ export function App() {
     const handlePopState = () => {
       const searchParams = new URLSearchParams(window.location.search);
       const articleId = searchParams.get('article');
+      const bookingQuery = searchParams.get('booking') || searchParams.get('book');
       const hash = window.location.hash;
 
       if (hash === '#admin') {
         setIsAdminOpen(true);
       } else {
         setIsAdminOpen(false);
+      }
+
+      // Handle booking state on back/forward navigation
+      if (bookingQuery) {
+        const serviceId = (bookingQuery !== 'true' && bookingQuery !== '1') ? bookingQuery : undefined;
+        setActiveServiceId(serviceId);
+        setIsBookingOpen(true);
+      } else if (hash === '#booking' || hash === '#book' || hash.startsWith('#book-') || hash.startsWith('#booking-')) {
+        const serviceFromHash = hash.replace(/^#(booking-|book-)/, '');
+        const serviceId = (serviceFromHash && serviceFromHash !== 'booking' && serviceFromHash !== 'book') ? serviceFromHash : undefined;
+        setActiveServiceId(serviceId);
+        setIsBookingOpen(true);
+      } else {
+        setIsBookingOpen(false);
       }
 
       if (articleId) {
@@ -143,10 +175,33 @@ export function App() {
   const handleOpenBooking = (serviceId?: string) => {
     setActiveServiceId(serviceId);
     setIsBookingOpen(true);
+
+    // Update URL query parameters so the modal URL is directly shareable
+    const searchParams = new URLSearchParams(window.location.search);
+    if (serviceId) {
+      searchParams.set('booking', serviceId);
+    } else {
+      searchParams.set('booking', 'true');
+    }
+    const newQuery = searchParams.toString();
+    const newUrl = `${window.location.pathname}?${newQuery}${window.location.hash}`;
+    window.history.pushState({ booking: true, serviceId }, '', newUrl);
   };
 
   const handleCloseBooking = () => {
     setIsBookingOpen(false);
+    setActiveServiceId(undefined);
+
+    // Cleanly remove booking parameter from URL
+    const searchParams = new URLSearchParams(window.location.search);
+    if (searchParams.has('booking') || searchParams.has('book')) {
+      searchParams.delete('booking');
+      searchParams.delete('book');
+      const newQuery = searchParams.toString();
+      const cleanHash = window.location.hash.startsWith('#book') ? '' : window.location.hash;
+      const newUrl = window.location.pathname + (newQuery ? `?${newQuery}` : '') + cleanHash;
+      window.history.pushState(null, '', newUrl);
+    }
   };
 
   const handleSelectService = (service: ServiceItem) => {

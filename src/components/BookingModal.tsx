@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { X, CheckCircle, Calendar, Clock, Phone, Mail, User, MessageSquare, Loader2, AlertCircle } from 'lucide-react';
+import { X, CheckCircle, Calendar, Clock, Phone, Mail, User, MessageSquare, Loader2, AlertCircle, Link2, Check } from 'lucide-react';
 import { TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID } from '../config/telegram';
 import { useLanguage } from '../i18n/LanguageContext';
+import { getBookingShareUrl, copyTextToClipboard } from '../utils/share';
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -45,8 +46,18 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
 
   const todayStr = new Date().toISOString().split('T')[0];
+
+  const handleCopyLink = async () => {
+    const url = getBookingShareUrl(formData.serviceId, language);
+    const success = await copyTextToClipboard(url);
+    if (success) {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    }
+  };
 
   useEffect(() => {
     if (initialServiceId) {
@@ -195,6 +206,16 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     if (fieldErrors[field as keyof FieldErrors]) {
       setFieldErrors(prev => ({ ...prev, [field]: undefined }));
     }
+    // Dynamically update URL param when selected service changes
+    if (field === 'serviceId' && typeof window !== 'undefined') {
+      const searchParams = new URLSearchParams(window.location.search);
+      if (searchParams.has('booking') || searchParams.has('book')) {
+        searchParams.set('booking', value);
+        const newQuery = searchParams.toString();
+        const newUrl = `${window.location.pathname}?${newQuery}${window.location.hash}`;
+        window.history.replaceState({ booking: true, serviceId: value }, '', newUrl);
+      }
+    }
   };
 
   return (
@@ -208,14 +229,40 @@ export const BookingModal: React.FC<BookingModalProps> = ({
       {/* Modal Card */}
       <div className="relative bg-[#FBF9F5] w-full max-w-lg rounded-3xl border border-[#E2DDD5] shadow-2xl overflow-hidden z-10 my-8 transform transition-all duration-300">
         
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="absolute top-5 right-5 w-9 h-9 rounded-full bg-cream-200 hover:bg-cream-300 text-[#4A4846] flex items-center justify-center transition-colors z-20 focus:outline-none"
-          aria-label={t.bookingModal.closeLabel}
-        >
-          <X className="w-5 h-5" />
-        </button>
+        {/* Top-Right Modal Controls: Copy Link + Close */}
+        <div className="absolute top-5 right-5 flex items-center gap-2 z-20">
+          <button
+            type="button"
+            onClick={handleCopyLink}
+            className={`h-9 px-3 rounded-full flex items-center gap-1.5 text-xs font-serif transition-all active:scale-95 border ${
+              copied
+                ? 'bg-emerald-50 text-emerald-800 border-emerald-300 font-semibold shadow-xs'
+                : 'bg-[#F2ECE1] hover:bg-[#E5DDCF] text-[#4A4846] border-[#DDD5C7]'
+            }`}
+            title={copied ? (language === 'en' ? 'Direct link copied!' : 'Директният линк е копиран!') : (language === 'en' ? 'Copy direct booking link' : 'Копирай директен линк за споделяне')}
+            aria-label="Copy booking link"
+          >
+            {copied ? (
+              <>
+                <Check className="w-3.5 h-3.5 text-emerald-600" />
+                <span className="text-[11px] font-medium">{language === 'en' ? 'Copied!' : 'Копиран!'}</span>
+              </>
+            ) : (
+              <>
+                <Link2 className="w-3.5 h-3.5 text-[#676F5C]" />
+                <span className="text-[11px] tracking-wide">{language === 'en' ? 'Share' : 'Сподели'}</span>
+              </>
+            )}
+          </button>
+
+          <button
+            onClick={onClose}
+            className="w-9 h-9 rounded-full bg-[#EAE4D8] hover:bg-[#DDD5C7] text-[#4A4846] flex items-center justify-center transition-colors focus:outline-none"
+            aria-label={t.bookingModal.closeLabel}
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
 
         {isSubmitted ? (
           /* Success Screen */
